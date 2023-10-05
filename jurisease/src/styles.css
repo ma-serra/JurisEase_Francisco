@@ -1,0 +1,119 @@
+/* --- Header ---*/
+.header {
+    background-color: #121628;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 1.5rem;
+}
+
+.header-content-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1.5rem;
+}
+
+.logo {
+    height: 4rem;
+    margin-right: 1rem;
+}
+
+.header-content-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1.5rem;
+}
+
+.header-right-element {
+    padding-right: 1.5rem;
+}
+
+/* --- LawyerSection ---*/
+.lawyer-section {
+    margin-top: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  /* Estilo para a seção de informações sobre o advogado */
+  .lawyer-info {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 1.5px;
+  }
+
+  .lawyer-info h2 {
+    color: #E15736;
+    text-align: left;
+  }
+
+  .lawyer-info p{
+    color: #4e4c4c;
+    text-align: left;
+  }
+
+  .lawyer-info img{
+    height: 16rem;
+  }
+  
+  /* Estilo para a seção de autenticação */
+  .authentication {
+    flex: 1;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #121628;
+    border-radius: 5px;
+    margin-left: 1.5px;
+  }
+  
+  /* Estilo para os campos de formulário (Username, Senha) */
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  /* Estilo para os botões (Login, Cadastre-se) */
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  /* Estilo para os links dentro da seção de autenticação */
+  .authentication a {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  /* Estilo para os links de Cadastre-se e Faça Login */
+  .authentication .signup-link,
+  .authentication .login-link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+
+

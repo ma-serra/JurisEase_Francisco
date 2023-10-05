@@ -1,0 +1,16 @@
+05/10/2023
+11:30 - 12:00
+- Criação do projeto:
+- git: https://github.com/AndrewMarques2018/JurisEase_Francisco.git
+- Estruturação base
+- Planejamento
+
+15:00 - 18:30
+- configurar ambiente de desenvolvimento para React e React Native
+--- Node.js (18.18.0 LTS), npm (9.8.1), PowerShell, react-native (11.3.7)
+- Criar projeto React
+--- npx create-react-app jurisease
+--- npm start
+
+16:30 - 19:00
+- desenvolvimento da página estático (Header)
