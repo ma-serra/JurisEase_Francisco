@@ -1,0 +1,5 @@
+05/10/2023 - 11:30 - 12:00
+- Criação do projeto:
+- git: https://github.com/AndrewMarques2018/JurisEase_Francisco.git
+- Estruturação base
+- Planejamento
