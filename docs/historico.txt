@@ -13,4 +13,8 @@
 --- npm start
 
 16:30 - 19:00
-- desenvolvimento da página estático (Header)
+- desenvolvimento da página web (estrutura)
+
+10:20 - 13:00
+- desenvolvimento da página web (header, footer, body)
+- npm install react-icons

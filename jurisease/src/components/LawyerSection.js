@@ -9,8 +9,10 @@ function LawyerSection() {
                 <br></br>
                 <img className="logo" src="/imagem1.jpg" alt="Logo do Meu Site" />
             </div>
-            <div className="authentication">
-                <h2>Sistema de Autenticação</h2>
+            <div className="lawyer-self">
+                <p className='nome'>Fulano de Talls Pereira</p>
+                <img className="logo" src="/img-perfil.jpg" alt="Logo do Meu Site" />
+                <p className='sobre'>Advogado experiente em direito civil e empresarial, focado em soluções eficazes para empresas e indivíduos."</p>
             </div>
         </section>
     );

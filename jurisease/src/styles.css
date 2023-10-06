@@ -1,6 +1,21 @@
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #E15736;
+  --text-color: #4e4c4c;
+  --font-family: Arial, sans-serif;
+  --font-size: 16px;
+  /* Outras variáveis */
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
+
 /* --- Header ---*/
+
 .header {
-    background-color: #121628;
+    background-color: #010B21;
     color: #fff;
     padding: 10px;
     position: fixed;
@@ -20,6 +35,7 @@
     justify-content: center;
     align-items: center;
     padding-right: 1.5rem;
+    padding-left: 10rem;
 }
 
 .logo {
@@ -29,13 +45,56 @@
 
 .header-content-right {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    padding-right: 1.5rem;
+    padding-right: 10rem;
 }
 
-.header-right-element {
-    padding-right: 1.5rem;
+.faleconosco-container {
+  position: relative;
+}
+
+/* --- Header - Button Login  ---*/
+
+.login-container {
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.login-button {
+  position: relative;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-options {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #010B21;
+  color: #6176a2;
+  border-radius: 5px;
+  right: 0;
+  z-index: 1; 
+  margin-right: 1.2rem;
+}
+
+.login-options p {
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.login-options p:hover {
+  background-color: #f0f0f0;
+  color: #010B21;
+  border-radius: 5px;
 }
 
 /* --- LawyerSection ---*/
@@ -44,16 +103,16 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 10px;
-    background-color: #f0f0f0;
+    margin-left: 5rem;
+    margin-right: 5rem;
+    padding: 1rem;
   }
   
-  /* Estilo para a seção de informações sobre o advogado */
   .lawyer-info {
     flex: 1;
     padding: 10px;
-    border-radius: 5px;
     margin-right: 1.5px;
+    border-right: 1px solid #010B21;
   }
 
   .lawyer-info h2 {
@@ -69,51 +128,73 @@
   .lawyer-info img{
     height: 16rem;
   }
-  
-  /* Estilo para a seção de autenticação */
-  .authentication {
+
+  .lawyer-self {
+    align-items: center;
     flex: 1;
     padding: 10px;
-    background-color: #fff;
-    border: 1px solid #121628;
-    border-radius: 5px;
-    margin-left: 1.5px;
   }
+
+  .lawyer-self .nome {
+    font-size: x-large;
+    color: #E15736;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+  }
+
+  .lawyer-self .sobre {
+    font-size: 12pt;
+    position: relative;
+    color: #E15736;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+  }
+
+  .lawyer-self img {
+    height: 12rem;
+    width: 12rem;
+    border-radius: 50%;
+  }
+
+/* --- ServicesSection ---*/
+
+.services-content .card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  display: inline-block;
+  text-align: center;
+}
+
+.services-content .card h2 {
+  font-size: 1.5rem;
+}
+
+.services-content .card p {
+  font-size: 1rem;
+}
+
+/* --- Footer ---*/
+
+.footer {
+  background-color: #010B21;
+  color: #d5d5d5;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-content {
+  margin: 0 auto;
+}
+
+.footer p {
+  margin: 0;
+}
+
   
-  /* Estilo para os campos de formulário (Username, Senha) */
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  /* Estilo para os botões (Login, Cadastre-se) */
-  .button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  
-  /* Estilo para os links dentro da seção de autenticação */
-  .authentication a {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  /* Estilo para os links de Cadastre-se e Faça Login */
-  .authentication .signup-link,
-  .authentication .login-link {
-    display: block;
-    text-align: center;
-    margin-top: 10px;
-  }
+
 
 
 
