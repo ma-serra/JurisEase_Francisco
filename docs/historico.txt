@@ -26,5 +26,8 @@
     - npm install --save @fortawesome/react-fontawesome
 
 09/10/2023
-    09:00 - 
+    09:00 - 11:30
     - desenvolvimento da lupa
+    - subida do projeto no netlify (https://jurisease.netlify.app)
+
+(Proximo passo respansividade)!!

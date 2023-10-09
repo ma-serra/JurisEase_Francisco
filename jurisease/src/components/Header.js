@@ -24,7 +24,7 @@ function Header() {
 
                 <div class="header-search">
 
-                    <input
+                    <input 
                         type="text"
                         placeholder="Filtrar..."
                         value={busca}
