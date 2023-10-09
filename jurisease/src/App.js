@@ -5,6 +5,7 @@ import Header from './components/Header';
 import LawyerSection from './components/LawyerSection';
 import Footer from './components/Footer';
 import ServiceSection from './components/ServicesSection';
+import MancheteSection from './components/ManchetesSections';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Header />
       <LawyerSection />
       <ServiceSection />
+      <MancheteSection />
       <Footer />
     </div>
   );

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
 function Header() {
-    const [isLoginOpen, setLoginOpen] = useState(false);
 
+    const [isLoginOpen, setLoginOpen] = useState(false);
     const toggleLogin = () => {
         setLoginOpen(!isLoginOpen);
     };
+
+    const [busca, setBusca] = useState("");
 
     return (
         <header className="header">
@@ -19,7 +21,19 @@ function Header() {
                 </div>
             </div>
             <div className="header-content-right">
-                <div className="login-container">
+
+                <div class="header-search">
+
+                    <input
+                        type="text"
+                        placeholder="Filtrar..."
+                        value={busca}
+                        onChange={(e) => setBusca(e.target.value)}
+                    />
+
+                </div>
+
+                <div className="header-login">
                     <button onClick={toggleLogin} className="login-button">
                         Login <FaCaretDown />
                     </button>
@@ -30,9 +44,11 @@ function Header() {
                         </div>
                     )}
                 </div>
-                <div className='faleconosco-container'>
+
+                <div className='header-faleconosco'>
                     <p>Fale conosco</p>
                 </div>
+
             </div>
         </header>
     );

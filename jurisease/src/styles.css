@@ -50,13 +50,31 @@ body {
     padding-right: 10rem;
 }
 
-.faleconosco-container {
+.header-faleconosco {
   position: relative;
 }
 
-/* --- Header - Button Login  ---*/
+.header-search {
+  padding-right: 1.5rem;
+  border-radius: .3rem;
+}
 
-.login-container {
+.header-search input {
+  height: 1.8rem;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white;
+  background-image: url("/public/icons8-search.png");
+  background-position: 10px 5px;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  padding: 12px 20px 12px 2rem;
+  color: #515050;
+}
+
+.header-login {
   position: relative;
   padding-right: 1.5rem;
 }
@@ -99,12 +117,12 @@ body {
 
 /* --- LawyerSection ---*/
 .lawyer-section {
+    
+    background-color: #f0f0f0;
     margin-top: 6rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-left: 5rem;
-    margin-right: 5rem;
     padding: 1rem;
   }
   
@@ -112,51 +130,27 @@ body {
     flex: 1;
     padding: 10px;
     margin-right: 1.5px;
-    border-right: 1px solid #010B21;
   }
 
   .lawyer-info h2 {
     color: #E15736;
-    text-align: left;
+    text-align: center;
   }
 
   .lawyer-info p{
     color: #4e4c4c;
-    text-align: left;
+    text-align: center;
   }
 
   .lawyer-info img{
     height: 16rem;
   }
 
-  .lawyer-self {
-    align-items: center;
-    flex: 1;
-    padding: 10px;
-  }
-
-  .lawyer-self .nome {
-    font-size: x-large;
-    color: #E15736;
-    padding-bottom: 0;
-    margin-bottom: 5px;
-  }
-
-  .lawyer-self .sobre {
-    font-size: 12pt;
-    position: relative;
-    color: #E15736;
-    padding-bottom: 0;
-    margin-bottom: 5px;
-  }
-
-  .lawyer-self img {
-    height: 12rem;
-    width: 12rem;
-    border-radius: 50%;
-  }
-
 /* --- ServicesSection ---*/
+
+.services-content {
+  padding-bottom: 3rem;
+}
 
 .services-content .card {
   border: 1px solid #ccc;
@@ -173,6 +167,33 @@ body {
 }
 
 .services-content .card p {
+  font-size: 1rem;
+}
+
+/* --- ManchetesSection ---*/
+
+.manchetes-content {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  padding-bottom: 3rem;
+}
+
+.manchetes-content .card {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  width: 90%;
+  display: inline-block;
+  text-align: center;
+}
+
+.manchetes-content .card h2 {
+  font-size: 1.5rem;
+}
+
+.manchetes-content .card p {
   font-size: 1rem;
 }
 

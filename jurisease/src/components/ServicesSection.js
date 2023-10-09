@@ -3,7 +3,7 @@ import React from 'react';
 function ServiceSection() {
     return (
         <div className="services-content">
-            <h2>Áreas de Atuação e Serviços</h2>
+            <h2>Áreas de Serviços</h2>
 
             <div class="card">
                 <h2>Serviço 1</h2>
