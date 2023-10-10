@@ -1,36 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
-function Header() {
+function Header({ orientation }) {
 
+    // button login
     const [isLoginOpen, setLoginOpen] = useState(false);
     const toggleLogin = () => {
         setLoginOpen(!isLoginOpen);
     };
 
+    // lupa
     const [busca, setBusca] = useState("");
+    const [showSearch, setShowSearch] = useState(true);
+
+    useEffect(() => {
+
+        function handleResize() {
+            setShowSearch(!!(window.screen.width > 500));
+            console.log(window.screen.width)
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+          };
+    }, []);
 
     return (
-        <header className="header">
+        <header className={`header ${orientation}`}>
+
             <div className="header-content-left">
                 <div >
                     <img className="logo" src="/logo.png" alt="Logo do Meu Site" />
                 </div>
                 <div >
-                    <h1>Juris Ease</h1>
+                    <p className="title">Juris Ease</p>
                 </div>
             </div>
+
             <div className="header-content-right">
-
-                <div class="header-search">
-
-                    <input 
+                <div className="header-search">
+                    {showSearch && (
+                       <input
                         type="text"
                         placeholder="Filtrar..."
                         value={busca}
                         onChange={(e) => setBusca(e.target.value)}
-                    />
-
+                    /> 
+                    )}
                 </div>
 
                 <div className="header-login">

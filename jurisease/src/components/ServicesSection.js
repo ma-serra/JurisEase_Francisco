@@ -1,21 +1,21 @@
 import React from 'react';
 
-function ServiceSection() {
+function ServiceSection({ orientation }) {
     return (
-        <div className="services-content">
+        <div className={`services-content ${orientation}`}>
             <h2>Áreas de Serviços</h2>
 
-            <div class="card">
+            <div className="card">
                 <h2>Serviço 1</h2>
                 <p>Descrição do primeiro serviço oferecido pelo advogado.</p>
             </div>
 
-            <div class="card">
+            <div className="card">
                 <h2>Serviço 2</h2>
                 <p>Descrição do segundo serviço oferecido pelo advogado.</p>
             </div>
 
-            <div class="card">
+            <div className="card">
                 <h2>Serviço 3</h2>
                 <p>Descrição do terceiro serviço oferecido pelo advogado.</p>
             </div>
