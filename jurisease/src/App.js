@@ -18,6 +18,8 @@ function App() {
       setOrientation(!!isPortrait ? 'portrait' : 'landscape')
     }
 
+    handleResize()
+
     // Adiciona o ouvinte de evento resize
     window.addEventListener('resize', handleResize);
 

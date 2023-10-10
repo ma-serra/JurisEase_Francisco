@@ -39,3 +39,6 @@
     - respansividade
     - identificando rotação e redimensionamento de tela (completo)
     - BUG: a variavel que guarda o tamanho da tela não está sendo atualizado!
+
+    16:30 - 17:00
+    - correção do BUG

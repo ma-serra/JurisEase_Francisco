@@ -20,6 +20,8 @@ function Header({ orientation }) {
             console.log(window.screen.width)
         }
 
+        handleResize()
+
         window.addEventListener('resize', handleResize);
 
         return () => {
