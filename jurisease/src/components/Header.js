@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
+import Search from './Search';
 
-function Header({ orientation }) {
+function Header({ orientation, device }) {
 
     // button login
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -10,14 +11,12 @@ function Header({ orientation }) {
     };
 
     // lupa
-    const [busca, setBusca] = useState("");
     const [showSearch, setShowSearch] = useState(true);
 
     useEffect(() => {
 
         function handleResize() {
             setShowSearch(!!(window.screen.width > 500));
-            console.log(window.screen.width)
         }
 
         handleResize()
@@ -30,7 +29,7 @@ function Header({ orientation }) {
     }, []);
 
     return (
-        <header className={`header ${orientation}`}>
+        <header className={`header ${orientation} ${device}`}>
 
             <div className="header-content-left">
                 <div >
@@ -43,14 +42,9 @@ function Header({ orientation }) {
 
             <div className="header-content-right">
                 <div className="header-search">
-                    {showSearch && (
-                       <input
-                        type="text"
-                        placeholder="Filtrar..."
-                        value={busca}
-                        onChange={(e) => setBusca(e.target.value)}
-                    /> 
-                    )}
+                    {showSearch && 
+                       <Search />
+                    }
                 </div>
 
                 <div className="header-login">

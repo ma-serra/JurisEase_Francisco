@@ -42,3 +42,14 @@
 
     16:30 - 17:00
     - correção do BUG
+
+14/10/2023
+    13:00 - 15:00 
+    - design Area serviços
+    - lupa principal
+    
+15/10/2023
+    18:30 - 23:00
+    - lupa principal
+    - npm install react-router-dom
+    - iniciando desenvolvimento de rotas
