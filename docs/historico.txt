@@ -49,7 +49,7 @@
     - lupa principal
     
 15/10/2023
-    18:30 - 24:00
+    18:30 - 00:00
     - lupa principal
     - npm install react-router-dom
     - iniciando desenvolvimento de rotas

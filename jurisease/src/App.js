@@ -20,6 +20,7 @@ function App() {
       setOrientation(!!isPortrait ? 'portrait' : 'landscape')
       const width = window.innerWidth
       let device = ''; 
+      
       if (width > 765) {
         device = 'desktop'
 
@@ -32,9 +33,6 @@ function App() {
       }
       
       setDevice(device);
-      console.log(device)
-      console.log(orientation)
-      console.log(window.innerWidth)
     }
 
     handleResize()
