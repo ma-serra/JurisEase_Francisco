@@ -54,4 +54,9 @@
     - npm install react-router-dom
     - iniciando desenvolvimento de rotas
     - Ajustes no frontend
-    - iniciando Firebase
+
+17/10/2023
+    14:20 - 18:30
+    - iniciando BD
+    - npm install firebase
+    - automatização para buscar e gerar serviços e manchetes do BD

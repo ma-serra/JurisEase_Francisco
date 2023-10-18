@@ -1,11 +1,10 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import './styles.css';
 import Header from './components/Header';
 import LawyerSection from './components/LawyerSection';
 import Footer from './components/Footer';
 import ServiceSection from './components/ServicesSection';
-import MancheteSection from './components/ManchetesSections';
+import HeadlinesSection from './components/HeadlinesSections';
 import Search from './components/Search';
 
 function App() {
@@ -52,9 +51,9 @@ function App() {
       <Header orientation={orientation} device={device}/>
       <LawyerSection orientation={orientation} device={device}/>
       <Search orientation={orientation} device={device}/>
-      <ServiceSection orientation={orientation}/>
-      <MancheteSection orientation={orientation}/>
-      <Footer orientation={orientation}/>
+      <ServiceSection orientation={orientation} device={device}/>
+      <HeadlinesSection orientation={orientation} device={device}/>
+      <Footer orientation={orientation} device={device}/>
     </div>
   );
 }

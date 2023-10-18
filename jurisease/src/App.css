@@ -7,6 +7,21 @@
   pointer-events: none;
 }
 
+:root {
+  --primary-color: #007bff;
+  --primary-color2: #0056b3;
+  --primary-color-dark: #010B21;
+  --secondary-color: #E15736;
+  --font-family: Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  background-color: #fff;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -32,7 +47,502 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+/* --- Header ---*/
+
+.header {
+  background-color: var(--primary-color-dark);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4em;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header.landscape {
+  position: relative;
+}
+
+.header.mini {
+  height: 3em;
+}
+
+.header-content-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.portrait .header-content-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1.5em;
+  padding-left: 1em;
+}
+
+.landscape .header-content-left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1.5em;
+  padding-left: 3em;
+}
+
+.portrait .logo {
+  height: 2em;
+  margin-right: .6em;
+}
+
+.landscape .logo {
+  height: 2.5em;
+  margin-right: 1em;
+}
+
+.mini .logo {
+  height: 1.2em;
+  margin-right: .4em;
+}
+
+.portrait .title {
+  font-size: large;
+  white-space: nowrap;
+}
+
+.landscape .title {
+  font-size: x-large;
+  white-space: nowrap;
+}
+
+.mini .title {
+  font-size: small;
+  white-space: nowrap;
+}
+
+.header-content-right {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-right: 10em;
+}
+
+.portrait .header-content-right {
+  padding-right: .6em;
+}
+
+.landscape .header-content-right {
+  padding-right: 1em;
+}
+
+.header-faleconosco {
+  position: relative;
+  white-space: nowrap;
+}
+
+.portrait .header-faleconosco {
+  font-size: x-small;
+}
+
+.landscape .header-faleconosco {
+  font-size: smaller;
+}
+
+.mini .header-faleconosco {
+  font-size: xx-small;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-container div {
+  background-color: #f8f8f8;
+  width: 90%;
+  border-radius: 1em;
+}
+
+.header-search .search-container div {
+  background-color: #ffffff00;
+}
+
+.header-search {
+  padding-right: 1.5em;
+}
+
+.search input {
+  margin: 1em;
+  height: 1.8rem;
+  width: 90%;
+
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  font-size: 12px;
+  background-color: white;
+  background-image: url("/public/icons8-search.png");
+  background-position: 10px 5px;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+
+  padding: 12px 20px 12px 2rem;
+  color: #ccc;
+}
+
+.header-search .search input {
+  margin: 0;
+  width: 100%;
+}
+
+.search input:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+  color: var(--primary-color-dark);
+}
+
+.header-login {
+  position: relative;
+  padding-right: 1.5rem;
+  white-space: nowrap;
+}
+
+.portrait .header-login {
+  padding-right: 1rem;
+}
+
+.landscape .header-login {
+  padding-right: 1.5rem;
+}
+
+.mini .header-login {
+  padding-right: 1rem;
+}
+
+.login-button {
+  position: relative;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.portrait .login-button {
+  padding: 5px 10px;
+  border-radius: 2px;
+  font-size: x-small;
+}
+
+.landscape .login-button {
+  padding: 7.5px 15px;
+  border-radius: 5px;
+  font-size: small;
+}
+
+.mini .login-button {
+  width: 6em;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: .5em;
+}
+
+.login-options {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1px solid var(--primary-color-dark);
+  color: #6176a2;
+  border-radius: 5px;
+  right: 0;
+  z-index: 1;
+  margin-right: 20%;
+}
+
+.login-options p {
+  padding: .4em;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.portrait .login-options p {
+  font-size: small;
+  width: 5em;
+}
+
+.landscape .login-options p {
+  font-size: medium;
+  width: 5em;
+}
+
+.login-options p:hover {
+  background-color: #f0f0f0;
+  color: var(--primary-color-dark);
+  border-radius: 5px;
+}
+
+/* --- LawyerSection ---*/
+.lawyer-section {
+  padding: 1em;
+  padding-top: 3em;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mini.lawyer-section {
+  padding-top: 2em;
+}
+
+.landscape.lawyer-section {
+  padding-top: 0;
+}
+
+.lawyer-info {
+  width: 100%;
+  flex: 1;
+  padding: 10px;
+  margin-right: 1.5px;
+}
+
+.lawyer-info h1 {
+  color: var(--secondary-color);
+  text-align: center;
+  font-size: medium;
+  margin-top: 2em;
+  margin-bottom: 0;
+}
+
+.landscape .lawyer-info h1,
+.desktop .lawyer-info h1 {
+  margin-top: 1em;
+}
+
+.lawyer-info h2 {
+  color: #4e4c4c;
+  text-align: center;
+  font-size: x-small;
+  margin-bottom: 0;
+}
+
+.mobile h1 {
+  font-size: large;
+}
+
+.desktop h1 {
+  font-size: x-large;
+}
+
+.mobile h2 {
+  font-size: x-small;
+}
+
+.desktop h2 {
+  font-size: medium;
+}
+
+.lawyer-info img {
+  width: 80%;
+  max-height: 300px;
+  max-width: 600px;
+}
+
+/* --- ServicesSection ---*/
+.services-content {
+  background-color: #ffffff;
+  padding-bottom: 1.5rem;
+  padding-top: .5em;
+}
+
+.services-content h1 {
+  font-size: large;
+}
+
+.headlines-content {
+  background-color: #f8f8f8;
+  padding-bottom: 1.5rem;
+  padding-top: .5em;
+}
+
+.headlines-content h1 {
+  font-size: large;
+}
+
+.cards-content {
+  padding-bottom: 0;
+  padding-top: .5em;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cards-content a {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+.cards-content h1 {
+  font-size: large;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.cards-content .card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+
+  max-width: 600px;
+  min-width: 240px;
+  width: 100%;
+  min-height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cards-content.portrait .card {
+  flex-direction: column;
+}
+
+.cards-content.landscape .card {
+  flex-direction: row;
+}
+
+.cards-content .card img {
+  flex: 1;
+  height: auto;
+  width: 5em;
+  max-width: 100%;
+  margin-right: 1em;
+}
+
+.cards-content .card div {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.cards-content .card h2 {
+  font-size: medium;
+  flex: 0 0 auto;
+}
+
+.cards-content .card p {
+  font-size: x-small;
+}
+
+.content-card-modal {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bt-form {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--primary-color2);
+  }
+}
+
+.add-card-modal {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+
+  max-width: 600px;
+  min-width: 240px;
+  width: 100%;
+  min-height: 120px;
+
+  background-color: #fff;
+  border: 1px solid var(--primary-color2);
+}
+
+.add-card-modal img{
+  width: 25%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-card-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-card-modal form textarea{
+  height: 60px;
+  margin-bottom: 5px;
+}
+
+.add-card-modal form input{
+  margin-bottom: 5px;
+}
+
+.bt-form-card-modal button{
+  margin: 10px;
+  width: 25%;
+}
+
+.bt-form-card-modal button.cancel{
+  background-color: #E15736;
+
+  &:hover {
+    background-color: #a03d24
+  }
+}
+
+/* --- Footer ---*/
+
+.footer {
+  background-color: var(--primary-color-dark);
+  color: #d5d5d5;
+  padding: 20px 0;
+  text-align: center;
+  font-size: x-small;
+}
+
+.footer-content {
+  margin: 0 auto;
+}
+
+.footer p {
+  margin: 0;
 }
