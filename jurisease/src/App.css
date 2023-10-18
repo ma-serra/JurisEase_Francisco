@@ -417,18 +417,19 @@ body {
   min-width: 240px;
   width: 100%;
   min-height: 120px;
+}
 
+.cards-content .card a {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.cards-content.portrait .card {
+.portrait .card a {
   flex-direction: column;
 }
 
-.cards-content.landscape .card {
+.landscape .card a {
   flex-direction: row;
 }
 
@@ -472,6 +473,10 @@ body {
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
+
+  width: 50%;
+  font-size: x-small;
+
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -489,7 +494,7 @@ body {
 
   max-width: 600px;
   min-width: 240px;
-  width: 100%;
+  width: 90%;
   min-height: 120px;
 
   background-color: #fff;
@@ -497,6 +502,7 @@ body {
 }
 
 .add-card-modal img{
+  padding: 5px;
   width: 25%;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -537,6 +543,10 @@ body {
   padding: 20px 0;
   text-align: center;
   font-size: x-small;
+}
+
+.mini.footer  {
+  font-size: xx-small;
 }
 
 .footer-content {

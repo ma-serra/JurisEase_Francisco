@@ -59,4 +59,12 @@
     14:20 - 18:30
     - iniciando BD
     - npm install firebase
-    - automatização para buscar e gerar serviços e manchetes do BD
+    - Backend automatização para buscar e gerar serviços e manchetes do BD
+
+    22:40 - 02:00
+    - Backend automatização para buscar e gerar serviços e manchetes do BD
+    - Frontend automatização para buscar e gerar serviços e manchetes do BD
+
+18/10/2023
+    09:00 - 
+    - Termino Frontend AddCardsModal

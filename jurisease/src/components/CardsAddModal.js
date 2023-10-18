@@ -4,7 +4,7 @@ import { addServiceToDatabase, addHeadlineToDatabase } from '../bd/firebase/fire
 function CardAddModal({ type }) {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [image, setImage] = useState('service_exemplo.png'); // Imagem padrão
+  const [image, setImage] = useState('clique-aqui.png'); // Imagem padrão
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
@@ -45,7 +45,7 @@ function CardAddModal({ type }) {
     }
 
     event.preventDefault();
-    setImage('service_exemplo.png');
+    setImage('clique-aqui.png');
     setTitle('');
     setDescription('');
     setLink('');
