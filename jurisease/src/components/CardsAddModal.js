@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
-import { addServiceToDatabase, addHeadlineToDatabase } from '../bd/firebase/firebase';
+import React, { useEffect, useState } from 'react';
 
-function CardAddModal({ type }) {
-
+function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, onCancelEdit }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [image, setImage] = useState('clique-aqui.png'); // Imagem padrão
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [link, setLink] = useState('');
+  const [cardData, setCardData] = useState({
+    image: 'clique-aqui.png',
+    title: '',
+    description: '',
+    link: '',
+  });
+
+  useEffect(() => {
+    console.log("cardInEdition: ", cardInEdition)
+    if (cardInEdition) {
+      setCardData({
+        id: cardInEdition.id,
+        image: cardInEdition.image,
+        title: cardInEdition.title,
+        description: cardInEdition.description,
+        link: cardInEdition.link,
+        create: cardInEdition.create,
+      });
+
+      setIsOpen(true);
+    }
+  }, [cardInEdition]);
 
   const openModal = () => {
     setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
   };
 
   const handleImageChange = (event) => {
@@ -22,49 +34,73 @@ function CardAddModal({ type }) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImage(e.target.result);
+        setCardData({ ...cardData, image: e.target.result });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (event) => {
-
-    const card = {
-      title: title,
-      description: description,
-      image: image,
-      link: link,
-    }
-
-    if (type === 'service') {
-      addServiceToDatabase(card)
-    } else
-    if (type === 'headline') {
-      addHeadlineToDatabase(card)
-    }
-
+  const handleApply = (event) => {
     event.preventDefault();
-    setImage('clique-aqui.png');
-    setTitle('');
-    setDescription('');
-    setLink('');
+    applyCardOperation();
+  };
+
+  const applyCardOperation = () => {
+    const card = {
+      ...cardData,
+    };
+
+    if (cardInEdition) {
+      // Se há um card em edição, atualize-o
+      onUpdateCard(cardData);
+    } else {
+      // Caso contrário, adicione um novo card
+      onAddCard(card);
+    }
+
+    resetCardData();
+
+    setIsOpen(false);
+  };
+
+  const deleteCard = () => {
+    onRemoveCard(cardInEdition.id);
+    resetCardData();
+    setIsOpen(false);
+  };
+
+  const cancelCard = () => {
+    resetCardData();
+    setIsOpen(false);
+  };
+
+  const resetCardData = () => {
+    onCancelEdit()
+    setCardData({
+      image: 'clique-aqui.png',
+      title: '',
+      description: '',
+      link: '',
+    });
   };
 
   return (
     <div className='content-card-modal'>
       {!isOpen && (
-        <button className='bt-form' onClick={openModal}>Adicionar Novo Card</button>
+        <button className='bt-form' onClick={openModal}>
+          Adicionar Novo Card
+        </button>
       )}
 
       {isOpen && (
         <div className="add-card-modal">
+          <button className="bt-form bt-cancelar" onClick={cancelCard}> X </button>
           <img
-            src={image}
+            src={cardData.image}
             alt="Imagem do Card"
             onClick={() => document.getElementById('fileInput').click()}
           />
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleApply}>
             <input
               type="file"
               accept="image/*"
@@ -75,24 +111,30 @@ function CardAddModal({ type }) {
             <input
               type="text"
               placeholder="Título"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={cardData.title}
+              onChange={(e) => setCardData({ ...cardData, title: e.target.value })}
             />
             <textarea
               placeholder="Descrição"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={cardData.description}
+              onChange={(e) => setCardData({ ...cardData, description: e.target.value })}
             />
             <input
               type="text"
               placeholder="Link"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
+              value={cardData.link}
+              onChange={(e) => setCardData({ ...cardData, link: e.target.value })}
             />
           </form>
           <div className='bt-form-card-modal'>
-            <button className='bt-form cancel' onClick={closeModal}>Cancelar</button>
-            <button className='bt-form add' onClick={handleSubmit}>Adicionar</button>
+            {cardInEdition && (
+              <button className='bt-form cancel' onClick={deleteCard}>
+                Deletar
+              </button>
+            )}
+            <button className="bt-form add" onClick={handleApply}>
+              {cardInEdition ? 'Atualizar' : 'Adicionar'}
+            </button>
           </div>
         </div>
       )}

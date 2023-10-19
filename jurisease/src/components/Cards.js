@@ -1,48 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { getServices, getHeadlines } from '../bd/firebase/firebase'
+import React from 'react';
 
-function Cards({ type }) {
-    const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        const fetchCards = async () => {
-            try {
-                let cardsData;
-                if (type === 'service') {
-                    cardsData = await getServices()
-                } else
-                    if (type === 'headline') {
-                        cardsData = await getHeadlines()
-                    }
-
-                if (cardsData) {
-                    const cardsArray = Object.values(cardsData);
-                    console.log(cardsArray);
-                    setCards(cardsArray);
-                }
-            } catch (error) {
-                console.error('Erro ao buscar serviços:', error);
-            }
-        };
-
-        fetchCards();
-    }, []);
+function Cards({ cards, onEditCard }) {
 
     return (
         <div className={`cards-content`}>
-            {cards.map((card, index) => (
-                <div key={index} className="card">
+          {cards.length > 1 ? (
+            cards.map((card, index) => {
+              // Verifica se o card possui um ID
+              if (card.id) {
+                return (
+                  <div key={index} className="card">
+                    <button className="bt-menu" onClick={() => onEditCard(card)}>
+                      ⋮
+                    </button>
                     <a target="_blank" rel="noreferrer" href={'https://' + card.link}>
-                        <img src={card.image} alt={`Imagem do Serviço ${index}`} />
-                        <div>
-                            <h2>{card.title}</h2>
-                            <p>{card.description}</p>
-                        </div>
+                      <img src={card.image} alt={`Imagem do Serviço ${index}`} />
+                      <div>
+                        <h2>{card.title}</h2>
+                        <p>{card.description}</p>
+                      </div>
                     </a>
-                </div>
-            ))}
+                  </div>
+                );
+              }
+              return null; // Renderiza nulo se o card não tiver um ID
+            })
+          ) : (
+            <p>Nenhum card disponível.</p>
+          )}
         </div>
-    );
+      );
 }
 
 export default Cards;

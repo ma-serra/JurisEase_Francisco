@@ -66,5 +66,13 @@
     - Frontend automatização para buscar e gerar serviços e manchetes do BD
 
 18/10/2023
-    09:00 - 
+    09:00 - 12:00
     - Termino Frontend AddCardsModal
+
+19/10/2023
+    10:00 - 12:00
+    - Update and Delete Cards 
+
+    15:00 - 20:00
+    - Update and Delete Cards
+    - Concluido o Backend Update and Delete Cards

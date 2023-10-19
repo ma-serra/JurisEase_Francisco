@@ -13,6 +13,9 @@
   --primary-color-dark: #010B21;
   --secondary-color: #E15736;
   --font-family: Arial, sans-serif;
+
+  --color-alert: #f5542c;
+  --color-alert-dark: #ca310b;
 }
 
 body {
@@ -407,6 +410,7 @@ body {
 }
 
 .cards-content .card {
+  position: relative;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -417,6 +421,27 @@ body {
   min-width: 240px;
   width: 100%;
   min-height: 120px;
+
+  &:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.cards-content .card .bt-menu{
+  position: absolute; /* Define a posição como absoluta para posicioná-lo em relação ao pai (.cards-content) */
+  top: 3px; /* Distância do topo */
+  right: 3px; /* Distância da esquerda */
+  background-color: #cccccccc; /* Cor de fundo do botão de fechar */
+  color: var(--primary-color-dark); /* Cor do texto do botão de fechar */
+  padding: 6px 8px; /* Espaçamento interno do botão de fechar */
+  cursor: pointer; /* Cursor de mão para indicar que é clicável */
+  z-index: 1; /* Para que o botão fique acima dos cards */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #aaaaaaaa; /* Cor de fundo do botão de fechar */
+  }
 }
 
 .cards-content .card a {
@@ -486,6 +511,7 @@ body {
 }
 
 .add-card-modal {
+  position: relative;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -501,11 +527,33 @@ body {
   border: 1px solid var(--primary-color2);
 }
 
+.add-card-modal .bt-cancelar {
+  position: absolute; /* Define a posição como absoluta para posicioná-lo em relação ao pai (.cards-content) */
+  top: 3px; /* Distância do topo */
+  right: 3px; /* Distância da esquerda */
+  background-color: var(--color-alert); /* Cor de fundo do botão de fechar */
+  color: white; /* Cor do texto do botão de fechar */
+  padding: 6px 8px; /* Espaçamento interno do botão de fechar */
+  cursor: pointer; /* Cursor de mão para indicar que é clicável */
+  z-index: 1; /* Para que o botão fique acima dos cards */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 7.5%;
+
+  &:hover {
+    background-color: var(--color-alert-dark); /* Cor de fundo do botão de fechar */
+  }
+}
+
 .add-card-modal img{
   padding: 5px;
   width: 25%;
   border: 1px solid #ccc;
   border-radius: 5px;
+
+  &:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .add-card-modal form {
@@ -528,10 +576,10 @@ body {
 }
 
 .bt-form-card-modal button.cancel{
-  background-color: #E15736;
+  background-color: var(--color-alert);
 
   &:hover {
-    background-color: #a03d24
+    background-color: var(--color-alert-dark)
   }
 }
 
