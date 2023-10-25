@@ -1,0 +1,82 @@
+.chat-button {
+    position: fixed;
+    z-index: 50;
+    bottom: 1.25em;
+    right: 1em;
+
+    background-color: transparent;
+    background-image: url('../../public/menssager.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 25px;
+    border: 0;
+
+    cursor: pointer;
+}
+
+.content-drawer {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    height: 80%;
+    
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 1em 1em 0 0;
+    width: 40%;
+    max-width: 400px;
+    min-width: 250px;
+
+    transition: right 0.5s ease;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.content-drawer.open {
+    right: 2.5%;
+}
+
+.content-drawer.close {
+    right: -90%;
+}
+
+.content-drawer h1 {
+    font-size: large;
+    margin-top: 1em;
+    margin-right: .75em;
+    margin-bottom: 1em;
+}
+
+.content-drawer .search {
+    width: 90%;
+}
+
+.content-drawer .search-container div {
+    background-color: transparent;
+}
+
+.chat-content {
+    padding: 10px;
+}
+
+.close-button {
+    position: absolute;
+    right: .1em;
+    background-color: transparent;
+    color: #252525;
+
+    border-radius: 50%;
+    border: none ;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    margin: .5em;
+
+    &:hover {
+        background-color: #bbb;
+    }
+}

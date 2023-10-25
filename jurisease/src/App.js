@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import ServiceSection from './components/ServicesSection';
 import HeadlinesSection from './components/HeadlinesSections';
 import Search from './components/Search';
+import ChatDrawer from './components/ChatDrawer'
 
 function App() {
 
@@ -50,10 +51,13 @@ function App() {
     <div className="App">
       <Header orientation={orientation} device={device}/>
       <LawyerSection orientation={orientation} device={device}/>
+      <div className='search-main'>
       <Search orientation={orientation} device={device}/>
+      </div>
       <ServiceSection orientation={orientation} device={device}/>
       <HeadlinesSection orientation={orientation} device={device}/>
       <Footer orientation={orientation} device={device}/>
+      <ChatDrawer />
     </div>
   );
 }

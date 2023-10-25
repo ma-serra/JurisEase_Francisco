@@ -56,12 +56,21 @@ body {
   }
 }
 
+.App .search-main {
+  background-color: #f8f8f8;
+  padding: 1em;
+  border-radius: 1em;
+  margin: 0 10%;
+}
+
 /* --- Header ---*/
 
 .header {
   background-color: var(--primary-color-dark);
   color: white;
   position: fixed;
+  z-index: 100;
+
   top: 0;
   left: 0;
   height: 4em;
@@ -164,55 +173,8 @@ body {
   font-size: xx-small;
 }
 
-.search-container {
-  display: flex;
-  justify-content: center;
-}
-
-.search-container div {
-  background-color: #f8f8f8;
-  width: 90%;
-  border-radius: 1em;
-}
-
-.header-search .search-container div {
-  background-color: #ffffff00;
-}
-
 .header-search {
   padding-right: 1.5em;
-}
-
-.search input {
-  margin: 1em;
-  height: 1.8rem;
-  width: 90%;
-
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-
-  font-size: 12px;
-  background-color: white;
-  background-image: url("/public/icons8-search.png");
-  background-position: 10px 5px;
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
-
-  padding: 12px 20px 12px 2rem;
-  color: #ccc;
-}
-
-.header-search .search input {
-  margin: 0;
-  width: 100%;
-}
-
-.search input:focus {
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  outline: none;
-  color: var(--primary-color-dark);
 }
 
 .header-login {

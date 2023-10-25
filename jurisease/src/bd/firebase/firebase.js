@@ -1,6 +1,7 @@
 import { getDatabase, ref, set, remove, update, onValue } from "firebase/database";
-import { initializeApp } from "firebase/app";
-import { generateCustomID, getCurrentFormattedDate } from '../../util/tools'
+import { initializeApp } from "firebase/app"; // Remova "firebase" deste import
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { generateCustomID, getCurrentFormattedDate } from '../../util/tools';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDc7A5qpg8VAGX6UVRrwM4GJ-dX8LGcIVg",
@@ -48,7 +49,7 @@ export function removeService(serviceId) {
 
 export function getServices(callback) {
   const servicesRef = ref(db, 'services');
-  
+
   onValue(servicesRef, (snapshot) => {
     const servicesData = snapshot.val();
     if (servicesData) {
@@ -106,7 +107,7 @@ export function removeHeadline(headlineId) {
 
 export function getHeadlines(callback) {
   const headlinesRef = ref(db, 'headlines');
-  
+
   onValue(headlinesRef, (snapshot) => {
     const headlinesData = snapshot.val();
     if (headlinesData) {
@@ -130,3 +131,35 @@ export const updateHeadline = (headlineData) => {
     console.error("Erro ao atualizar o serviço:", error);
   }
 };
+
+export const createUser = (email, password) => {
+  return createUserWithEmailAndPassword(app.auth(), email, password) // Atualize para usar createUserWithEmailAndPassword
+    .then((userCredential) => {
+      const user = userCredential.user;
+      return user;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export const signIn = (email, password) => {
+  return signInWithEmailAndPassword(app.auth(), email, password) // Atualize para usar signInWithEmailAndPassword
+    .then((userCredential) => {
+      const user = userCredential.user;
+      return user;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export const logout = () => {
+  return signOut(app.auth()) // Atualize para usar signOut
+    .then(() => {
+
+    })
+    .catch((error) => {
+      throw error;
+    });
+}

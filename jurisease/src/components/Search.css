@@ -1,0 +1,31 @@
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search input {
+    
+    height: 1.8rem;
+    width: 100%;
+  
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  
+    font-size: 12px;
+    background-color: white;
+    background-image: url("/public/icons8-search.png");
+    background-position: 10px 5px;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+  
+    padding: 12px 20px 12px 2rem;
+    color: #ccc;
+  }
+  
+  .search input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+    color: var(--primary-color-dark);
+  }
