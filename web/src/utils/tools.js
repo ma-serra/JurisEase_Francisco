@@ -1,3 +1,5 @@
+import Usuario from "./modals/user.ts";
+
 export function generateCustomID(prefix) {
     const timestamp = new Date().getTime();
     const randomString = Math.random().toString(36).substring(2, 12);
@@ -18,4 +20,51 @@ export function getCurrentFormattedDate() {
     });
   
     return formattedDate;
+}
+
+export function createUserByData(data) {
+  console.log('createUserByData:')
+  console.log(data)
+
+  const { uid, accessToken, email, password, metadata, phoneNumber, address, name } = data;
+  const missingFields = [];
+
+  if (!uid) {
+    missingFields.push('uid');
   }
+  if (!accessToken) {
+    missingFields.push('accessToken');
+  }
+  if (!email) {
+    missingFields.push('email');
+  }
+  if (!password) {
+    missingFields.push('password');
+  }
+  if (!metadata) {
+    missingFields.push('metadata');
+  }
+  if (!name) {
+    missingFields.push('name');
+  }
+
+  if (missingFields.length > 0) {
+    throw new Error(`Campos obrigatórios não fornecidos: ${missingFields.join(', ')}`);
+  }
+
+  const user = new Usuario(
+    uid,
+    accessToken,
+    email,
+    password, // Lembre-se de armazenar senhas com segurança
+    metadata || {
+      creationTime: 'timestamp1',
+      lastSignInTime: 'timestamp2',
+    },
+    phoneNumber || '', // Valor padrão vazio se phoneNumber não for fornecido
+    address || '', // Valor padrão vazio se address não for fornecido
+    name
+  );
+
+  return user;
+}

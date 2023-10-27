@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CardsAddModal from './CardsAddModal';
 import Cards from './Cards';
-import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../utils/data_base/firebaseUtil';
+import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../utils/data_base/firebase/headlinesDAO';
 
 function HeadlineSection({ orientation, device }) {
     const [headlines, setHeadlines] = useState([]);
@@ -40,7 +40,7 @@ function HeadlineSection({ orientation, device }) {
 
     return (
         <div className={`headlines-content ${orientation} ${device}`}>
-            <h1>Áreas de Serviços</h1>
+            <h1>Áreas de Manchetes</h1>
             <CardsAddModal
                 onAddCard={handleAddHeadline}
                 onRemoveCard={handleRemoveHeadline}

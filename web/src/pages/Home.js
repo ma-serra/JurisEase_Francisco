@@ -12,11 +12,11 @@ import { useState } from 'react';
 
 function Home({ orientation, device }) {
 
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState('none');
 
-  const toogleAuth = () => {
-    console.log('toogleAuth')
-    setAuth(!auth)
+  const toogleAuth = (type='none') => {
+    console.log('toogleAuth:', type)
+    setAuth(type)
   };
 
   return (
@@ -31,8 +31,8 @@ function Home({ orientation, device }) {
       <Footer orientation={orientation} device={device} />
       <ChatDrawer orientation={orientation} device={device} />
 
-      {!!auth && (
-        <AuthPage device={device} closeAuth={toogleAuth}/>
+      {auth !== 'none' && (
+        <AuthPage device={device} toogleAuth={toogleAuth}/>
       )}
 
     </div>

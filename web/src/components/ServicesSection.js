@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CardsAddModal from './CardsAddModal';
 import Cards from './Cards';
-import { getServices, addService, removeService, updateService } from '../utils/data_base/firebaseUtil';
+import { getServices, addService, removeService, updateService } from '../utils/data_base/firebase/servicesDAO';
 
 function ServiceSection({ orientation, device }) {
     const [services, setServices] = useState([]);

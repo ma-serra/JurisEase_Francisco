@@ -10,7 +10,6 @@ function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, on
   });
 
   useEffect(() => {
-    console.log("cardInEdition: ", cardInEdition)
     if (cardInEdition) {
       setCardData({
         id: cardInEdition.id,

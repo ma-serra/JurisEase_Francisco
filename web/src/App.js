@@ -2,7 +2,6 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Home from './pages/Home'
 
-
 function App() {
 
   const [orientation, setOrientation] = useState('portrait');

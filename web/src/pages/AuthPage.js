@@ -1,8 +1,9 @@
 import './AuthPage.css';
 import React, { useState } from 'react';
-import { signIn, register } from '../utils/data_base/firebaseUtil';
+import { signIn, register } from '../utils/data_base/firebase/authentication';
+import { addUser } from '../utils/data_base/firebase/userDAO'
 
-function AuthPage({ device, closeAuth }) {
+function AuthPage({ device, toogleAuth }) {
   const initialFormData = {
     name: '',
     email: '',
@@ -16,11 +17,14 @@ function AuthPage({ device, closeAuth }) {
 
   const handleLogin = async () => {
     if (formData.email && formData.password) {
+      const data = await signIn(formData.email, formData.password);
 
-      try {
-        await signIn(formData.email, formData.password);
-      } catch (error) {
-        setError(error.message);
+      if (data.error) {
+        setError(data.error)
+
+      } else {
+        console.log(data.user)
+        setError(null)
       }
 
     } else {
@@ -29,18 +33,25 @@ function AuthPage({ device, closeAuth }) {
   };
 
   const handleSignup = async () => {
-    if (formData.nome && formData.email && formData.password && formData.confirmPassword) {
+    if (formData.name && formData.email && formData.password && formData.confirmPassword) {
       if (formData.password === formData.confirmPassword) {
 
-        try {
-          await register(formData.email, formData.password, formData.name);
-        } catch (error) {
-          setError(error.message);
+        const data = await register(formData.email, formData.password);
+
+        if (data.error) {
+          setError(data.error)
+
+        } else {
+          data.user.name = formData.name;
+          data.user.password = formData.password;
+          addUser(data.user)
+          setError(null)
         }
 
       } else {
         setError('A senha e a confirmação de senha não coincidem.');
       }
+
     } else {
       setError('Preencha todos os campos e insira um email válido.');
     }
@@ -55,8 +66,12 @@ function AuthPage({ device, closeAuth }) {
     setFormData(initialFormData);
   };
 
+  const closeAuth = () => {
+    toogleAuth('none');
+};
+
   return (
-    <div className={`content-auth ${device}`} onClick={closeAuth}>
+    <div className={`content-auth ${device}`} onClick={(closeAuth)}>
       <div className="auth-page" onClick={(e) => e.stopPropagation()}>
         <h1>{isLogin ? 'Login' : 'Cadastro'}</h1>
         <form>

@@ -4,15 +4,22 @@ import { FaCaretDown } from 'react-icons/fa';
 import Search from '../components/Search';
 
 function Header({ orientation, device, openAuth }) {
-
-    // button login
     const [isLoginOpen, setLoginOpen] = useState(false);
+    const [showSearch, setShowSearch] = useState(window.screen.width > 500);
+    
+    const openClientAuth = () => {
+        openAuth('cliente'); // Especifica que o cadastro é de um cliente
+        setLoginOpen(false);
+    };
+
+    const openLawyerAuth = () => {
+        openAuth('advogado'); // Especifica que o cadastro é de um advogado
+        setLoginOpen(false);
+    };
+
     const toggleLogin = () => {
         setLoginOpen(!isLoginOpen);
     };
-
-    // lupa
-    const [showSearch, setShowSearch] = useState(true);
 
     useEffect(() => {
 
@@ -26,7 +33,7 @@ function Header({ orientation, device, openAuth }) {
 
         return () => {
             window.removeEventListener('resize', handleResize);
-          };
+        };
     }, []);
 
     return (
@@ -43,8 +50,8 @@ function Header({ orientation, device, openAuth }) {
 
             <div className="header-content-right">
                 <div className="header-search">
-                    {showSearch && 
-                       <Search />
+                    {showSearch &&
+                        <Search />
                     }
                 </div>
 
@@ -54,8 +61,8 @@ function Header({ orientation, device, openAuth }) {
                     </button>
                     {isLoginOpen && (
                         <div className="login-options">
-                            <p onClick={openAuth} >Cliente</p>
-                            <p onClick={openAuth} >Advogado</p>
+                            <p onClick={openClientAuth} >Cliente</p>
+                            <p onClick={openLawyerAuth} >Advogado</p>
                         </div>
                     )}
                 </div>
