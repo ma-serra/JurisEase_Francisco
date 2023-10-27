@@ -1,18 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ServiceSection from './ServiceSection';
-import CEPServico from './CEPServico';
-import IPVAServico from './IPVAServico';
-import AgendamentoServico from './AgendamentoServico';
+import App from './App';
+import AuthPage from './pages/AuthPage';
 
 function AppRoutes() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={ServiceSection} />
-        <Route path="/service-cep" component={CEPServico} />
-        <Route path="/service-ipva" component={IPVAServico} />
-        <Route path="/service-agendamento" component={AgendamentoServico} />
+        <Route path="/auth" component={AuthPage} />
+        <Route path="/" component={App} />
       </Switch>
     </Router>
   );

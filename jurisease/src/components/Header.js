@@ -1,8 +1,9 @@
+import './Header.css'
 import React, { useEffect, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
-import Search from './Search';
+import Search from '../components/Search';
 
-function Header({ orientation, device }) {
+function Header({ orientation, device, openAuth }) {
 
     // button login
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -53,8 +54,8 @@ function Header({ orientation, device }) {
                     </button>
                     {isLoginOpen && (
                         <div className="login-options">
-                            <p>Cliente</p>
-                            <p>Advogado</p>
+                            <p onClick={openAuth} >Cliente</p>
+                            <p onClick={openAuth} >Advogado</p>
                         </div>
                     )}
                 </div>

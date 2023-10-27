@@ -1,7 +1,10 @@
-import { getDatabase, ref, set, remove, update, onValue } from "firebase/database";
-import { initializeApp } from "firebase/app"; // Remova "firebase" deste import
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { generateCustomID, getCurrentFormattedDate } from '../../util/tools';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase, ref, set, remove, update, onValue } from 'firebase/database';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+
+import { generateCustomID, getCurrentFormattedDate } from '../util/tools';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDc7A5qpg8VAGX6UVRrwM4GJ-dX8LGcIVg",
@@ -14,6 +17,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getDatabase(app, 'https://juris-ease-default-rtdb.asia-southeast1.firebasedatabase.app');
 
 export function addService(serviceData) {
@@ -132,34 +136,39 @@ export const updateHeadline = (headlineData) => {
   }
 };
 
-export const createUser = (email, password) => {
-  return createUserWithEmailAndPassword(app.auth(), email, password) // Atualize para usar createUserWithEmailAndPassword
-    .then((userCredential) => {
-      const user = userCredential.user;
-      return user;
-    })
-    .catch((error) => {
-      throw error;
-    });
+export const register = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    localStorage.setItem('authToken', user.accessToken);
+    return user;
+  } catch (error) {
+    throw error; // Lança a exceção para que seja tratada no código que chama a função
+  }
 }
 
-export const signIn = (email, password) => {
-  return signInWithEmailAndPassword(app.auth(), email, password) // Atualize para usar signInWithEmailAndPassword
-    .then((userCredential) => {
-      const user = userCredential.user;
-      return user;
-    })
-    .catch((error) => {
-      throw error;
-    });
+export const signIn = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    localStorage.setItem('authToken', user.accessToken);
+    return user;
+  } catch (error) {
+    throw error; // Lança a exceção para que seja tratada no código que chama a função
+  }
 }
 
-export const logout = () => {
-  return signOut(app.auth()) // Atualize para usar signOut
-    .then(() => {
+export const logout = async () => {
+  try {
+    await signOut(auth);
+    localStorage.removeItem('authToken');
+  } catch (error) {
+    throw error; // Lança a exceção para que seja tratada no código que chama a função
+  }
+}
 
-    })
-    .catch((error) => {
-      throw error;
-    });
+export const isUserAuthenticated = () => {
+  const authToken = localStorage.getItem('authToken');
+
+  return !!authToken;
 }
