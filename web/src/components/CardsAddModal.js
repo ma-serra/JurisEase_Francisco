@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, onCancelEdit }) {
   const [isOpen, setIsOpen] = useState(false);
   const [cardData, setCardData] = useState({
-    image: 'clique-aqui.png',
+    image: '/images/clique-aqui.png',
     title: '',
     description: '',
     link: '',

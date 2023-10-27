@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        "**/.git": false
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": false,
+        "**/.git/subtree-cache/**": false,
+        "**/.hg/store/**": false,
+        "**/node_modules/*/**": false
+    }
+}

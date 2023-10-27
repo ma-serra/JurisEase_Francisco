@@ -34,7 +34,7 @@ function Header({ orientation, device, openAuth }) {
 
             <div className="header-content-left">
                 <div >
-                    <img className="logo" src="/logo.png" alt="Logo do Meu Site" />
+                    <img className="logo" src="images/logo.png" alt="Logo do Meu Site" />
                 </div>
                 <div >
                     <p className="title">Juris Ease</p>

@@ -1,6 +1,6 @@
 import './AuthPage.css';
 import React, { useState } from 'react';
-import { signIn, register } from '../bd/firebaseUtil';
+import { signIn, register } from '../utils/data_base/firebaseUtil';
 
 function AuthPage({ device, closeAuth }) {
   const initialFormData = {

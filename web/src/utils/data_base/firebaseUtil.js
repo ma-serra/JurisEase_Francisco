@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase, ref, set, remove, update, onValue } from 'firebase/database';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
-import { generateCustomID, getCurrentFormattedDate } from '../util/tools';
+import { generateCustomID, getCurrentFormattedDate } from '../tools';
 
 
 const firebaseConfig = {

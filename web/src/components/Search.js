@@ -1,4 +1,5 @@
 import './Search.css'
+
 import React, { useState, useEffect } from 'react';
 
 function Search({ orientation }) {
