@@ -8,12 +8,12 @@ function Header({ orientation, device, openAuth }) {
     const [showSearch, setShowSearch] = useState(window.screen.width > 500);
     
     const openClientAuth = () => {
-        openAuth('cliente'); // Especifica que o cadastro é de um cliente
+        openAuth('client'); // Especifica que o cadastro é de um cliente
         setLoginOpen(false);
     };
 
     const openLawyerAuth = () => {
-        openAuth('advogado'); // Especifica que o cadastro é de um advogado
+        openAuth('lawyer'); // Especifica que o cadastro é de um advogado
         setLoginOpen(false);
     };
 

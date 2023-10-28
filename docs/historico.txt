@@ -96,3 +96,8 @@
     - Restruturando projeto
     - Autenticação
     - UserDAO
+    - Falta passar o tipo de usuario (client ou lawyer) para o AuthPage!!!
+
+28/10/2023
+    13:00 - 16:00
+    Autenticação

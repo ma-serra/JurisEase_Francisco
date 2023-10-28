@@ -53,5 +53,5 @@ export const logout = async () => {
 export const isUserAuthenticated = () => {
   const authToken = localStorage.getItem('authToken');
 
-  return !!authToken;
+  return authToken;
 }

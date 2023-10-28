@@ -26,7 +26,7 @@ export function createUserByData(data) {
   console.log('createUserByData:')
   console.log(data)
 
-  const { uid, accessToken, email, password, metadata, phoneNumber, address, name } = data;
+  const { uid, accessToken, email, password, metadata, phoneNumber, address, name, type, oab } = data;
   const missingFields = [];
 
   if (!uid) {
@@ -47,6 +47,10 @@ export function createUserByData(data) {
   if (!name) {
     missingFields.push('name');
   }
+  if (!type) {
+    missingFields.push('type');
+  }
+  
 
   if (missingFields.length > 0) {
     throw new Error(`Campos obrigatórios não fornecidos: ${missingFields.join(', ')}`);
@@ -63,8 +67,20 @@ export function createUserByData(data) {
     },
     phoneNumber || '', // Valor padrão vazio se phoneNumber não for fornecido
     address || '', // Valor padrão vazio se address não for fornecido
-    name
+    name,
+    type,
+    oab,
   );
 
   return user;
+}
+
+export const validarOAB = (numeroOAB) => {
+  const oabPattern = /^[A-Z]{2}\d{4,5}$/;
+
+  if (oabPattern.test(numeroOAB)) {
+    return true; 
+  } else {
+    return false;
+  }
 }

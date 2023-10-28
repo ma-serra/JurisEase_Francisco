@@ -2,13 +2,15 @@ import './AuthPage.css';
 import React, { useState } from 'react';
 import { signIn, register } from '../utils/data_base/firebase/authentication';
 import { addUser } from '../utils/data_base/firebase/userDAO'
+import { validarOAB } from '../utils/tools'
 
-function AuthPage({ device, toogleAuth }) {
+function AuthPage({ device, toogleAuth, auth }) {
   const initialFormData = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    oab: '',
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -25,6 +27,8 @@ function AuthPage({ device, toogleAuth }) {
       } else {
         console.log(data.user)
         setError(null)
+        console.log('sucess')
+        closeAuth()
       }
 
     } else {
@@ -36,16 +40,26 @@ function AuthPage({ device, toogleAuth }) {
     if (formData.name && formData.email && formData.password && formData.confirmPassword) {
       if (formData.password === formData.confirmPassword) {
 
-        const data = await register(formData.email, formData.password);
+        const oabValidationResult = validarOAB(formData.oab);
 
+        if (!oabValidationResult) {
+          setError('O número da OAB está em um formato inválido. O formato correto é: UF999999');
+          return; 
+        }
+
+        const data = await register(formData.email, formData.password);
         if (data.error) {
           setError(data.error)
 
         } else {
           data.user.name = formData.name;
           data.user.password = formData.password;
+          data.user.type = auth;
+          data.user.oab = formData.oab;
+
           addUser(data.user)
           setError(null)
+          closeAuth()
         }
 
       } else {
@@ -68,7 +82,7 @@ function AuthPage({ device, toogleAuth }) {
 
   const closeAuth = () => {
     toogleAuth('none');
-};
+  };
 
   return (
     <div className={`content-auth ${device}`} onClick={(closeAuth)}>
@@ -99,6 +113,20 @@ function AuthPage({ device, toogleAuth }) {
               onChange={handleInputChange}
             />
           </div>
+          {!isLogin && auth === 'lawyer' && (
+            <>
+              <div className="form-group">
+                <label htmlFor="oab">Numero da OAB</label>
+                <input
+                  type="text"
+                  id="oab"
+                  name="oab"
+                  value={formData.oab}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </>
+          )}
           <div className="form-group">
             <label htmlFor="password">Senha</label>
             <input
