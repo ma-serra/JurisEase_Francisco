@@ -105,3 +105,7 @@
     19:00 - 21:00
     - Acesso de adm
     - Preciso criar area do usuario!!
+
+29/10/2023
+    15:00
+    - redimensionamento chat and User-info

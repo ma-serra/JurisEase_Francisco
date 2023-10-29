@@ -29,21 +29,20 @@
   }
   
   .portrait .header-content-left {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding-right: 1.5em;
     padding-left: 1em;
   }
   
   .landscape .header-content-left {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding-right: 1.5em;
     padding-left: 3em;
   }
-  
+
+  .mini .header-content-left {
+    padding-right: .75em;
+    padding-left: .75em;
+  }
+
   .portrait .logo {
     height: 2em;
     margin-right: .6em;
@@ -59,6 +58,10 @@
     margin-right: .4em;
   }
   
+  .title {
+    padding-top: 7.5%;
+  }
+
   .portrait .title {
     font-size: large;
     white-space: nowrap;

@@ -1,7 +1,7 @@
 .chat-button {
     position: fixed;
     z-index: 50;
-    bottom: 25px;
+    bottom: 5px;
     right: 0;
     width: 10px;
     margin: 10px;
@@ -14,6 +14,11 @@
     border: 0;
 
     cursor: pointer;
+}
+
+.mini .chat-button {
+    padding: 22.5px;
+    bottom: 0;
 }
 
 .content-drawer {

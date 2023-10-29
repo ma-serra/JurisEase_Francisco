@@ -75,7 +75,7 @@ function Header({ orientation, device, openAuth, user }) {
 
                 {!!user && (
                     <div className='header-faleconosco'>
-                        <p>{user.name.length > 10 ? `${user.name.substring(0, 15)}...` : user.name}</p>
+                        <p>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
                     </div>
                 )}
 

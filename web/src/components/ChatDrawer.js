@@ -2,7 +2,7 @@ import './ChatDrawer.css'
 import React, { useState } from 'react';
 import Search from './Search';
 
-function ChatDrawer() {
+function ChatDrawer({ device }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -10,7 +10,7 @@ function ChatDrawer() {
   };
 
   return (
-    <div>
+    <div className={`content-chat-drawer ${device}`}>
       <div className={`content-drawer ${isOpen ? 'open' : 'close'}`}>
         <button className="close-button" onClick={toggleDrawer}>
           X
