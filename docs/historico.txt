@@ -100,4 +100,8 @@
 
 28/10/2023
     13:00 - 16:00
-    Autenticação
+    - Autenticação
+
+    19:00 - 21:00
+    - Acesso de adm
+    - Preciso criar area do usuario!!

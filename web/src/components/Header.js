@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 import Search from '../components/Search';
 
-function Header({ orientation, device, openAuth }) {
+function Header({ orientation, device, openAuth, user }) {
     const [isLoginOpen, setLoginOpen] = useState(false);
     const [showSearch, setShowSearch] = useState(window.screen.width > 500);
-    
+
     const openClientAuth = () => {
         openAuth('client'); // Especifica que o cadastro é de um cliente
         setLoginOpen(false);
@@ -22,12 +22,11 @@ function Header({ orientation, device, openAuth }) {
     };
 
     useEffect(() => {
-
         function handleResize() {
             setShowSearch(!!(window.screen.width > 500));
         }
 
-        handleResize()
+        handleResize();
 
         window.addEventListener('resize', handleResize);
 
@@ -35,6 +34,7 @@ function Header({ orientation, device, openAuth }) {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
 
     return (
         <header className={`header ${orientation} ${device}`}>
@@ -55,21 +55,29 @@ function Header({ orientation, device, openAuth }) {
                     }
                 </div>
 
-                <div className="header-login">
-                    <button onClick={toggleLogin} className="login-button">
-                        Login <FaCaretDown />
-                    </button>
-                    {isLoginOpen && (
-                        <div className="login-options">
-                            <p onClick={openClientAuth} >Cliente</p>
-                            <p onClick={openLawyerAuth} >Advogado</p>
-                        </div>
-                    )}
-                </div>
+                {!user && (
+                    <div className="header-login">
+                        <button onClick={toggleLogin} className="login-button">
+                            Login <FaCaretDown />
+                        </button>
+                        {isLoginOpen && (
+                            <div className="login-options">
+                                <p onClick={openClientAuth} >Cliente</p>
+                                <p onClick={openLawyerAuth} >Advogado</p>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <div className='header-faleconosco'>
                     <p>Fale conosco</p>
                 </div>
+
+                {!!user && (
+                    <div className='header-faleconosco'>
+                        <p>{user.name.length > 10 ? `${user.name.substring(0, 15)}...` : user.name}</p>
+                    </div>
+                )}
 
             </div>
         </header>

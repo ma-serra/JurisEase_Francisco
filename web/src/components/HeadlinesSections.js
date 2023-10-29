@@ -3,7 +3,7 @@ import CardsAddModal from './CardsAddModal';
 import Cards from './Cards';
 import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../utils/data_base/firebase/headlinesDAO';
 
-function HeadlineSection({ orientation, device }) {
+function HeadlineSection({ orientation, device, permisionEdit }) {
     const [headlines, setHeadlines] = useState([]);
     const [editingHeadline, setEditingHeadline] = useState(null);
 
@@ -41,14 +41,16 @@ function HeadlineSection({ orientation, device }) {
     return (
         <div className={`headlines-content ${orientation} ${device}`}>
             <h1>Áreas de Manchetes</h1>
-            <CardsAddModal
+            {permisionEdit && (
+                <CardsAddModal
                 onAddCard={handleAddHeadline}
                 onRemoveCard={handleRemoveHeadline}
                 onUpdateCard={handleUpdateHeadline}
                 cardInEdition={editingHeadline}
                 onCancelEdit={handleCancelEdit}
-            />
-            <Cards cards={headlines} onEditCard={handleEditHeadline} />
+                />
+                )}
+            <Cards cards={headlines} onEditCard={handleEditHeadline} permisionEdit={permisionEdit} />
         </div>
     );
 }

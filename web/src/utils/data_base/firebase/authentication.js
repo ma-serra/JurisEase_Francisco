@@ -9,7 +9,7 @@ export const register = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    localStorage.setItem('authToken', user.accessToken);
+    localStorage.setItem('uid', user.uid);
 
     data.user = user;
     data.message = 'Sucesso ao cadastrar usuario';
@@ -28,7 +28,7 @@ export const signIn = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    localStorage.setItem('authToken', user.accessToken);
+    localStorage.setItem('uid', user.uid);
     data.user = user;
     data.message = 'Sucesso ao realisar login';
     return data;
@@ -44,14 +44,14 @@ export const signIn = async (email, password) => {
 export const logout = async () => {
   try {
     await signOut(auth);
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('uid');
   } catch (error) {
     throw error;
   }
 }
 
 export const isUserAuthenticated = () => {
-  const authToken = localStorage.getItem('authToken');
+  const uid = localStorage.getItem('uid');
 
-  return authToken;
+  return uid;
 }

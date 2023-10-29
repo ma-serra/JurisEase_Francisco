@@ -3,7 +3,7 @@ import CardsAddModal from './CardsAddModal';
 import Cards from './Cards';
 import { getServices, addService, removeService, updateService } from '../utils/data_base/firebase/servicesDAO';
 
-function ServiceSection({ orientation, device }) {
+function ServiceSection({ orientation, device, permisionEdit }) {
     const [services, setServices] = useState([]);
     const [editingService, setEditingService] = useState(null);
 
@@ -41,14 +41,17 @@ function ServiceSection({ orientation, device }) {
     return (
         <div className={`services-content ${orientation} ${device}`}>
             <h1>Áreas de Serviços</h1>
-            <CardsAddModal
+            {permisionEdit && (
+                <CardsAddModal
                 onAddCard={handleAddService}
                 onRemoveCard={handleRemoveService}
                 onUpdateCard={handleUpdateService}
                 cardInEdition={editingService}
                 onCancelEdit={handleCancelEdit}
             />
-            <Cards cards={services} onEditCard={handleEditService} />
+            )}
+            
+            <Cards cards={services} onEditCard={handleEditService} permisionEdit={permisionEdit}/>
         </div>
     );
 }

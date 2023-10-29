@@ -92,6 +92,7 @@
   .header-faleconosco {
     position: relative;
     white-space: nowrap;
+    margin-right: 1.5em;
   }
   
   .portrait .header-faleconosco {

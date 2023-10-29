@@ -26,7 +26,7 @@ export function createUserByData(data) {
   console.log('createUserByData:')
   console.log(data)
 
-  const { uid, accessToken, email, password, metadata, phoneNumber, address, name, type, oab } = data;
+  const { uid, accessToken, email, password, metadata, phoneNumber, address, name, type, oab, acessAdmin } = data;
   const missingFields = [];
 
   if (!uid) {
@@ -70,6 +70,7 @@ export function createUserByData(data) {
     name,
     type,
     oab,
+    acessAdmin || false,
   );
 
   return user;

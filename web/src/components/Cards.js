@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Cards({ cards, onEditCard }) {
+function Cards({ cards, onEditCard, permisionEdit }) {
 
     return (
         <div className={`cards-content`}>
@@ -10,9 +10,11 @@ function Cards({ cards, onEditCard }) {
               if (card.id) {
                 return (
                   <div key={index} className="card">
-                    <button className="bt-menu" onClick={() => onEditCard(card)}>
+                    {permisionEdit && (
+                      <button className="bt-menu" onClick={() => onEditCard(card)}>
                       ⋮
                     </button>
+                    )}
                     <a target="_blank" rel="noreferrer" href={'https://' + card.link}>
                       <img src={card.image} alt={`Imagem do Serviço ${index}`} />
                       <div>

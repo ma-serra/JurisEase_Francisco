@@ -2,8 +2,6 @@ import { set, remove, update, onValue } from 'firebase/database';
 
 import { getCurrentFormattedDate, createUserByData } from '../../tools';
 import { getRef } from './firebaseConfig'
-import { getDatabase, ref } from 'firebase/database';
-
 
 export const addUser = async (userData) => {
 
@@ -35,22 +33,18 @@ export const addUser = async (userData) => {
   }
   
   export const getUser = async (uid) => {
-    // usersRef é um ref do DB firebase!
-    const usersRef = await getRef('users');
-    const query = ref(usersRef, 'uid').equalTo(uid);
+    const usersRef = await getRef(`users/${uid}`);
   
     return new Promise((resolve, reject) => {
-      onValue(query, (snapshot) => {
+      onValue(usersRef, (snapshot) => {
         const userData = snapshot.val();
   
         if (userData) {
-          // Converte o objeto de usuário em uma lista de usuários (neste caso, contém apenas um usuário)
-          const user = Object.values(userData)[0];
-          resolve(user);
+          resolve(userData);
         } else {
-          // Se nenhum usuário corresponder ao UID, você pode rejeitar a promessa com um erro
           reject('Usuário não encontrado');
         }
+
       });
     });
   }

@@ -56,6 +56,7 @@ function AuthPage({ device, toogleAuth, auth }) {
           data.user.password = formData.password;
           data.user.type = auth;
           data.user.oab = formData.oab;
+          data.user.acessAdmin = false;
 
           addUser(data.user)
           setError(null)
