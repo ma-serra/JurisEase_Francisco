@@ -2,9 +2,11 @@ import './Header.css'
 import React, { useEffect, useState } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 import Search from '../components/Search';
+import UserInfo from './UserInfo';
 
 function Header({ orientation, device, openAuth, user }) {
     const [isLoginOpen, setLoginOpen] = useState(false);
+    const [isUserInfoOpen, setUserInfoOpen] = useState(false);
     const [showSearch, setShowSearch] = useState(window.screen.width > 500);
 
     const openClientAuth = () => {
@@ -19,6 +21,10 @@ function Header({ orientation, device, openAuth, user }) {
 
     const toggleLogin = () => {
         setLoginOpen(!isLoginOpen);
+    };
+
+    const toggleUserInfo = () => {
+        setUserInfoOpen(!isUserInfoOpen);
     };
 
     useEffect(() => {
@@ -74,8 +80,11 @@ function Header({ orientation, device, openAuth, user }) {
                 </div>
 
                 {!!user && (
-                    <div className='header-faleconosco'>
-                        <p>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
+                    <div className='header-userInfo'>
+                        <p onClick={toggleUserInfo} className='user-name'>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
+                        {isUserInfoOpen && (
+                            <UserInfo orientation={orientation}/>
+                        )}
                     </div>
                 )}
 

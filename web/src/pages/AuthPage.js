@@ -27,8 +27,8 @@ function AuthPage({ device, toogleAuth, auth }) {
       } else {
         console.log(data.user)
         setError(null)
-        console.log('sucess')
         closeAuth()
+        window.location.reload();
       }
 
     } else {
@@ -61,6 +61,7 @@ function AuthPage({ device, toogleAuth, auth }) {
           addUser(data.user)
           setError(null)
           closeAuth()
+          window.location.reload();
         }
 
       } else {

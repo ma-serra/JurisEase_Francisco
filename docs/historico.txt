@@ -107,5 +107,6 @@
     - Preciso criar area do usuario!!
 
 29/10/2023
-    15:00
+    15:00 - 17:00
     - redimensionamento chat and User-info
+    - logout

@@ -109,6 +109,24 @@
   .mini .header-faleconosco {
     font-size: xx-small;
   }
+
+  .header-userInfo {
+    position: relative;
+    white-space: nowrap;
+    margin-right: 1.5em;
+  }
+  
+  .portrait .header-userInfo {
+    font-size: x-small;
+  }
+  
+  .landscape .header-userInfo {
+    font-size: smaller;
+  }
+  
+  .mini .header-userInfo {
+    font-size: xx-small;
+  }
   
   .header-search {
     padding-right: 1.5em;
