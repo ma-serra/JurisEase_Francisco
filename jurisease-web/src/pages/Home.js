@@ -8,6 +8,8 @@ import Search from '../components/Search';
 import ChatDrawer from '../components/ChatDrawer'
 
 import AuthPage from './AuthPage'
+import UserPage from './UserPage';
+
 import { useEffect, useState } from 'react';
 
 import { isUserAuthenticated } from '../utils/data_base/firebase/authentication'
@@ -17,9 +19,14 @@ function Home({ orientation, device }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState('none');
+  const [isUserPage, setIsUserPage] = useState(true);
 
   const toogleAuth = (type = 'none') => {
     setAuth(type)
+  };
+
+  const toogleIsUserPage = () => {
+    setIsUserPage(!isUserPage)
   };
 
   useEffect(() => {
@@ -27,20 +34,20 @@ function Home({ orientation, device }) {
       const isAuthenticated = isUserAuthenticated();
 
       if (isAuthenticated) {
-          const userData = await getUser(isAuthenticated);
-          setUser(userData);
-          console.log(userData)
+        const userData = await getUser(isAuthenticated);
+        setUser(userData);
+        console.log(userData)
       }
 
       setAuthenticated(isAuthenticated);
-  }
+    }
 
-  fetchUser(); // Chame a função de busca de usuário aqui
+    fetchUser(); // Chame a função de busca de usuário aqui
   }, [])
 
   return (
     <div className={`Home`}>
-      <Header orientation={orientation} device={device} openAuth={toogleAuth} user={user} />
+      <Header orientation={orientation} device={device} openUserPage={toogleIsUserPage} openAuth={toogleAuth} user={user} />
       <LawyerSection orientation={orientation} device={device} />
       <div className='search-main'>
         <Search orientation={orientation} device={device} />
@@ -52,6 +59,10 @@ function Home({ orientation, device }) {
 
       {auth !== 'none' && (
         <AuthPage device={device} toogleAuth={toogleAuth} auth={auth} />
+      )}
+
+      {user && !!isUserPage && (
+        <UserPage device={device} close={toogleIsUserPage} user={user} />
       )}
 
     </div>

@@ -22,12 +22,10 @@
   
   .portrait .user-info p {
     font-size: small;
-    width: 5em;
   }
   
   .landscape .user-info p {
     font-size: medium;
-    width: 5em;
   }
   
   .user-info p:hover {

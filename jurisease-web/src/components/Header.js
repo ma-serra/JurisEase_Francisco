@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Search from '../components/Search';
 import UserInfo from './UserInfo';
 
-function Header({ orientation, device, openAuth, user }) {
+function Header({ orientation, device, openAuth, user, openUserPage }) {
     const [isLoginOpen, setLoginOpen] = useState(false);
     const [isUserInfoOpen, setUserInfoOpen] = useState(false);
     const [showSearch, setShowSearch] = useState(window.screen.width > 500);
@@ -82,7 +82,7 @@ function Header({ orientation, device, openAuth, user }) {
                     <div className='header-userInfo'>
                         <p onClick={toggleUserInfo} className='user-name'>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
                         {isUserInfoOpen && (
-                            <UserInfo orientation={orientation}/>
+                            <UserInfo orientation={orientation} openUserPage={openUserPage} />
                         )}
                     </div>
                 )}
