@@ -1,6 +1,5 @@
 import './Header.css'
 import React, { useEffect, useState } from 'react';
-import { FaCaretDown } from 'react-icons/fa';
 import Search from '../components/Search';
 import UserInfo from './UserInfo';
 
@@ -64,7 +63,7 @@ function Header({ orientation, device, openAuth, user }) {
                 {!user && (
                     <div className="header-login">
                         <button onClick={toggleLogin} className="login-button">
-                            Login <FaCaretDown />
+                            Login
                         </button>
                         {isLoginOpen && (
                             <div className="login-options">

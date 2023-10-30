@@ -110,3 +110,8 @@
     15:00 - 17:00
     - redimensionamento chat and User-info
     - logout
+
+30/10/2023
+    09:40 - 
+    - criptografia de senhas
+

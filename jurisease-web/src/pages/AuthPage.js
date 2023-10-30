@@ -2,7 +2,7 @@ import './AuthPage.css';
 import React, { useState } from 'react';
 import { signIn, register } from '../utils/data_base/firebase/authentication';
 import { addUser } from '../utils/data_base/firebase/userDAO'
-import { validarOAB } from '../utils/tools'
+import { validarOAB, encryptPassword } from '../utils/tools'
 
 function AuthPage({ device, toogleAuth, auth }) {
   const initialFormData = {
@@ -53,7 +53,7 @@ function AuthPage({ device, toogleAuth, auth }) {
 
         } else {
           data.user.name = formData.name;
-          data.user.password = formData.password;
+          data.user.password = await encryptPassword(formData.password);
           data.user.type = auth;
           data.user.oab = formData.oab;
           data.user.acessAdmin = false;
