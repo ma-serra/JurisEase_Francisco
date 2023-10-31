@@ -3,10 +3,8 @@ class Usuario {
     accessToken: string;
     email: string;
     password: string; 
-    metadata: {
-      creationTime: string;
-      lastSignInTime: string;
-    };
+    createdAt: string;
+    lastLoginAt: string;
     phoneNumber: string;
     address: string;
     name: string;
@@ -19,7 +17,8 @@ class Usuario {
       accessToken: string,
       email: string,
       password: string,
-      metadata: { creationTime: string, lastSignInTime: string },
+      createdAt: string, 
+      lastLoginAt: string,
       phoneNumber: string,
       address: string,
       name: string,
@@ -31,7 +30,8 @@ class Usuario {
       this.accessToken = accessToken;
       this.email = email;
       this.password = password;
-      this.metadata = metadata;
+      this.createdAt = createdAt;
+      this.lastLoginAt = lastLoginAt;
       this.phoneNumber = phoneNumber;
       this.address = address;
       this.name = name;

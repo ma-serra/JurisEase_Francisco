@@ -23,7 +23,7 @@ Funçoes
 Usuario:
     - Update de dados do usuario
     - Validação Advogado
-    - mudar metadata pata lastLoginAt e createdAt
+    - mudar metadata do user pata lastLoginAt e createdAt
 
 Adicionar dados no Footer
 Implementar servicesDAO e headlinesDAO
