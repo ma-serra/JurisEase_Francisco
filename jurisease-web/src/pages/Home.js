@@ -19,7 +19,7 @@ function Home({ orientation, device }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState('none');
-  const [isUserPage, setIsUserPage] = useState(true);
+  const [isUserPage, setIsUserPage] = useState(false);
 
   const toogleAuth = (type = 'none') => {
     setAuth(type)
@@ -36,7 +36,6 @@ function Home({ orientation, device }) {
       if (isAuthenticated) {
         const userData = await getUser(isAuthenticated);
         setUser(userData);
-        console.log(userData)
       }
 
       setAuthenticated(isAuthenticated);

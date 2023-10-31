@@ -1,5 +1,6 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
+import { getCurrentFormattedDate } from '../../../tools';
 import { createUserByData } from '../../../data_base/firebase/dataProcessing';
 import { getRef } from '../firebaseConfig'
 
@@ -51,6 +52,7 @@ export const getUser = async (uid) => {
 
 export const updateUser = async (user) => {
 
+  user.update = getCurrentFormattedDate();
   const userRef = await getRef(`users/${user.uid}`);
 
   console.log('updateUser:', user)

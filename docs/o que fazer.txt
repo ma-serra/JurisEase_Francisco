@@ -9,7 +9,6 @@ Refatorar Frontend
     Definir imagens e icons
     Separar CSS dos componentes
     Melhorar nomes dos componentes para mais intuitivos
-    UserPage cortando o titulo no dispositivo mobile
     UserInfo não está alinhado
     Animação de carregamento busca no bd
 
@@ -21,9 +20,7 @@ Funçoes
     Buscar endereço por cep
 
 Usuario:
-    - Update de dados do usuario
-    - Validação Advogado
-    - mudar metadata do user pata lastLoginAt e createdAt
+    - Validação Advogado Eficaz
 
 Adicionar dados no Footer
 Implementar servicesDAO e headlinesDAO

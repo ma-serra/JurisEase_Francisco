@@ -1,5 +1,7 @@
 import './AuthPage.css';
 import React, { useState } from 'react';
+import { validarOAB, comparePassword } from '../utils/tools'
+import { updateUser } from '../utils/data_base/firebase/dao/userDAO'
 
 function UserPage({ device, close, user }) {
 
@@ -11,7 +13,13 @@ function UserPage({ device, close, user }) {
         acessAdmin: user.acessAdmin,
         phoneNumber: user.phoneNumber,
         type: user.type,
-        adress: user.adress,
+        adress: user.adress ? { ...user.adress } : {
+            cep: '',
+            estado: '',
+            cidade: '',
+            rua: '',
+            numero: ''
+        }
     };
 
     const [formData, setFormData] = useState(initialFormData);
@@ -19,8 +27,24 @@ function UserPage({ device, close, user }) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        if (name.startsWith('adress.')) {
+            const addressProperty = name.split('.')[1];
+            setFormData({
+                ...formData,
+                adress: {
+                    ...formData.adress,
+                    [addressProperty]: value
+                }
+            });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
+
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setFormData({ ...formData, [name]: checked });
+      };
 
     const clearForm = () => {
         setFormData(initialFormData);
@@ -39,12 +63,57 @@ function UserPage({ device, close, user }) {
         }
     }
 
-    function applyChanges() {
-        setError('Error .... Ainda não implementado!')
+    async function applyChanges() {
+        try {
+
+            if (!formData.password) {
+                throw new Error('Preencha o campo password para aplicar mudanças!')
+            } else {
+                const validatePass = await comparePassword(formData.password, user.password)
+                if (!validatePass) {
+                    throw new Error('Password inválido!')
+                }
+            }
+
+            if (!formData.name || !formData.email || !formData.type) {
+                // sempre está caindo aqui, mesmo com os campos preenchidos!
+                throw new Error('Os campos nome e email são obrigatórios!')
+            }
+
+            if (formData.type === 'lawyer') {
+                const validateOAB = validarOAB(formData.oab)
+                if (!validateOAB) {
+                    throw new Error('Número da OAB inválido!')
+                }
+            }
+
+            const newUser = updateUserWithFormData(user, formData)
+            updateUser(newUser)
+            setError(null)
+            window.location.reload();
+
+        } catch (e) {
+            console.log(e.message)
+            setError(e.message)
+        }
     }
 
     function cancelChanges() {
         closePage()
+    }
+
+    function updateUserWithFormData(user, formData) {
+        const updatedUser = { ...user };
+
+        updatedUser.name = formData.name;
+        updatedUser.email = formData.email;
+        updatedUser.oab = formData.oab;
+        updatedUser.acessAdmin = formData.acessAdmin;
+        updatedUser.phoneNumber = formData.phoneNumber;
+        updatedUser.type = formData.type;
+        updatedUser.adress = formData.adress;
+
+        return updatedUser;
     }
 
     return (
@@ -108,8 +177,8 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="cep"
-                                    name="cep"
-                                    value={formData.cep}
+                                    name="adress.cep"
+                                    value={formData.adress.cep}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -118,8 +187,8 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="estado"
-                                    name="estado"
-                                    value={formData.estado}
+                                    name="adress.estado"
+                                    value={formData.adress.estado}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -128,28 +197,28 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="cidade"
-                                    name="cidade"
-                                    value={formData.cidade}
+                                    name="adress.cidade"
+                                    value={formData.adress.cidade}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="rua">Rua</label>
+                                <label htmlFor="adress.rua">Rua</label>
                                 <input
                                     type="text"
                                     id="rua"
-                                    name="rua"
-                                    value={formData.rua}
+                                    name="adress.rua"
+                                    value={formData.adress.rua}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="num">Número</label>
+                                <label htmlFor="numero">Número</label>
                                 <input
                                     type="text"
-                                    id="num"
-                                    name="num"
-                                    value={formData.num}
+                                    id="numero"
+                                    name="adress.numero"
+                                    value={formData.adress.numero}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -189,7 +258,7 @@ function UserPage({ device, close, user }) {
                             id="acessAdmin"
                             name="acessAdmin"
                             checked={formData.acessAdmin}
-                            onChange={handleInputChange}
+                            onChange={handleCheckboxChange}
                         />
                     </div>
                 </form>
@@ -199,7 +268,7 @@ function UserPage({ device, close, user }) {
                     <button onClick={cancelChanges}>Cancelar</button>
                     <button onClick={applyChanges}>Aplicar</button>
                 </div>
-                
+
             </div>
         </div>
     );

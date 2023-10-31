@@ -8,7 +8,9 @@
 }
 
 .user-page {
-    overflow: auto;
+    overflow: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 11 */
     
     position: fixed;
     z-index: 101;
@@ -30,6 +32,10 @@
     border-radius: 25px;
 }
 
+.user-page::-webkit-scrollbar {
+    display: none; /* Safari e Chrome */
+  }
+
 .user-page form {
     width: 90%;
 }
@@ -38,6 +44,10 @@
     margin-top: 50%;
     font-size: 22px;
     margin-bottom: 20px;
+}
+
+.mobile .user-page h1 {
+    margin-top: 80%;
 }
 
 .form-group {

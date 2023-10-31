@@ -55,9 +55,8 @@ export async function encryptPassword(password) {
  */
 export async function comparePassword(inputPassword, storedPassword) {
   const decryptedBytes = CryptoJS.AES.decrypt(storedPassword, secretKey);
-
-  // Verifique se a senha descriptografada corresponde à senha inserida
   const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
   return inputPassword === decryptedData;
 }
 

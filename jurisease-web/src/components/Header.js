@@ -82,7 +82,7 @@ function Header({ orientation, device, openAuth, user, openUserPage }) {
                     <div className='header-userInfo'>
                         <p onClick={toggleUserInfo} className='user-name'>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
                         {isUserInfoOpen && (
-                            <UserInfo orientation={orientation} openUserPage={openUserPage} />
+                            <UserInfo orientation={orientation} openUserPage={openUserPage} close={toggleUserInfo} />
                         )}
                     </div>
                 )}
