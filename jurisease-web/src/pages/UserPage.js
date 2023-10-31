@@ -1,7 +1,5 @@
 import './AuthPage.css';
 import React, { useState } from 'react';
-import { addUser } from '../utils/data_base/firebase/userDAO'
-import { validarOAB, encryptPassword } from '../utils/tools'
 
 function UserPage({ device, close, user }) {
 

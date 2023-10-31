@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-
-import { getAuthentication, handleFirebaseError } from './firebaseConfig'
+import { getAuthentication } from './firebaseConfig'
+import { getFirebaseErrorMessage } from './firebaseException'
 
 const auth = await getAuthentication()
 
@@ -17,7 +17,7 @@ export const register = async (email, password) => {
 
   } catch (error) {
     console.log(error.code)
-    const errorMessage = await handleFirebaseError(error.code);
+    const errorMessage = await getFirebaseErrorMessage(error.code);
     data.error = errorMessage;
     return data;
   }
@@ -35,7 +35,7 @@ export const signIn = async (email, password) => {
 
   } catch (error) {
     console.log(error.code)
-    const errorMessage = await handleFirebaseError(error.code);
+    const errorMessage = await getFirebaseErrorMessage(error.code);
     data.error = errorMessage;
     return data;
   }

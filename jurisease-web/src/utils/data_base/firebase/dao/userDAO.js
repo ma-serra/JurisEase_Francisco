@@ -1,7 +1,7 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
-import { createUserByData } from '../../tools';
-import { getRef } from './firebaseConfig'
+import { createUserByData } from '../../../data_base/firebase/dataProcessing';
+import { getRef } from '../firebaseConfig'
 
 export const addUser = async (userData) => {
 

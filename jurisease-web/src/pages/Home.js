@@ -13,7 +13,7 @@ import UserPage from './UserPage';
 import { useEffect, useState } from 'react';
 
 import { isUserAuthenticated } from '../utils/data_base/firebase/authentication'
-import { getUser } from '../utils/data_base/firebase/userDAO'
+import { getUser } from '../utils/data_base/firebase/dao/userDAO'
 
 function Home({ orientation, device }) {
   const [authenticated, setAuthenticated] = useState(false);

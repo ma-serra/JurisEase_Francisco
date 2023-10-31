@@ -1,7 +1,7 @@
 import './UserPage.css';
 import React, { useState } from 'react';
 import { signIn, register } from '../utils/data_base/firebase/authentication';
-import { addUser } from '../utils/data_base/firebase/userDAO'
+import { addUser } from '../utils/data_base/firebase/dao/userDAO'
 import { validarOAB, encryptPassword } from '../utils/tools'
 
 function AuthPage({ device, toogleAuth, auth }) {

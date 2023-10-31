@@ -1,7 +1,7 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
-import { generateCustomID, getCurrentFormattedDate } from '../../tools';
-import { getRef } from './firebaseConfig'
+import { generateCustomID, getCurrentFormattedDate } from '../../../tools';
+import { getRef } from '../firebaseConfig'
 
 
 export const  addHeadline = async (headlineData) => {

@@ -108,10 +108,15 @@
 
 29/10/2023
     15:00 - 17:00
-    - redimensionamento chat and User-info
-    - logout
+    - Redimensionamento chat and User-info
+    - Logout
 
 30/10/2023
-    09:40 - 
-    - criptografia de senhas
+    09:40 - 18:30
+    - Criptografia de senhas
+    - Pagina Gerenciar contas
+
+    20:00 - 21:00
+    - Restruturando src/utils
+    - Planejamento
 
