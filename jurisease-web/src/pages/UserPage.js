@@ -13,7 +13,7 @@ function UserPage({ device, close, user }) {
         acessAdmin: user.acessAdmin,
         phoneNumber: user.phoneNumber,
         type: user.type,
-        adress: user.adress ? { ...user.adress } : {
+        address: user.address ? { ...user.address } : {
             cep: '',
             estado: '',
             cidade: '',
@@ -27,12 +27,12 @@ function UserPage({ device, close, user }) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        if (name.startsWith('adress.')) {
+        if (name.startsWith('address.')) {
             const addressProperty = name.split('.')[1];
             setFormData({
                 ...formData,
-                adress: {
-                    ...formData.adress,
+                address: {
+                    ...formData.address,
                     [addressProperty]: value
                 }
             });
@@ -111,7 +111,7 @@ function UserPage({ device, close, user }) {
         updatedUser.acessAdmin = formData.acessAdmin;
         updatedUser.phoneNumber = formData.phoneNumber;
         updatedUser.type = formData.type;
-        updatedUser.adress = formData.adress;
+        updatedUser.address = formData.address;
 
         return updatedUser;
     }
@@ -165,7 +165,7 @@ function UserPage({ device, close, user }) {
                         />
                     </div>
 
-                    <div className="form-group adress">
+                    <div className="form-group address">
                         <label htmlFor="toggleAddress" className="address-title" onClick={toggleAddressSubfields}>
                             Endereço
                             <img className='arrow-down' src='/images/icons8-arrow-down-30.png' alt='arrow-down'></img>
@@ -177,8 +177,8 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="cep"
-                                    name="adress.cep"
-                                    value={formData.adress.cep}
+                                    name="address.cep"
+                                    value={formData.address.cep}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -187,8 +187,8 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="estado"
-                                    name="adress.estado"
-                                    value={formData.adress.estado}
+                                    name="address.estado"
+                                    value={formData.address.estado}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -197,18 +197,18 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="cidade"
-                                    name="adress.cidade"
-                                    value={formData.adress.cidade}
+                                    name="address.cidade"
+                                    value={formData.address.cidade}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="adress.rua">Rua</label>
+                                <label htmlFor="address.rua">Rua</label>
                                 <input
                                     type="text"
                                     id="rua"
-                                    name="adress.rua"
-                                    value={formData.adress.rua}
+                                    name="address.rua"
+                                    value={formData.address.rua}
                                     onChange={handleInputChange}
                                 />
                             </div>
@@ -217,8 +217,8 @@ function UserPage({ device, close, user }) {
                                 <input
                                     type="text"
                                     id="numero"
-                                    name="adress.numero"
-                                    value={formData.adress.numero}
+                                    name="address.numero"
+                                    value={formData.address.numero}
                                     onChange={handleInputChange}
                                 />
                             </div>

@@ -121,7 +121,7 @@
     - Planejamento
 
 31/10/2023
-    10:00
+    10:00 - 12:00
     - Mudar metadata do user pata lastLoginAt e createdAt
     - Update User implemented
     - Adicionado data de Update em addUser
