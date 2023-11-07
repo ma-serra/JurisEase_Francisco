@@ -1,0 +1,25 @@
+.Footer {
+  background-color: var(--primary-dark-50);
+  color: var(--gray-30);
+  padding: 20px 0;
+  text-align: center;
+  font-size: small;
+}
+
+.Footer p {
+  margin: 0;
+}
+
+/* Estilos para telas pequenas (até 400px) */
+@media (max-width: 400px) {
+  .Footer p {
+    font-size: x-small;
+  }
+}
+
+/* Estilos para telas médias a grandes (mais de 700px) */
+@media (min-width: 701px) {
+  .Footer p {
+    font-size: small;
+  }
+}

@@ -125,9 +125,25 @@
     - Mudar metadata do user pata lastLoginAt e createdAt
     - Update User implemented
     - Adicionado data de Update em addUser
-    - Corrijido problema do checkBox UserPage
+    - Corrijido problema do checkBox UserManagement
     - Validaçoes de dados e senha para update user
-    - UserPage cortando o titulo no dispositivo mobile - OK
+    - UserManagement cortando o titulo no dispositivo mobile - OK
     - Adicionado dados de endereço em updateUser
     - Fechar UserInfo ao selecionar uma opção
 
+01/11/2023
+    13:30
+    - Rotas
+    - npm install react-router-dom@6
+
+02/11/2023
+    13:00 - 16:00
+    - Frontend geral (Figma)
+
+06/11/2023
+    12:00 - 20:00
+    - Frontend geral (Figma)
+
+06/11/2023
+    20:00 - 03:00
+    - Reestruturação Frontend e respansividade

@@ -1,9 +1,9 @@
-import './AuthPage.css';
+import './UserManagement.css';
 import React, { useState } from 'react';
 import { validarOAB, comparePassword } from '../utils/tools'
 import { updateUser } from '../utils/data_base/firebase/dao/userDAO'
 
-function UserPage({ device, close, user }) {
+function UserManagement({ device, close, user }) {
 
     const initialFormData = {
         name: user.name,
@@ -274,4 +274,4 @@ function UserPage({ device, close, user }) {
     );
 }
 
-export default UserPage;
+export default UserManagement;

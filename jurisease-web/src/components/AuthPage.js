@@ -1,4 +1,4 @@
-import './UserPage.css';
+import './AuthPage.css';
 import React, { useState } from 'react';
 import { signIn, register } from '../utils/data_base/firebase/authentication';
 import { addUser } from '../utils/data_base/firebase/dao/userDAO'

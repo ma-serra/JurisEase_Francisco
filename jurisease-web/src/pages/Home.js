@@ -7,8 +7,8 @@ import HeadlinesSection from '../components/HeadlinesSections';
 import Search from '../components/Search';
 import ChatDrawer from '../components/ChatDrawer'
 
-import AuthPage from './AuthPage'
-import UserPage from './UserPage';
+import AuthPage from '../components/AuthPage'
+import UserManagement from '../components/UserManagement';
 
 import { useEffect, useState } from 'react';
 
@@ -19,14 +19,14 @@ function Home({ orientation, device }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState('none');
-  const [isUserPage, setIsUserPage] = useState(false);
+  const [isUserManagement, setIsUserManagement] = useState(false);
 
   const toogleAuth = (type = 'none') => {
     setAuth(type)
   };
 
-  const toogleIsUserPage = () => {
-    setIsUserPage(!isUserPage)
+  const toogleIsUserManagement = () => {
+    setIsUserManagement(!isUserManagement)
   };
 
   useEffect(() => {
@@ -46,24 +46,27 @@ function Home({ orientation, device }) {
 
   return (
     <div className={`Home`}>
-      <Header orientation={orientation} device={device} openUserPage={toogleIsUserPage} openAuth={toogleAuth} user={user} />
-      <LawyerSection orientation={orientation} device={device} />
+      <Header openUserManagement={toogleIsUserManagement} openAuth={toogleAuth} user={user} />
+      <LawyerSection />
+      {/* 
       <div className='search-main'>
-        <Search orientation={orientation} device={device} />
+        <Search />
       </div>
-      <ServiceSection orientation={orientation} device={device} permisionEdit={(user && user.acessAdmin)} />
-      <HeadlinesSection orientation={orientation} device={device} permisionEdit={(user && user.acessAdmin)} />
-      <Footer orientation={orientation} device={device} />
-      <ChatDrawer orientation={orientation} device={device} />
+      <ServiceSection permisionEdit={(user && user.acessAdmin)} />
+      <HeadlinesSection permisionEdit={(user && user.acessAdmin)} />
+      
+      <ChatDrawer />
+      */}
 
       {auth !== 'none' && (
         <AuthPage device={device} toogleAuth={toogleAuth} auth={auth} />
       )}
 
-      {user && !!isUserPage && (
-        <UserPage device={device} close={toogleIsUserPage} user={user} />
+      {user && !!isUserManagement && (
+        <UserManagement device={device} close={toogleIsUserManagement} user={user} />
       )}
 
+      <Footer />
     </div>
   );
 }
