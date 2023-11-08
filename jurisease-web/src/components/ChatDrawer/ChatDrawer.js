@@ -1,6 +1,6 @@
 import './ChatDrawer.css'
 import React, { useState } from 'react';
-import Search from './Search';
+import Search from '../Search/Search';
 
 function ChatDrawer({ device }) {
   const [isOpen, setIsOpen] = useState(false);

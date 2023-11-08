@@ -3,13 +3,14 @@
   --primary-dark-10: #0b0e49;
   --primary-dark-50: #04051F;
   --primary-dark-90: #010210;
-  --gray-10: #04051F;
-  --gray-50: #808080;
+  --contrast-primary-dark: #FFD62A;
   --gray-30: #CCC;
+  --gray-50: #808080;
   --blue: #0080DD;
   --red: #F02525;
   --white: #FFFFFF;
-  --white-70: #f5f5f5;
+  --white-10: #f5f5f5;
+  --white-20: #e6e6e6;
 }
 
 body {

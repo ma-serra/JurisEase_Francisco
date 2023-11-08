@@ -1,0 +1,17 @@
+.ActivitiesBoard {
+    display: flex;
+    justify-content: center;
+}
+
+.search-activities {
+    background-color: var(--white-20);
+    width: 90%;
+    max-height: 300px;
+    max-width: 1000px;
+    border-radius: .75em;
+    padding: 7.5px;
+}
+
+.search-activities .Search{
+
+}

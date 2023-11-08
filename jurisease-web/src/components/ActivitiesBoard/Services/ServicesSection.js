@@ -1,9 +1,10 @@
+import './ServiceSection.css'
 import React, { useEffect, useState } from 'react';
-import CardsAddModal from './CardsAddModal';
-import Cards from './Cards';
-import { getServices, addService, removeService, updateService } from '../utils/data_base/firebase/dao/servicesDAO';
+import CardsAddModal from '../Cards/CardsAddModal';
+import Cards from '../Cards/Cards';
+import { getServices, addService, removeService, updateService } from '../../../utils/data_base/firebase/dao/servicesDAO';
 
-function ServiceSection({ orientation, device, permisionEdit }) {
+function ServiceSection ({ orientation, device, permisionEdit }) {
     const [services, setServices] = useState([]);
     const [editingService, setEditingService] = useState(null);
 

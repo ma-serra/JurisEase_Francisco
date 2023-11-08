@@ -11,6 +11,7 @@ class Usuario {
     type: string;
     oab: string;
     acessAdmin: boolean;  
+    updateAt: string;
   
     constructor(
       uid: string,
@@ -25,6 +26,7 @@ class Usuario {
       type: string,
       oab: string,
       acessAdmin: boolean,
+      updateAt: string,
     ) {
       this.uid = uid;
       this.accessToken = accessToken;
@@ -38,6 +40,7 @@ class Usuario {
       this.type = type;
       this.oab = oab;
       this.acessAdmin = acessAdmin;
+      this.updateAt = updateAt;
     }
   }
   

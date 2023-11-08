@@ -1,9 +1,9 @@
 import './Header.css'
 import React, { useState } from 'react';
-import Search from '../components/Search';
+import Search from '../Search/Search';
 
 
-import { logout } from '../utils/data_base/firebase/authentication'
+import { logout } from '../../utils/data_base/firebase/authentication'
 
 import { IoIosArrowDown } from 'react-icons/io';
 

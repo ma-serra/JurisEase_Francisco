@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import CardsAddModal from './CardsAddModal';
-import Cards from './Cards';
-import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../utils/data_base/firebase/dao/headlinesDAO';
+import CardsAddModal from '../Cards/CardsAddModal';
+import Cards from '../Cards/Cards';
+import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../../../utils/data_base/firebase/dao/headlinesDAO';
 
 function HeadlineSection({ orientation, device, permisionEdit }) {
     const [headlines, setHeadlines] = useState([]);

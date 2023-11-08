@@ -1,7 +1,7 @@
 import './UserManagement.css';
 import React, { useState } from 'react';
-import { validarOAB, comparePassword } from '../utils/tools'
-import { updateUser } from '../utils/data_base/firebase/dao/userDAO'
+import { validarOAB, comparePassword } from '../../../utils/tools'
+import { updateUser } from '../../../utils/data_base/firebase/dao/userDAO'
 
 function UserManagement({ device, close, user }) {
 

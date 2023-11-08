@@ -1,19 +1,15 @@
 import './Home.css';
-import Header from '../components/Header';
-import LawyerSection from '../components/LawyerSection';
-import Footer from '../components/Footer';
-import ServiceSection from '../components/ServicesSection';
-import HeadlinesSection from '../components/HeadlinesSections';
-import Search from '../components/Search';
-import ChatDrawer from '../components/ChatDrawer'
+import Header from '../../components/Header/Header';
+import LawyerSection from '../../components/LawyerSection/LawyerSection';
+import Footer from '../../components/Footer/Footer';
 
-import AuthPage from '../components/AuthPage'
-import UserManagement from '../components/UserManagement';
-
+import AuthPage from '../../components/Popups/AuthPage/AuthPage';
+import UserManagement from '../../components/Popups/UserManagement/UserManagement';
+import ActivitiesBoard from '../../components/ActivitiesBoard/ActivitiesBoard';
 import { useEffect, useState } from 'react';
 
-import { isUserAuthenticated } from '../utils/data_base/firebase/authentication'
-import { getUser } from '../utils/data_base/firebase/dao/userDAO'
+import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
+import { getUser } from '../../utils/data_base/firebase/dao/userDAO'
 
 function Home({ orientation, device }) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -48,16 +44,10 @@ function Home({ orientation, device }) {
     <div className={`Home`}>
       <Header openUserManagement={toogleIsUserManagement} openAuth={toogleAuth} user={user} />
       <LawyerSection />
-      {/* 
-      <div className='search-main'>
-        <Search />
-      </div>
-      <ServiceSection permisionEdit={(user && user.acessAdmin)} />
-      <HeadlinesSection permisionEdit={(user && user.acessAdmin)} />
-      
-      <ChatDrawer />
-      */}
 
+      <ActivitiesBoard />
+
+      {/* Popups */}
       {auth !== 'none' && (
         <AuthPage device={device} toogleAuth={toogleAuth} auth={auth} />
       )}

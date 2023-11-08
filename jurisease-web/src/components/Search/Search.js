@@ -1,22 +1,13 @@
 import './Search.css'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-function Search({ orientation }) {
+function Search() {
 
   const [busca, setBusca] = useState("");
 
-
-  useEffect(() => {
-
-    return () => {
-
-    };
-
-  }, []);
-
   return (
-    <footer className={`search ${orientation}`}>
+    <div className={`Search`}>
       <div className="search-container">
         <input
           type="text"
@@ -25,7 +16,7 @@ function Search({ orientation }) {
           onChange={(e) => setBusca(e.target.value)}
         />
       </div>
-    </footer>
+    </div>
   );
 }
 
