@@ -44,6 +44,23 @@ export const addService = async (serviceData) => {
       }
     });
   }
+
+  export const getService = async (id) => {
+    const usersRef = await getRef(`services/${id}`);
+  
+    return new Promise((resolve, reject) => {
+      onValue(usersRef, (snapshot) => {
+        const userData = snapshot.val();
+  
+        if (userData) {
+          resolve(userData);
+        } else {
+          reject('Usuário não encontrado');
+        }
+  
+      });
+    });
+  }
   
   export const updateService = async (serviceData) => {
     console.log('updateService')
