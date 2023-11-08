@@ -52,7 +52,7 @@ export const getUser = async (uid) => {
 
 export const updateUser = async (user) => {
 
-  user.update = getCurrentFormattedDate();
+  user.updateAt = getCurrentFormattedDate();
   const userRef = await getRef(`users/${user.uid}`);
 
   console.log('updateUser:', user)

@@ -47,7 +47,7 @@ export const addService = async (serviceData) => {
   
   export const updateService = async (serviceData) => {
     console.log('updateService')
-    serviceData.update = getCurrentFormattedDate();
+    serviceData.updateAt = getCurrentFormattedDate();
     console.log("id: " + serviceData.id)
     console.log('data:', serviceData)
   

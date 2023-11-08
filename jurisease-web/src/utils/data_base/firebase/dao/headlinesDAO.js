@@ -48,7 +48,7 @@ export const  addHeadline = async (headlineData) => {
   
   export const updateHeadline = async (headlineData) => {
     console.log('updateHeadline')
-    headlineData.update = getCurrentFormattedDate();
+    headlineData.updateAt = getCurrentFormattedDate();
     console.log("id: " + headlineData.id)
     console.log('data:', headlineData)
   
