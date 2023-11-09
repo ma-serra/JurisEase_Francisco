@@ -12,19 +12,29 @@ function CardsSection({ cardList }) {
     const [maxVisibleCards, setMaxVisibleCards] = useState(0);
 
     useEffect(() => {
-        if (window.innerWidth < 500) {
-            setMaxVisibleCards(2);
+        function handleResize() {
+            if (window.innerWidth < 500) {
+                setMaxVisibleCards(2);
 
-        } else if (window.innerWidth < 700) {
-            setMaxVisibleCards(3);
+            } else if (window.innerWidth < 700) {
+                setMaxVisibleCards(3);
 
-        } else {
-            setMaxVisibleCards(4);
+            } else {
+                setMaxVisibleCards(4);
+            }
         }
 
-        setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
+        window.addEventListener('resize', handleResize);
+        handleResize();
 
-    }, [position, cardList]);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [cardList]);
+
+    useEffect(() => {
+        setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
+    }, [position, maxVisibleCards, cardList]);
 
     function handleScroll(direction) {
         const minPosition = 0;
