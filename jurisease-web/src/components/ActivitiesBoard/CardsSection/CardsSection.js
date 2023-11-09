@@ -13,34 +13,28 @@ function CardsSection({ cardList }) {
 
     useEffect(() => {
         if (window.innerWidth < 500) {
-          setMaxVisibleCards(2);
+            setMaxVisibleCards(2);
 
         } else if (window.innerWidth < 700) {
-          setMaxVisibleCards(3);
+            setMaxVisibleCards(3);
 
         } else {
-          setMaxVisibleCards(4);
+            setMaxVisibleCards(4);
         }
-      
+
         setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
 
-        console.log('cardList:', cardList)
-        console.log('position:', position)
-        console.log('maxVisibleCards:', maxVisibleCards)
-        console.log('cardsVisibles:', cardsVisibles)
-      }, [position, cardList]);
+    }, [position, cardList]);
 
-      function handleScroll(direction) {
+    function handleScroll(direction) {
         const minPosition = 0;
         const maxPosition = Math.max(0, cardList.length - maxVisibleCards);
-        
+
         setPosition((prevPosition) => {
-          const newPosition = direction === 'left' ? prevPosition - 1 : prevPosition + 1;
-          
-          // Garantir que a nova posição esteja dentro dos limites
-          return Math.min(maxPosition, Math.max(minPosition, newPosition));
+            const newPosition = direction === 'left' ? prevPosition - 1 : prevPosition + 1;
+            return Math.min(maxPosition, Math.max(minPosition, newPosition));
         });
-      }
+    }
 
     if (!cardList || cardList.length === 0) {
         return null;
