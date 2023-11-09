@@ -60,3 +60,6 @@ export async function comparePassword(inputPassword, storedPassword) {
   return inputPassword === decryptedData;
 }
 
+export function removeObjetosVazios(lista) {
+  return lista.filter(objeto => typeof objeto === 'object');
+}

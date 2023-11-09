@@ -23,7 +23,7 @@ function Card({ data, isEditable, setOnEditCard }) {
         <div className={`Card ${data.id}`} onClick={handleCardClick}>
             {isEditable && (
                 <button className="bt-edit" onClick={handleEditClick}>
-                    <FaPencilAlt className="pencil-icon" /> {/* Ícone do lápis */}
+                    <FaPencilAlt className="icon-pencil" /> {/* Ícone do lápis */}
                 </button>
             )}
 

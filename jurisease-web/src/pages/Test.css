@@ -1,7 +1,9 @@
 .Test {
-    margin-left: 3em;
+    margin-left: 5%;
+    margin-right: 5%;
 }
-.meu-card {
-    width: 250px;
+
+.test-container {
+    width: 100%;
     height: 300px;
 }

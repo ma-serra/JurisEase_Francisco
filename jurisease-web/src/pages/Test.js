@@ -1,33 +1,50 @@
 import './Test.css'
 import React, { useEffect, useState } from 'react';
-import { getService } from '../utils/data_base/firebase/dao/servicesDAO.js';
-import Card from '../components/ActivitiesBoard/Cards/Card';
-
+import CardsSection from '../components/ActivitiesBoard/CardsSection/CardsSection.js';
+import { getServices, addService, removeService, updateService } from '../utils/data_base/firebase/dao/servicesDAO.js';
+import { removeObjetosVazios } from '../utils/tools.js'
 function Test() {
-  const [serviceData, setServiceData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState([]);
+  const [editingService, setEditingService] = useState(null);
+
+  const handleEditService = (card) => {
+    setEditingService(card);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingService(null);
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getService('service_1698098261452_uslcdnolwx');
-        setServiceData(data);
+    // Função para buscar e ouvir mudanças nos serviços
+    const fetchServicesAndListen = () => {
+      getServices((servicesData) => {
+        const cards = [...servicesData, ...servicesData, ...servicesData, ...servicesData]
+        setServices(removeObjetosVazios(cards));
         setLoading(false);
-      } catch (error) {
-        console.error('Erro ao obter dados do serviço:', error);
-        setLoading(false);
-      }
-    }
+      });
+    };
 
-    fetchData();
+    fetchServicesAndListen();
   }, []);
+
+  const handleAddService = (newService) => {
+    addService(newService);
+  };
+
+  const handleRemoveService = (serviceId) => {
+    removeService(serviceId);
+  };
+
+  const handleUpdateService = (serviceId) => {
+    updateService(serviceId);
+  };
 
   return (
     <div className={`Test`}>
-      <h1>Meu card</h1>
-
-      <div className='meu-card'>
-        {loading ? <p>Carregando...</p> : <Card data={serviceData} isEditable={true} setOnEditCard={() => {console.log('Edit')}} />}
+      <div className='test-container'>
+        {loading ? <p>Carregando...</p> : <CardsSection cardList={services} />}
       </div>
     </div>
   );

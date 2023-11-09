@@ -1,0 +1,94 @@
+.CardsSection {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.cards-section-title {
+    height: 10%;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.scroll-container {
+    margin: 0 15px;
+    height: 80%;
+
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2%;
+}
+
+@media (min-width: 500px) {
+    .CardsSection .Card {
+        margin: 0 1%;
+        max-height: 100%;
+        width: 250px;
+    }
+}
+
+@media (max-width: 500px) {
+    .CardsSection .Card {
+        margin: 0 1%;
+        max-height: 100%;
+        width: 200px;
+    }
+}
+
+@media (max-width: 300px) {
+    .CardsSection .Card {
+        margin: 0 1%;
+        max-height: 100%;
+        width: 100px;
+    }
+}
+
+.bt-add-card {
+    font-size: 30px;
+    margin-left: .5em;
+    margin-right: .5em;
+}
+
+.scroll-button.left {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background-color: var(--primary-dark-50);
+    color: var(--white);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.scroll-button.right {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    background-color: var(--primary-dark-50);
+    color: var(--white);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.icon-arrow {
+    font-size: 30px;
+}
