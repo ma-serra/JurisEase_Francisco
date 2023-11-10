@@ -42,15 +42,6 @@ function HeadlineSection({ permisionEdit }) {
 
     return (
         <div className={`HeadlinesSection`}>
-            {!permisionEdit && (
-                <CardsAddModal
-                    onAddCard={handleAddHeadline}
-                    onRemoveCard={handleRemoveHeadline}
-                    onUpdateCard={handleUpdateHeadline}
-                    cardInEdition={editingHeadline}
-                    onCancelEdit={handleCancelEdit}
-                />
-            )}
             <CardsSection type={'Headlines'} cardList={headlines} isEditable={permisionEdit} setOnEditCard={handleAddHeadline} />
         </div>
     );
