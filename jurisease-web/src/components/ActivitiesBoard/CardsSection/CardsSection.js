@@ -26,8 +26,12 @@ function CardsSection({ cardList }) {
                 setMaxVisibleCards(4);
             }
 
-            const totalSections = Math.ceil(cardList.length / maxVisibleCards);
-            setTotalSections(totalSections);
+            if (!!cardList && maxVisibleCards !== 0) {
+                const sections = Math.ceil(cardList.length / maxVisibleCards);
+                setTotalSections(sections);
+            } else {
+                setTotalSections(0);
+            }
         }
 
         window.addEventListener('resize', handleResize);
@@ -39,12 +43,14 @@ function CardsSection({ cardList }) {
     }, [cardList, maxVisibleCards]);
 
     useEffect(() => {
-        setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
+        if (!!cardList) {
+            setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
+        }
     }, [position, maxVisibleCards, cardList]);
 
     function handleScroll(direction) {
         const minPosition = 0;
-        const maxPosition = Math.max(0, cardList.length - maxVisibleCards);
+        const maxPosition = Math.max(0, (!!cardList ? cardList.length : 0) - maxVisibleCards);
 
         setPosition((prevPosition) => {
             const newPosition = direction === 'left' ? prevPosition - 1 : prevPosition + 1;
@@ -75,7 +81,7 @@ function CardsSection({ cardList }) {
             </div>
 
             <div className="scroll-container">
-                {cardsVisibles.length > 0 && cardsVisibles.map((card, index) => (
+                {!!cardsVisibles && cardsVisibles.length > 0 && cardsVisibles.map((card) => (
                     <Card data={card} isEditable={true} setOnEditCard={() => { console.log('Edit') }} />
                 ))}
             </div>
@@ -89,7 +95,8 @@ function CardsSection({ cardList }) {
             </button>
 
             <div className="section-indicators">
-                {Array.from({ length: !!totalSections ? totalSections : 0 }).map((_, index) => (
+                {console.log("totalSections", totalSections)}
+                {Array.from({ length: totalSections || 0 }).map((_, index) => (
                     <div
                         key={index}
                         className={`section-indicator ${currentSection === index + 1 ? 'active' : ''}`}
