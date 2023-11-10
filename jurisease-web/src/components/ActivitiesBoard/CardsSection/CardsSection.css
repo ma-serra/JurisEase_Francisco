@@ -8,8 +8,8 @@
 }
 
 .cards-section-title {
-    height: 5%;
-    margin: 5px 0 15px 0;
+    height: 20px;
+    margin: 10px 0 10px 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -18,8 +18,9 @@
     font-size: small;
 }
 
-.cards-section-title h1{
+.cards-section-title h1 {
     margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .scroll-container {
@@ -55,9 +56,15 @@
 }
 
 .bt-add-card {
-    font-size: 30px;
-    margin-left: .5em;
-    margin-right: .5em;
+    font-size: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    &:hover {
+        margin-left: 5px;
+        font-size: 30px;
+        box-shadow: 0px 0px 3px var(--contrast-primary-dark);
+    }
 }
 
 .scroll-button.left {
@@ -75,6 +82,12 @@
     cursor: pointer;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
     z-index: 1;
+
+    &:hover {
+        background-color: var(--white);
+        color: var(--primary-dark-50);
+        box-shadow: 0px 0px 5px var(--contrast-primary-dark);
+    }
 }
 
 .scroll-button.right {
@@ -92,6 +105,12 @@
     cursor: pointer;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
     z-index: 1;
+
+    &:hover {
+        background-color: var(--white);
+        color: var(--primary-dark-50);
+        box-shadow: 0px 0px 5px var(--contrast-primary-dark);
+    }
 }
 
 .icon-arrow {
@@ -101,7 +120,9 @@
 .section-indicators {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 10px;
+    height: 9px;
 }
 
 .section-indicator {
@@ -112,6 +133,12 @@
     margin: 0 3px;
     cursor: pointer;
     background-color: var(--primary-dark-50);
+
+    &:hover {
+        width: 9px;
+        height: 9px;
+        box-shadow: 0px 0px 5px var(--contrast-primary-dark);
+    }
 }
 
 .section-indicator.active {
@@ -135,4 +162,10 @@
     max-width: 200px;
 
     white-space: nowrap;
+
+    &:hover {
+        background-color: var(--white);
+        color: var(--primary-dark-50);
+        box-shadow: 0px 0px 5px var(--contrast-primary-dark);
+    }
 }
