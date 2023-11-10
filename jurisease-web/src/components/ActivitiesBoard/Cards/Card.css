@@ -57,3 +57,36 @@
 .icon-pencil {
     font-size: 30px;
 }
+
+@media (min-width: 500px) {
+    .bt-edit {
+        width: 50px;
+        height: 50px;
+    }
+
+    .icon-pencil {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 500px) {
+    .bt-edit {
+        width: 40px;
+        height: 40px;
+    }
+
+    .icon-pencil {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 300px) {
+    .bt-edit {
+        width: 30px;
+        height: 30px;
+    }
+
+    .icon-pencil {
+        font-size: 20px;
+    }
+}

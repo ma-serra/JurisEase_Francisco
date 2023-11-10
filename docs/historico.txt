@@ -144,6 +144,21 @@
     12:00 - 20:00
     - Frontend geral (Figma)
 
-06/11/2023
     20:00 - 03:00
     - Reestruturação Frontend e respansividade
+
+07/11/2023
+    16:00 - 18:00
+    - Refatorando o Frontend
+
+08/11/2023
+    12:00 - 17:00
+    - Implementando services and headlines DAO
+    - Refatorando o Frontend
+
+09/11/2023
+    10:00 - 12:00
+    - Implementando CardsSections e Cards
+
+    18:30 - 19:00
+    - Melhorando CardsSections
