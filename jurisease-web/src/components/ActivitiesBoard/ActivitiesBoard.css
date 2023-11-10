@@ -1,6 +1,11 @@
 .ActivitiesBoard {
+    width: 90%;
+    margin: 0 5%;
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .search-activities {
@@ -12,6 +17,20 @@
     padding: 7.5px;
 }
 
-.search-activities .Search{
+.ServicesSection, .HeadlinesSection {
+    width: 100%;
+    max-width: 1000px;
+    height: 300px;
+}
 
+@media (min-width: 500px) {
+    .ServicesSection, .HeadlinesSection {
+        height: 320px;
+    }
+}
+
+@media (max-width: 500px) {
+    .ServicesSection, .HeadlinesSection {
+        height: 280px;
+    }
 }

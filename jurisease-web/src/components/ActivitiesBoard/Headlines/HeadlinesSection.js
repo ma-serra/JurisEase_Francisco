@@ -1,9 +1,11 @@
+import './HeadlinesSection.css'
 import React, { useEffect, useState } from 'react';
 import CardsAddModal from '../Cards/CardsAddModal';
-import Cards from '../Cards/Cards';
+import CardsSection from '../CardsSection/CardsSection';
 import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../../../utils/data_base/firebase/dao/headlinesDAO';
+import { removeObjetosVazios } from '../../../utils/tools'
 
-function HeadlineSection({ orientation, device, permisionEdit }) {
+function HeadlineSection({ permisionEdit }) {
     const [headlines, setHeadlines] = useState([]);
     const [editingHeadline, setEditingHeadline] = useState(null);
 
@@ -16,10 +18,10 @@ function HeadlineSection({ orientation, device, permisionEdit }) {
     };
 
     useEffect(() => {
-        // Função para buscar e ouvir mudanças nas manchetes
         const fetchHeadlinesAndListen = () => {
             getHeadlines((headlinesData) => {
-                setHeadlines(headlinesData);
+                const cards = removeObjetosVazios([...headlinesData, ...headlinesData, ...headlinesData, ...headlinesData])
+                setHeadlines(cards);
             });
         };
 
@@ -39,18 +41,17 @@ function HeadlineSection({ orientation, device, permisionEdit }) {
     };
 
     return (
-        <div className={`headlines-content ${orientation} ${device}`}>
-            <h1>Áreas de Manchetes</h1>
-            {permisionEdit && (
+        <div className={`HeadlinesSection`}>
+            {!permisionEdit && (
                 <CardsAddModal
-                onAddCard={handleAddHeadline}
-                onRemoveCard={handleRemoveHeadline}
-                onUpdateCard={handleUpdateHeadline}
-                cardInEdition={editingHeadline}
-                onCancelEdit={handleCancelEdit}
+                    onAddCard={handleAddHeadline}
+                    onRemoveCard={handleRemoveHeadline}
+                    onUpdateCard={handleUpdateHeadline}
+                    cardInEdition={editingHeadline}
+                    onCancelEdit={handleCancelEdit}
                 />
-                )}
-            <Cards cards={headlines} onEditCard={handleEditHeadline} permisionEdit={permisionEdit} />
+            )}
+            <CardsSection type={'Headlines'} cardList={headlines} isEditable={permisionEdit} setOnEditCard={handleAddHeadline} />
         </div>
     );
 }

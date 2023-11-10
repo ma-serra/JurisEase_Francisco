@@ -162,3 +162,7 @@
 
     18:30 - 19:00
     - Melhorando CardsSections
+
+10/11/2023
+    09:00 - 10:00
+    - CardsSections hover

@@ -20,7 +20,7 @@ function Test() {
     // Função para buscar e ouvir mudanças nos serviços
     const fetchServicesAndListen = () => {
       getServices((servicesData) => {
-        const cards = [...servicesData, ...servicesData, ...servicesData, ...servicesData]
+        const cards = [servicesData[0]]
         setServices(removeObjetosVazios(cards));
         setLoading(false);
       });

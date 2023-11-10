@@ -1,10 +1,11 @@
 import './ServiceSection.css'
 import React, { useEffect, useState } from 'react';
 import CardsAddModal from '../Cards/CardsAddModal';
-import Cards from '../Cards/Cards';
+import CardsSection from '../CardsSection/CardsSection';
 import { getServices, addService, removeService, updateService } from '../../../utils/data_base/firebase/dao/servicesDAO';
+import { removeObjetosVazios } from '../../../utils/tools'
 
-function ServiceSection ({ orientation, device, permisionEdit }) {
+function ServiceSection ({ permisionEdit }) {
     const [services, setServices] = useState([]);
     const [editingService, setEditingService] = useState(null);
 
@@ -17,10 +18,10 @@ function ServiceSection ({ orientation, device, permisionEdit }) {
     };
 
     useEffect(() => {
-        // Função para buscar e ouvir mudanças nos serviços
         const fetchServicesAndListen = () => {
             getServices((servicesData) => {
-                setServices(servicesData);
+                const cards = removeObjetosVazios([...servicesData, ...servicesData, ...servicesData, ...servicesData])
+                setServices(cards);
             });
         };
 
@@ -40,19 +41,8 @@ function ServiceSection ({ orientation, device, permisionEdit }) {
     };
 
     return (
-        <div className={`services-content ${orientation} ${device}`}>
-            <h1>Áreas de Serviços</h1>
-            {permisionEdit && (
-                <CardsAddModal
-                onAddCard={handleAddService}
-                onRemoveCard={handleRemoveService}
-                onUpdateCard={handleUpdateService}
-                cardInEdition={editingService}
-                onCancelEdit={handleCancelEdit}
-            />
-            )}
-            
-            <Cards cards={services} onEditCard={handleEditService} permisionEdit={permisionEdit}/>
+        <div className={`ServicesSection`}>
+            <CardsSection type={'Services'} cardList={services} isEditable={permisionEdit} setOnEditCard={handleEditService}/>
         </div>
     );
 }

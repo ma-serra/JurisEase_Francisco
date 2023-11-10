@@ -6,7 +6,7 @@ import Card from '../Cards/Card';
 import { MdLibraryAdd } from 'react-icons/md';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
-function CardsSection({ cardList }) {
+function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
     const [cardsVisibles, setCardsVisibles] = useState([]);
     const [position, setPosition] = useState(0);
     const [maxVisibleCards, setMaxVisibleCards] = useState(0);
@@ -30,7 +30,7 @@ function CardsSection({ cardList }) {
                 const sections = Math.ceil(cardList.length / maxVisibleCards);
                 setTotalSections(sections);
             } else {
-                setTotalSections(0);
+                setTotalSections(1);
             }
         }
 
@@ -44,7 +44,11 @@ function CardsSection({ cardList }) {
 
     useEffect(() => {
         if (!!cardList) {
-            setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
+            if (cardList.length <= maxVisibleCards) {
+                setCardsVisibles(cardList);
+            } else {
+                setCardsVisibles(cardList.slice(position, position + maxVisibleCards));
+            }
         }
     }, [position, maxVisibleCards, cardList]);
 
@@ -76,13 +80,15 @@ function CardsSection({ cardList }) {
     return (
         <div className="CardsSection">
             <div className='cards-section-title'>
-                <h1>Cards </h1>
-                <MdLibraryAdd className='bt-add-card' />
+                <h1>{type}</h1>
+                {isEditable && (
+                    <MdLibraryAdd className='bt-add-card' />
+                )}
             </div>
 
             <div className="scroll-container">
                 {!!cardsVisibles && cardsVisibles.length > 0 && cardsVisibles.map((card) => (
-                    <Card data={card} isEditable={true} setOnEditCard={() => { console.log('Edit') }} />
+                    <Card data={card} isEditable={isEditable} setOnEditCard={setOnEditCard} />
                 ))}
             </div>
 
@@ -96,6 +102,7 @@ function CardsSection({ cardList }) {
 
             <div className="section-indicators">
                 {console.log("totalSections", totalSections)}
+                {console.log("cards", cardsVisibles.length)}
                 {Array.from({ length: totalSections || 0 }).map((_, index) => (
                     <div
                         key={index}
@@ -107,7 +114,7 @@ function CardsSection({ cardList }) {
 
             <div className='section-bt-mostrar-todos'>
                 <button className="bt-mostrar-todos" onClick={() => handleScroll('right')}>
-                    Todos os cards
+                    Todos os {type.toLowerCase()}
                 </button>
             </div>
 

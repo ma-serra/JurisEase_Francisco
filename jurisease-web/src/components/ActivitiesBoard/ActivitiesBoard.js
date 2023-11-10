@@ -8,13 +8,13 @@ function ActivitiesBoard() {
 
     return (
         <section className={`ActivitiesBoard`}>
-            {/*
             <div className='search-activities'>
                 <Search />
             </div>
-            <ServicesSection />
-            <HeadlinesSection />
-            */}
+
+            <ServicesSection permisionEdit={true} />
+            <HeadlinesSection permisionEdit={true} />
+
         </section>
     );
 }
