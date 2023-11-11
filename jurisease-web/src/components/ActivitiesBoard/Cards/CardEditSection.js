@@ -1,9 +1,12 @@
+import './CardEditSection.css'
 import React, { useEffect, useState } from 'react';
+import { isEmptyObject } from '../../../utils/tools'
 
-function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, onCancelEdit }) {
+function CardEditSection({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, onCancelEdit }) {
+  const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [cardData, setCardData] = useState({
-    image: '/images/clique-aqui.png',
+    image: './images/clique-aqui.png',
     title: '',
     description: '',
     link: '',
@@ -13,11 +16,11 @@ function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, on
     if (cardInEdition) {
       setCardData({
         id: cardInEdition.id,
-        image: cardInEdition.image,
+        image: cardInEdition.image || './images/clique-aqui.png',
         title: cardInEdition.title,
         description: cardInEdition.description,
         link: cardInEdition.link,
-        create: cardInEdition.create,
+        createdAt: cardInEdition.createdAt,
       });
 
       setIsOpen(true);
@@ -45,21 +48,23 @@ function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, on
   };
 
   const applyCardOperation = () => {
-    const card = {
-      ...cardData,
-    };
+    if (cardData.image && cardData.title && cardData.description && cardData.link) {
+      if (!isEmptyObject(cardInEdition)) {
+        // Se há um card em edição, atualize-o
+        console.log('uppdate')
+        onUpdateCard(cardData);
+      } else {
+        // Caso contrário, adicione um novo card
+        console.log('add')
+        onAddCard(cardData);
+      }
 
-    if (cardInEdition) {
-      // Se há um card em edição, atualize-o
-      onUpdateCard(cardData);
+      resetCardData();
+      setIsOpen(false);
+
     } else {
-      // Caso contrário, adicione um novo card
-      onAddCard(card);
+      setError('Preencha todos os campos.');
     }
-
-    resetCardData();
-
-    setIsOpen(false);
   };
 
   const deleteCard = () => {
@@ -84,22 +89,30 @@ function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, on
   };
 
   return (
-    <div className='content-card-modal'>
-      {!isOpen && (
-        <button className='bt-form' onClick={openModal}>
+    <div className='CardEditSection'>
+      {isEmptyObject(cardInEdition) && (
+        <h1 onClick={openModal}>
           Adicionar Novo Card
-        </button>
+        </h1>
+      )}
+
+      {!isEmptyObject(cardInEdition) && (
+        <h1 onClick={openModal}>
+          Atualizar Card
+        </h1>
       )}
 
       {isOpen && (
-        <div className="add-card-modal">
-          <button className="bt-form bt-cancelar" onClick={cancelCard}> X </button>
-          <img
+        <div className="CardEdit">
+          <button className="bt-close" onClick={cancelCard}> X </button>
+
+          <img className='card-edit-image'
             src={cardData.image}
             alt="Imagem do Card"
             onClick={() => document.getElementById('fileInput').click()}
           />
-          <form onSubmit={handleApply}>
+
+          <form className="card-edit-content" onSubmit={handleApply}>
             <input
               type="file"
               accept="image/*"
@@ -125,14 +138,15 @@ function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, on
               onChange={(e) => setCardData({ ...cardData, link: e.target.value })}
             />
           </form>
-          <div className='bt-form-card-modal'>
-            {cardInEdition && (
-              <button className='bt-form cancel' onClick={deleteCard}>
+          {error && <p className="msg-error">{error}</p>}
+          <div className='bts-actions'>
+            {!isEmptyObject(cardInEdition) && (
+              <button className='bt-cancel' onClick={deleteCard}>
                 Deletar
               </button>
             )}
-            <button className="bt-form add" onClick={handleApply}>
-              {cardInEdition ? 'Atualizar' : 'Adicionar'}
+            <button className="bt-add" onClick={handleApply}>
+              {!isEmptyObject(cardInEdition) ? 'Atualizar' : 'Adicionar'}
             </button>
           </div>
         </div>
@@ -141,4 +155,4 @@ function CardAddModal({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, on
   );
 }
 
-export default CardAddModal;
+export default CardEditSection;

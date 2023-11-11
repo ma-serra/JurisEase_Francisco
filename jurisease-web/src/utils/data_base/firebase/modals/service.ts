@@ -1,7 +1,7 @@
 class Service {
   id: string;
   createdAt: string;
-  updateAt: string;
+  updatedAt: string;
   image: string;
   link: string;
   title: string;
@@ -10,7 +10,7 @@ class Service {
   constructor(
     id: string,
     createdAt: string,
-    updateAt: string,
+    updatedAt: string,
     image: string,
     link: string,
     title: string,
@@ -18,7 +18,7 @@ class Service {
   ) {
     this.id = id;
     this.createdAt = createdAt;
-    this.updateAt = updateAt;
+    this.updatedAt = updatedAt;
     this.image = image;
     this.link = link;
     this.title = title;

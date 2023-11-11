@@ -1,6 +1,6 @@
 import './ServiceSection.css'
 import React, { useEffect, useState } from 'react';
-import CardsAddModal from '../Cards/CardsAddModal';
+import CardEditSection from '../Cards/CardEditSection';
 import CardsSection from '../CardsSection/CardsSection';
 import { getServices, addService, removeService, updateService } from '../../../utils/data_base/firebase/dao/servicesDAO';
 import { removeObjetosVazios } from '../../../utils/tools'
@@ -13,14 +13,10 @@ function ServiceSection ({ permisionEdit }) {
         setEditingService(card);
     };
 
-    const handleCancelEdit = () => {
-        setEditingService(null);
-    };
-
     useEffect(() => {
         const fetchServicesAndListen = () => {
             getServices((servicesData) => {
-                const cards = removeObjetosVazios([...servicesData, ...servicesData, ...servicesData, ...servicesData])
+                const cards = removeObjetosVazios(servicesData)
                 setServices(cards);
             });
         };
@@ -28,21 +24,15 @@ function ServiceSection ({ permisionEdit }) {
         fetchServicesAndListen();
     }, []);
 
-    const handleAddService = (newService) => {
-        addService(newService);
-    };
-
-    const handleRemoveService = (serviceId) => {
-        removeService(serviceId);
-    };
-
-    const handleUpdateService = (serviceId) => {
-        updateService(serviceId);
-    };
-
     return (
         <div className={`ServicesSection`}>
-            <CardsSection type={'Services'} cardList={services} isEditable={permisionEdit} setOnEditCard={handleEditService}/>
+            {editingService && (
+                <CardEditSection cardInEdition={editingService} onCancelEdit={handleEditService} onAddCard={addService} onRemoveCard={removeService} onUpdateCard={updateService}/>
+            )}
+
+            {!editingService && (
+                <CardsSection type={'Serviços'} cardList={services} isEditable={permisionEdit} setOnEditCard={handleEditService} />
+            )}
         </div>
     );
 }

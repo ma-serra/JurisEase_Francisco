@@ -2,18 +2,21 @@ import { set, remove, update, onValue } from 'firebase/database';
 
 import { generateCustomID, getCurrentFormattedDate } from '../../../tools';
 import { getRef } from '../firebaseConfig'
+import { createHeadlineByData } from '../dataProcessing';
 
 
 export const  addHeadline = async (headlineData) => {
 
     const headlineID = generateCustomID("headline");
     headlineData.id = headlineID
-    headlineData.create = getCurrentFormattedDate();
+    headlineData.createdAt = getCurrentFormattedDate();
+
+    const headline = createHeadlineByData(headlineData)
     const headlineRef = await getRef(`headlines/${headlineID}`);
   
-    console.log('addHeadline:', headlineData)
+    console.log('addHeadline:', headline)
   
-    set(headlineRef, headlineData)
+    set(headlineRef, headline)
       .then(() => {
         console.log('Serviço adicionado com sucesso.');
       })
@@ -48,7 +51,7 @@ export const  addHeadline = async (headlineData) => {
   
   export const updateHeadline = async (headlineData) => {
     console.log('updateHeadline')
-    headlineData.updateAt = getCurrentFormattedDate();
+    headlineData.updatedAt = getCurrentFormattedDate();
     console.log("id: " + headlineData.id)
     console.log('data:', headlineData)
   

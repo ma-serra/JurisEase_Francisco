@@ -2,17 +2,22 @@ import { set, remove, update, onValue } from 'firebase/database';
 
 import { generateCustomID, getCurrentFormattedDate } from '../../../tools';
 import { getRef } from '../firebaseConfig'
+import { createServiceByData } from '../dataProcessing';
 
 export const addService = async (serviceData) => {
 
     const serviceID = generateCustomID("service");
     serviceData.id = serviceID
-    serviceData.create = getCurrentFormattedDate();
+    serviceData.createdAt
+    = getCurrentFormattedDate();
+
+    const service = createServiceByData(serviceData)
     const serviceRef = await getRef(`services/${serviceID}`);
   
-    console.log('addService:', serviceData)
+    console.log('serviceData.createdAt: ', serviceData.createdAt)
+    console.log('addService:', service)
   
-    set(serviceRef, serviceData)
+    set(serviceRef, service)
       .then(() => {
         console.log('Serviço adicionado com sucesso.');
       })
@@ -64,9 +69,8 @@ export const addService = async (serviceData) => {
   
   export const updateService = async (serviceData) => {
     console.log('updateService')
-    serviceData.updateAt = getCurrentFormattedDate();
-    console.log("id: " + serviceData.id)
-    console.log('data:', serviceData)
+    serviceData.updatedAt = getCurrentFormattedDate();
+    console.log("service: ", serviceData)
   
     const serviceRef = await getRef(`services/${serviceData.id}`);
   

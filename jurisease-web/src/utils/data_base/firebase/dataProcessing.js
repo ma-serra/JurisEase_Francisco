@@ -1,4 +1,4 @@
-import Usuario from "./modals/user.ts";
+import User from "./modals/user.ts";
 import Service from "./modals/service.ts";
 import Headline from "./modals/headline.ts";
 
@@ -36,7 +36,7 @@ export function createUserByData(data) {
     throw new Error(`Campos obrigatórios não fornecidos: ${missingFields.join(', ')}`);
   }
 
-  const user = new Usuario(
+  const user = new User(
     uid,
     accessToken,
     email,
@@ -61,9 +61,6 @@ export function createServiceByData(data) {
   if (!id) {
     missingFields.push('id');
   }
-  if (!createdAt) {
-    missingFields.push('createdAt');
-  }
   if (!image) {
     missingFields.push('image');
   }
@@ -84,7 +81,7 @@ export function createServiceByData(data) {
   const service = new Service (
     id,
     createdAt,
-    updatedAt,
+    updatedAt || createdAt,
     image,
     link,
     title,
@@ -100,9 +97,6 @@ export function createHeadlineByData(data) {
 
   if (!id) {
     missingFields.push('id');
-  }
-  if (!createdAt) {
-    missingFields.push('createdAt');
   }
   if (!image) {
     missingFields.push('image');
@@ -124,7 +118,7 @@ export function createHeadlineByData(data) {
   const headline = new Headline (
     id,
     createdAt,
-    updatedAt,
+    updatedAt || createdAt,
     image,
     link,
     title,

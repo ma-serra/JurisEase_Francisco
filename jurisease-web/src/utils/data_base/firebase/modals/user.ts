@@ -1,4 +1,4 @@
-class Usuario {
+export class User {
     uid: string;
     accessToken: string;
     email: string;
@@ -11,7 +11,7 @@ class Usuario {
     type: string;
     oab: string;
     acessAdmin: boolean;  
-    updateAt: string;
+    updatedAt: string;
   
     constructor(
       uid: string,
@@ -26,7 +26,7 @@ class Usuario {
       type: string,
       oab: string,
       acessAdmin: boolean,
-      updateAt: string,
+      updatedAt: string,
     ) {
       this.uid = uid;
       this.accessToken = accessToken;
@@ -40,8 +40,8 @@ class Usuario {
       this.type = type;
       this.oab = oab;
       this.acessAdmin = acessAdmin;
-      this.updateAt = updateAt;
+      this.updatedAt = updatedAt;
     }
   }
   
-  export default Usuario;
+  export default User;

@@ -5,7 +5,6 @@ import { createUserByData } from '../../../data_base/firebase/dataProcessing';
 import { getRef } from '../firebaseConfig'
 
 export const addUser = async (userData) => {
-
   const user = createUserByData(userData)
   const userRef = await getRef(`users/${userData.uid}`);
 
@@ -52,7 +51,7 @@ export const getUser = async (uid) => {
 
 export const updateUser = async (user) => {
 
-  user.updateAt = getCurrentFormattedDate();
+  user.updatedAt = getCurrentFormattedDate();
   const userRef = await getRef(`users/${user.uid}`);
 
   console.log('updateUser:', user)
@@ -60,7 +59,7 @@ export const updateUser = async (user) => {
   try {
     update(userRef, user);
     console.log("Usuario atualizado com sucesso.");
-    
+
   } catch (error) {
     console.error("Erro ao atualizar o usuario:", error);
   }

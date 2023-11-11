@@ -63,3 +63,7 @@ export async function comparePassword(inputPassword, storedPassword) {
 export function removeObjetosVazios(lista) {
   return lista.filter(objeto => typeof objeto === 'object');
 }
+
+export function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0;
+}

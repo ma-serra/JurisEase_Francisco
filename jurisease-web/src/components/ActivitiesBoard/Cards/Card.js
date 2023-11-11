@@ -4,7 +4,6 @@ import React from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 
 function Card({ data, isEditable, setOnEditCard }) {
-
     const handleCardClick = () => {
         window.open('https://' + data.link, '_blank');
     };
@@ -15,7 +14,6 @@ function Card({ data, isEditable, setOnEditCard }) {
     };
 
     if (!data || !data.id) {
-        console.log(data)
         return null;
     }
 

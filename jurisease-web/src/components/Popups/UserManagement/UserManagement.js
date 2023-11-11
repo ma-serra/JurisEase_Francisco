@@ -93,7 +93,6 @@ function UserManagement({ device, close, user }) {
             window.location.reload();
 
         } catch (e) {
-            console.log(e.message)
             setError(e.message)
         }
     }

@@ -14,6 +14,10 @@ function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
     const [totalSections, setTotalSections] = useState(1);
     const [currentSection, setCurrentSection] = useState(1);
 
+    const handleNewCard = () => {
+        setOnEditCard({});
+    };
+
     useEffect(() => {
         function handleResize() {
             if (window.innerWidth < 500) {
@@ -26,7 +30,7 @@ function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
                 setMaxVisibleCards(4);
             }
 
-            if (!!cardList && maxVisibleCards !== 0) {
+            if (cardList && maxVisibleCards !== 0) {
                 const sections = Math.ceil(cardList.length / maxVisibleCards);
                 setTotalSections(sections);
             } else {
@@ -74,7 +78,19 @@ function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
     }
 
     if (!cardList || cardList.length === 0) {
-        return null;
+        return (
+            <div className="CardsSection">
+                <div className='cards-section-title'>
+                    <h1>{type}</h1>
+                    {isEditable && (
+                        <MdLibraryAdd className='bt-add-card' onClick={handleNewCard} />
+                    )}
+
+                </div>
+                <h1>Nenhum Card adicionado!</h1>
+            </div>
+
+        );
     }
 
     return (
@@ -82,13 +98,13 @@ function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
             <div className='cards-section-title'>
                 <h1>{type}</h1>
                 {isEditable && (
-                    <MdLibraryAdd className='bt-add-card' />
+                    <MdLibraryAdd className='bt-add-card' onClick={handleNewCard} />
                 )}
             </div>
 
             <div className="scroll-container">
-                {!!cardsVisibles && cardsVisibles.length > 0 && cardsVisibles.map((card) => (
-                    <Card data={card} isEditable={isEditable} setOnEditCard={setOnEditCard} />
+                {cardsVisibles && cardsVisibles.length > 0 && cardsVisibles.map((card) => (
+                    <Card key={card.id} data={card} isEditable={isEditable} setOnEditCard={setOnEditCard} />
                 ))}
             </div>
 
@@ -101,8 +117,6 @@ function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
             </button>
 
             <div className="section-indicators">
-                {console.log("totalSections", totalSections)}
-                {console.log("cards", cardsVisibles.length)}
                 {Array.from({ length: totalSections || 0 }).map((_, index) => (
                     <div
                         key={index}
