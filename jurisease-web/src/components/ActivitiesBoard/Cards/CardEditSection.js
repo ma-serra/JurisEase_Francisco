@@ -141,7 +141,7 @@ function CardEditSection({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition,
           {error && <p className="msg-error">{error}</p>}
           <div className='bts-actions'>
             {!isEmptyObject(cardInEdition) && (
-              <button className='bt-cancel' onClick={deleteCard}>
+              <button className='bt-delete' onClick={deleteCard}>
                 Deletar
               </button>
             )}

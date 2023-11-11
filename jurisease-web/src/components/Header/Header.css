@@ -18,6 +18,8 @@
 .left-container {
   flex: 1;
   justify-content: left;
+
+  cursor: pointer;
 }
 
 .left-container,
@@ -29,7 +31,7 @@
 }
 
 .right-container {
-  flex: 1;
+  flex: 3;
   justify-content: right;
 }
 
@@ -39,7 +41,7 @@
     height: 50px;
   }
 
-  .search {
+  .Header .Search {
     display: none;
   }
 
@@ -54,7 +56,7 @@
 
   .title {
     padding-left: 5px;
-    font-size: medium;
+    font-size: small;
     font-weight: 400;
     white-space: nowrap;
   }
@@ -80,25 +82,26 @@
     position: absolute;
     top: 50px;
     right: 0;
-
+  
     width: 100px;
-    height: 65px;
-    padding: 0;
+    padding: 2px;
 
+    max-height: 80px;
+  
     background-color: var(--primary-dark-50);
-
+  
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 5px;
   }
 
   .drop-down p {
-    font-size: xx-small;
-    margin: 0;
-    padding-top: 3px;
     width: 100%;
-    height: 100%;
-
+    font-size: x-small;
+    margin: 0;
+    padding: 2px;
+    cursor: pointer;
+  
     &:hover {
       color: var(--gray-50);
       background-color: var(--primary-dark-10);
@@ -150,37 +153,38 @@
     cursor: pointer;
   }
 
+  .user-name {
+    font-size: small;
+    white-space: nowrap;
+  }
+
   div.drop-down {
     position: absolute;
     top: 70px;
     right: 0;
-
+  
     width: 150px;
-    height: 70px;
-    padding: 0;
+    padding: 2px;
 
+    max-height: 140px;
+  
     background-color: var(--primary-dark-50);
-
+  
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 10px;
   }
-
+  
   .drop-down p {
-    font-size: small;
-    margin: 0;
-    padding-top: 5px;
     width: 100%;
-    height: 100%;
-
+    font-size: medium;
+    margin: 0;
+    padding: 2px;
+    cursor: pointer;
+  
     &:hover {
       color: var(--gray-50);
       background-color: var(--primary-dark-10);
     }
-  }
-
-  .user-name {
-    font-size: small;
-    white-space: nowrap;
   }
 }
