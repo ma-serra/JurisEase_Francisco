@@ -6,6 +6,7 @@ import Search from '../Search/Search';
 import { logout } from '../../utils/data_base/firebase/authentication'
 
 import { IoIosArrowDown } from 'react-icons/io';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header({ openAuth, user, openUserManagement }) {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -29,10 +30,16 @@ function Header({ openAuth, user, openUserManagement }) {
         setUserInfoOpen(!isUserInfoOpen);
     };
 
+    const navigate = useNavigate();
+
+    const navigateTo = ( link ) => {
+        navigate(`/${link}`);
+    };
+
     return (
         <header className={`Header`}>
 
-            <div className="left-container">
+            <div className="left-container" onClick={() => { navigateTo('')}}>
                 <div >
                     <img className="logo" src="images/logo.png" alt="Logo do Meu Site" />
                 </div>
@@ -70,10 +77,13 @@ function Header({ openAuth, user, openUserManagement }) {
                         <p className='user-name' onClick={toggleUserInfo}>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
                         {isUserInfoOpen && (
                             <div className="drop-down">
-                            <p onClick={toggleUserInfo}>Info</p>
-                            <p onClick={() => {toggleUserInfo(); openUserManagement()}}>Gerenciar Conta</p>
-                            <p onClick={() => {logout(); window.location.reload();}}>Sair</p>
-                        </div>
+                                {user.type === 'lawyer' && (
+                                    <p onClick={() => { navigateTo('docs-editor')}}>Docks Editor</p>
+                                )}
+                                <p onClick={() => { toggleUserInfo(); openUserManagement() }}>Gerenciar Conta</p>
+                                <p onClick={toggleUserInfo}>Info</p>
+                                <p onClick={() => { logout(); window.location.reload(); }}>Sair</p>
+                            </div>
                         )}
                     </div>
                 )}
