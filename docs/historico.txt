@@ -174,4 +174,7 @@
     17:00 - 19:30
     - Services and Headlines Sections Update
 
-    - Iniciando page DocsEditor
+    19:30 - 22:30
+    - Pequenas correções esteticas
+    - Navegação entre paginas DocksEditor - Home 
+    - Estrutura Inicial DocksEditor

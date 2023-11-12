@@ -27,7 +27,9 @@ function Header({ openAuth, user, openUserManagement }) {
     };
 
     const toggleUserInfo = () => {
-        setUserInfoOpen(!isUserInfoOpen);
+        if (!!openAuth){
+            setUserInfoOpen(!isUserInfoOpen);
+        }
     };
 
     const navigate = useNavigate();

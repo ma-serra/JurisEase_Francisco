@@ -11,8 +11,7 @@ import { useEffect, useState } from 'react';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
 import { getUser } from '../../utils/data_base/firebase/dao/userDAO'
 
-function Home({ orientation, device }) {
-  const [authenticated, setAuthenticated] = useState(false);
+function Home() {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState('none');
   const [isUserManagement, setIsUserManagement] = useState(false);
@@ -33,8 +32,6 @@ function Home({ orientation, device }) {
         const userData = await getUser(isAuthenticated);
         setUser(userData);
       }
-
-      setAuthenticated(isAuthenticated);
     }
 
     fetchUser(); // Chame a função de busca de usuário aqui
@@ -49,11 +46,11 @@ function Home({ orientation, device }) {
 
       {/* Popups */}
       {auth !== 'none' && (
-        <AuthPage device={device} toogleAuth={toogleAuth} auth={auth} />
+        <AuthPage toogleAuth={toogleAuth} auth={auth} />
       )}
 
       {user && !!isUserManagement && (
-        <UserManagement device={device} close={toogleIsUserManagement} user={user} />
+        <UserManagement close={toogleIsUserManagement} user={user} />
       )}
 
       <Footer />
