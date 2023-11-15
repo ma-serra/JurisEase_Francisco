@@ -3,6 +3,7 @@
 
   width: 100%;
   background-color: var(--primary-dark-50);
+  border-bottom: 5px solid var(--primary-dark-10);
 
   color: var(--white);
   display: flex;
@@ -38,7 +39,7 @@
 /* Estilos para telas pequenas */
 @media (max-width: 701px) {
   .Header {
-    height: 50px;
+    height: 40px;
   }
 
   .Header .Search{
@@ -80,7 +81,7 @@
 
   div.drop-down {
     position: absolute;
-    top: 50px;
+    top: 40px;
     right: 0;
   
     width: 100px;
@@ -118,7 +119,7 @@
 /* Estilos para telas médias a grandes */
 @media (min-width: 700px) {
   .Header {
-    height: 70px;
+    height: 60px;
   }
 
   .logo {
@@ -160,7 +161,7 @@
 
   div.drop-down {
     position: absolute;
-    top: 70px;
+    top: 60px;
     right: 0;
   
     width: 150px;

@@ -36,11 +36,11 @@ function DocsEditor() {
 
       <div className='dock-edit-actions'>
         <div className='generate-docks' onClick={() => { navigateTo('generate-docks')}}>
-          <p>Gerar Documentos</p>
+          <p className='action-title'>Gerar Documentos</p>
         </div>
 
         <div className='management-templates'>
-          <p>Gerenciar Templates</p>
+          <p className='action-title'>Gerenciar Templates</p>
         </div>
       </div>
     </div>

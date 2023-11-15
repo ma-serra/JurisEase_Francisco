@@ -30,7 +30,7 @@ function ServiceSection ({ permisionEdit }) {
                 <CardEditSection cardInEdition={editingService} onCancelEdit={handleEditService} onAddCard={addService} onRemoveCard={removeService} onUpdateCard={updateService}/>
             )}
 
-            {!editingService && (
+            {!editingService && (                
                 <CardsSection type={'Serviços'} cardList={services} isEditable={permisionEdit} setOnEditCard={handleEditService} />
             )}
         </div>

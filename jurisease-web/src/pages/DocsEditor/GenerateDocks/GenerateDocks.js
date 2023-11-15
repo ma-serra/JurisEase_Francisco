@@ -32,22 +32,31 @@ function GenerateDocks() {
 
                 {/* Folha à esquerda */}
                 <div className="left-panel">
-                    <div className="document-content">
-
-                        {/* Conteúdo da folha */}
-                        <p>Este é um parágrafo de exemplo dentro da folha.</p>
+                    <div className='sheet-content'>
+                        <div className="document-content">
+                            {/* Conteúdo da folha */}
+                            <h1>Título do Documento</h1>
+                            <p>Este é um parágrafo de exemplo dentro da folha.</p>
+                            <p>Outro parágrafo para ilustrar.</p>
+                            <ul>
+                                <li>Item 1</li>
+                                <li>Item 2</li>
+                                <li>Item 3</li>
+                            </ul>
+                        </div>
                     </div>
+
                 </div>
 
-                {/* Drawer na esquerda para configurações */}
-                <div className="drawer left-drawer">
-        
+                {/* Drawer na direita para configurações */}
+                <div className="right-drawer">
+
                     {/* Conteúdo do drawer de configurações */}
                 </div>
             </div>
 
             {/* Drawer inferior para progresso e navegação */}
-            <div className="drawer bottom-drawer">
+            <div className="bottom-drawer">
                 {/* Seção de progresso */}
                 <div className="progress-section">
                     <div className="sections">

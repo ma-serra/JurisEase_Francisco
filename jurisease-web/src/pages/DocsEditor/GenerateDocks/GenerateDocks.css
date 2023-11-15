@@ -1,3 +1,47 @@
 .GenerateDocks .Search {
     display: none;
 }
+
+.main-section {
+    display: flex;
+    justify-content: space-around;
+    background-color: brown;
+}
+
+.left-panel {
+    background-color: var(--gray-30);
+    flex: 3;
+
+    display: flex;
+    justify-content: center;
+}
+
+.sheet-content {
+    width: 210mm; /* Largura equivalente à largura de uma folha A4 */
+    height: 297mm; /* Altura equivalente à altura de uma folha A4 */
+    background-color: var(--white); /* Cor de fundo branca */
+    padding: 20px; /* Espaçamento interno para o conteúdo */
+    border: 1px solid #ccc; /* Borda cinza para simular as margens da folha */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    margin: 20px; /* Espaçamento externo para a "folha" */
+    display: inline-block; /* Permite a centralização horizontal */
+}
+
+.document-content {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.right-drawer {
+    background-color: var(--primary-dark-50);
+    flex: 1;
+}
+
+.bottom-drawer {
+    background-color: var(--primary-dark-50);
+}
+
+.bottom-drawer p {
+    margin: 0;
+}
