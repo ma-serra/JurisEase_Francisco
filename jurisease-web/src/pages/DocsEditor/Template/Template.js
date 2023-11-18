@@ -22,16 +22,21 @@ function Template() {
 
     useEffect(() => {
         async function fetchUser() {
-            const isAuthenticated = isUserAuthenticated();
+            try {
+                const isAuthenticated = isUserAuthenticated();
 
-            if (isAuthenticated) {
-                const userData = await getUser(isAuthenticated);
-                setUser(userData);
+                if (isAuthenticated) {
+                    const userData = await getUser(isAuthenticated);
+                    setUser(userData);
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
             }
         }
 
         fetchUser();
     }, []);
+
 
     // Drop Zone
     const [uploadedFile, setUploadedFile] = useState(null);
@@ -47,29 +52,24 @@ function Template() {
 
     const onDrop = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];
-
-
-        // Lógica para verificar se o upload foi bem-sucedido
-      
-        // Lógica para verificar se o upload foi bem-sucedido
         const uploadSuccessful = true; // Substitua por sua lógica real
-      
+
         if (uploadSuccessful) {
-          setUploadedFile(file);
-          setUploadStatus('Documento enviado com sucesso!');
-          setEditedTemplate({
-            ...editedTemplate,
-            doc: {
-              name: file.name,
-              type: file.type,
-              size: file.size,
-              uri: window.URL.createObjectURL(file), // Use 'uri' para a URL do documento
-            },
-          });
+            setUploadedFile(file);
+            setUploadStatus('Documento enviado com sucesso!');
+            setEditedTemplate({
+                ...editedTemplate,
+                doc: {
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    uri: window.URL.createObjectURL(file), // Use 'uri' para a URL do documento
+                },
+            });
         } else {
-          setUploadStatus('Falha ao enviar o documento. Tente novamente.');
+            setUploadStatus('Falha ao enviar o documento. Tente novamente.');
         }
-      }, [editedTemplate]);
+    }, [editedTemplate]);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
