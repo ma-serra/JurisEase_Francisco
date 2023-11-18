@@ -1,3 +1,6 @@
+import mammoth from 'mammoth';
+import html2pdf from 'html2pdf.js';
+
 export function generateCustomID(prefix) {
     const timestamp = new Date().getTime();
     const randomString = Math.random().toString(36).substring(2, 12);
@@ -66,4 +69,56 @@ export function removeObjetosVazios(lista) {
 
 export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
+}
+
+export async function convertDocToPdf(docFile) {
+  try {
+    // Convert DOC to HTML using mammoth.js
+    const { value } = await mammoth.extractRawText({ arrayBuffer: docFile });
+    
+    // Create a temporary div to hold the HTML content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = value;
+
+    // Convert HTML to PDF using html2pdf.js
+    const pdfBlob = await html2pdf(tempDiv);
+    return pdfBlob;
+  } catch (error) {
+    console.error('Error converting DOC to PDF:', error);
+    // Lança um erro ou retorna um valor indicando erro
+    throw new Error('Erro durante a conversão do DOC para PDF');
+  }
+}
+
+export async function convertDocxToPdf(docxFile) {
+  try {
+    // Convert DOCX to HTML using mammoth.js
+    const { value } = await mammoth.extractRawText({ arrayBuffer: docxFile });
+
+    // Create a temporary div to hold the HTML content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = value;
+
+    // Convert HTML to PDF using html2pdf.js
+    const pdfBlob = await html2pdf().from(tempDiv).outputPdf('blob');
+
+    // Verifique se pdfBlob é um Blob válido
+    if (!(pdfBlob instanceof Blob)) {
+      throw new Error('O objeto pdfBlob não é um Blob válido.');
+    }
+
+    // Crie o objeto no formato especificado
+    const pdfObject = {
+      name: 'converted-document.pdf',
+      type: 'application/pdf',
+      size: pdfBlob.size,
+      uri: URL.createObjectURL(pdfBlob),
+    };
+
+    // Retorne o objeto criado
+    return pdfObject;
+  } catch (error) {
+    console.error('Error converting DOCX to PDF:', error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
 }

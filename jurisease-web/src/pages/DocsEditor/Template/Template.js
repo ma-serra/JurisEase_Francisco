@@ -5,6 +5,7 @@ import Header from '../../../components/Header/Header';
 import CardTemplate from './CardTemplate/CardTemplate';
 import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
+import { convertDocxToPdf, savePdf } from '../../../utils/tools';
 
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 
@@ -39,7 +40,6 @@ function Template() {
 
 
     // Drop Zone
-    const [uploadedFile, setUploadedFile] = useState(null);
     const [uploadStatus, setUploadStatus] = useState(null);
 
     const dropzoneStyles = {
@@ -50,26 +50,52 @@ function Template() {
         cursor: 'pointer',
     };
 
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback(async (acceptedFiles) => {
         const file = acceptedFiles[0];
         const uploadSuccessful = true; // Substitua por sua lógica real
-
+    
         if (uploadSuccessful) {
-            setUploadedFile(file);
             setUploadStatus('Documento enviado com sucesso!');
-            setEditedTemplate({
-                ...editedTemplate,
-                doc: {
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    uri: window.URL.createObjectURL(file), // Use 'uri' para a URL do documento
-                },
-            });
+    
+            // Verifica se o arquivo é um documento do Word (.doc)
+            if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                console.log('Convertendo para PDF:', file);
+    
+                try {
+                    console.log("docx:", file)
+                    const pdf = await convertDocxToPdf(file);
+                    console.log("pdf:", pdf)
+    
+                    if (pdf) {
+                        // Se o PDF foi gerado com sucesso, atualiza o estado
+                        setEditedTemplate({
+                            ...editedTemplate,
+                            doc: pdf,
+                        });
+                    } else {
+                        throw new Error("Erro ao gerar arquivo!");
+                    }
+    
+                } catch (error) {
+                    console.error('Erro ao converter DOCX para PDF:', error);
+                    setUploadStatus('Erro ao converter o documento para PDF. Tente novamente.');
+                }
+            } else {
+                setEditedTemplate({
+                    ...editedTemplate,
+                    doc: {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        uri: window.URL.createObjectURL(file),
+                    },
+                });
+            }
         } else {
             setUploadStatus('Falha ao enviar o documento. Tente novamente.');
         }
     }, [editedTemplate]);
+    
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -148,7 +174,6 @@ function Template() {
     };
 
     const handleRemoveFile = () => {
-        setUploadedFile(null);
         setUploadStatus(null);
         setEditedTemplate({ ...editedTemplate, doc: null });
     };
@@ -198,13 +223,7 @@ function Template() {
                                     <input {...getInputProps()} />
                                     <p>Arraste e solte um arquivo DOC aqui ou clique para selecionar.</p>
                                 </div>
-                                {uploadedFile && (
-                                    <div>
-                                        <p>Nome do arquivo: {uploadedFile.name}</p>
-                                        <p>Pré-visualização:</p>
-  
-                                    </div>
-                                )}
+                                <embed src={editedTemplate.doc.uri} type='application/pdf' />
                             </div>
                         </label>
                         {uploadStatus && <p>{uploadStatus}</p>}
