@@ -1,0 +1,36 @@
+.CardTemplate {
+    background-color: var(--primary-dark-50);
+    border: 1px solid var(--primary-dark-90);
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    max-width: 300px;
+    width: 100%;
+    box-sizing: border-box; 
+    box-shadow: -5px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.CardTemplate:hover {
+    transform: scale(1.05);
+}
+
+.CardTemplate h1 {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.template-doc {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.CardTemplate p {
+    color: var(--white);
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

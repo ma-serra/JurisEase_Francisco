@@ -178,3 +178,14 @@
     - Pequenas correções esteticas
     - Navegação entre paginas DocksEditor - Home 
     - Estrutura Inicial DocksEditor
+
+15/11/2023
+    17:00 - 18:00
+    - BUG: Header Frontend
+    - BUG: AcessAdm para DocksEditor
+    - Figma: Page Templates
+
+17/11/2023
+    08:00 -
+    - Inicio do desenvolvimento da page Templates
+    - 
