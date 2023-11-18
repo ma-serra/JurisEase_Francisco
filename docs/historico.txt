@@ -186,6 +186,8 @@
     - Figma: Page Templates
 
 17/11/2023
-    08:00 -
+    08:00 - 16:00
     - Inicio do desenvolvimento da page Templates
-    - 
+
+    20:30 - 01:00
+    - Desenvolvimento da page Templates

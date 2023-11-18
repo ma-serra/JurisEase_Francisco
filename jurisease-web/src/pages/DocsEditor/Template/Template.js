@@ -11,62 +11,13 @@ import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 import { useDropzone } from 'react-dropzone';
 
 function Template() {
-    const [fileType, setFileType] = useState(null);
-    const [fileContent, setFileContent] = useState(null);
-
+    // User
     const [user, setUser] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [editedTemplate, setEditedTemplate] = useState({
         title: '',
         doc: null,
         rout: []
-    });
-
-    const [uploadedFile, setUploadedFile] = useState(null);
-    const [uploadStatus, setUploadStatus] = useState(null);
-
-    const dropzoneStyles = {
-        border: '2px dashed #cccccc',
-        borderRadius: '4px',
-        padding: '20px',
-        textAlign: 'center',
-        cursor: 'pointer',
-    };
-
-    const onDrop = useCallback((acceptedFiles) => {
-        const file = acceptedFiles[0];
-        console.log('Arquivo enviado:', file);
-
-        // Lógica para verificar se o upload foi bem-sucedido
-        const uploadSuccessful = true; // Substitua por sua lógica real
-
-        if (uploadSuccessful) {
-            setUploadedFile(file);
-            setUploadStatus('Documento enviado com sucesso!');
-            setEditedTemplate({ ...editedTemplate, doc: file });
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setFileType(file.type);
-                setFileContent(reader.result);
-            };
-
-            if (file.type.startsWith('image/')) {
-                reader.readAsDataURL(file);
-            } else {
-                // Lógica para tratar outros tipos de documentos (PDF, Word, etc.)
-                // Aqui você pode usar a biblioteca react-file-viewer ou outra
-                // abordagem adequada para exibir documentos.
-            }
-        } else {
-            setUploadStatus('Falha ao enviar o documento. Tente novamente.');
-        }
-    }, [editedTemplate]);
-
-
-    const { getRootProps, getInputProps } = useDropzone({
-        onDrop,
-        multiple: false,  // Adicione esta propriedade para garantir apenas um arquivo por vez
     });
 
     useEffect(() => {
@@ -82,6 +33,50 @@ function Template() {
         fetchUser();
     }, []);
 
+    // Drop Zone
+    const [uploadedFile, setUploadedFile] = useState(null);
+    const [uploadStatus, setUploadStatus] = useState(null);
+
+    const dropzoneStyles = {
+        border: '2px dashed #cccccc',
+        borderRadius: '4px',
+        padding: '20px',
+        textAlign: 'center',
+        cursor: 'pointer',
+    };
+
+    const onDrop = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+
+
+        // Lógica para verificar se o upload foi bem-sucedido
+      
+        // Lógica para verificar se o upload foi bem-sucedido
+        const uploadSuccessful = true; // Substitua por sua lógica real
+      
+        if (uploadSuccessful) {
+          setUploadedFile(file);
+          setUploadStatus('Documento enviado com sucesso!');
+          setEditedTemplate({
+            ...editedTemplate,
+            doc: {
+              name: file.name,
+              type: file.type,
+              size: file.size,
+              uri: window.URL.createObjectURL(file), // Use 'uri' para a URL do documento
+            },
+          });
+        } else {
+          setUploadStatus('Falha ao enviar o documento. Tente novamente.');
+        }
+      }, [editedTemplate]);
+
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        multiple: false,  // Adicione esta propriedade para garantir apenas um arquivo por vez
+    });
+
+    // Formulário
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -126,6 +121,12 @@ function Template() {
     const handleSaveTemplate = () => {
         // Handle logic for saving the edited template
         console.log('Saved Template:', editedTemplate);
+        closeDrawer();
+    };
+
+    const handleDeleteTemplate = () => {
+        // Handle logic for saving the edited template
+        console.log('Delete Template:', editedTemplate);
         closeDrawer();
     };
 
@@ -178,7 +179,7 @@ function Template() {
             {drawerOpen && (
                 <div className='drawer_template'>
                     <h2>Edit Template</h2>
-                    <MdDelete className='bt-template-delete' />
+                    <MdDelete className='bt-template-delete' onClick={handleDeleteTemplate} />
 
                     <form>
                         <label>
