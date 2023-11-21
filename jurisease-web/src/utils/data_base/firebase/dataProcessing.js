@@ -3,7 +3,10 @@ import Service from "./modals/service.ts";
 import Headline from "./modals/headline.ts";
 
 export function createUserByData(data) {
-  const { uid, accessToken, email, password, metadata, phoneNumber, address, name, type, oab, acessAdmin } = data;
+  const createdAt = data.metadata.creationTime;
+  const updatedAt = data.metadata.lastSignInTime || "";
+  const lastLoginAt = data.metadata.lastLoginAt || "";
+  const { uid, accessToken, email, password, phoneNumber, address, name, type, oab, acessAdmin } = data;
   const missingFields = [];
 
   if (!uid) {
@@ -18,18 +21,14 @@ export function createUserByData(data) {
   if (!password) {
     missingFields.push('password');
   }
-  if (!metadata) {
-    missingFields.push('metadata');
-  } else if (!metadata.creationTime) {
-    missingFields.push('metadata.createdAt');
-  } else if (!metadata.lastSignInTime) {
-    missingFields.push('metadata.lastLoginAt');
-  }
   if (!name) {
     missingFields.push('name');
   }
   if (!type) {
     missingFields.push('type');
+  }
+  if (!createdAt) {
+    missingFields.push('createdAt');
   }
 
   if (missingFields.length > 0) {
@@ -41,10 +40,11 @@ export function createUserByData(data) {
     accessToken,
     email,
     password,
-    metadata.creationTime,
-    metadata.lastSignInTime,
+    createdAt,
+    updatedAt,
+    lastLoginAt,
     phoneNumber || '',
-    address || '',
+    address || [],
     name,
     type,
     oab,

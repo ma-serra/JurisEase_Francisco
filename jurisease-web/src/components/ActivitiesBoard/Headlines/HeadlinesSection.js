@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import CardEditSection from '../Cards/CardEditSection';
 import CardsSection from '../CardsSection/CardsSection';
 import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../../../utils/data_base/firebase/dao/headlinesDAO';
-import { isEmptyObject, removeObjetosVazios } from '../../../utils/tools'
+import { isEmptyObject, removeObjetosVazios } from '../../../utils/tools/tools'
 
 function HeadlineSection({ permisionEdit }) {
     const [headlines, setHeadlines] = useState([]);

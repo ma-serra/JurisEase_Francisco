@@ -1,6 +1,6 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
-import { getCurrentFormattedDate } from '../../../tools';
+import { getCurrentFormattedDate } from '../../../tools/tools';
 import { createUserByData } from '../../../data_base/firebase/dataProcessing';
 import { getRef } from '../firebaseConfig'
 

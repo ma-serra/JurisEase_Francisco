@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import CardEditSection from '../Cards/CardEditSection';
 import CardsSection from '../CardsSection/CardsSection';
 import { getServices, addService, removeService, updateService } from '../../../utils/data_base/firebase/dao/servicesDAO';
-import { removeObjetosVazios } from '../../../utils/tools'
+import { removeObjetosVazios } from '../../../utils/tools/tools'
 
 function ServiceSection ({ permisionEdit }) {
     const [services, setServices] = useState([]);

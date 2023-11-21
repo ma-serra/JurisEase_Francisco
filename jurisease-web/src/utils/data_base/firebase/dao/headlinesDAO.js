@@ -1,6 +1,6 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
-import { generateCustomID, getCurrentFormattedDate } from '../../../tools';
+import { generateCustomID, getCurrentFormattedDate } from '../../../tools/tools';
 import { getRef } from '../firebaseConfig'
 import { createHeadlineByData } from '../dataProcessing';
 

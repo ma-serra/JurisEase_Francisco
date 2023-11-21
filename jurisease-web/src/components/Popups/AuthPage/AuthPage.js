@@ -2,7 +2,7 @@ import './AuthPage.css';
 import React, { useState } from 'react';
 import { signIn, register } from '../../../utils/data_base/firebase/authentication';
 import { addUser } from '../../../utils/data_base/firebase/dao/userDAO'
-import { validarOAB, encryptPassword } from '../../../utils/tools'
+import { validarOAB, encryptPassword } from '../../../utils/tools/tools'
 
 function AuthPage({ device, toogleAuth, auth }) {
   const initialFormData = {

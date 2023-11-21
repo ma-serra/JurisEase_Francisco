@@ -5,13 +5,14 @@ import Header from '../../../components/Header/Header';
 import CardTemplate from './CardTemplate/CardTemplate';
 import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
-import { convertDocxToPdf, savePdf } from '../../../utils/tools';
 
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 
 import { useDropzone } from 'react-dropzone';
 
 function Template() {
+    const [errorStatus, setErrorStatus] = useState(null);
+
     // User
     const [user, setUser] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -53,33 +54,14 @@ function Template() {
     const onDrop = useCallback(async (acceptedFiles) => {
         const file = acceptedFiles[0];
         const uploadSuccessful = true; // Substitua por sua lógica real
-    
+
         if (uploadSuccessful) {
             setUploadStatus('Documento enviado com sucesso!');
-    
+
             // Verifica se o arquivo é um documento do Word (.doc)
-            if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-                console.log('Convertendo para PDF:', file);
-    
-                try {
-                    console.log("docx:", file)
-                    const pdf = await convertDocxToPdf(file);
-                    console.log("pdf:", pdf)
-    
-                    if (pdf) {
-                        // Se o PDF foi gerado com sucesso, atualiza o estado
-                        setEditedTemplate({
-                            ...editedTemplate,
-                            doc: pdf,
-                        });
-                    } else {
-                        throw new Error("Erro ao gerar arquivo!");
-                    }
-    
-                } catch (error) {
-                    console.error('Erro ao converter DOCX para PDF:', error);
-                    setUploadStatus('Erro ao converter o documento para PDF. Tente novamente.');
-                }
+            if (file.type !== "application/pdf") {
+                setUploadStatus('O arquivo não é do tipo .pdf!');
+
             } else {
                 setEditedTemplate({
                     ...editedTemplate,
@@ -95,31 +77,59 @@ function Template() {
             setUploadStatus('Falha ao enviar o documento. Tente novamente.');
         }
     }, [editedTemplate]);
-    
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
-        multiple: false,  // Adicione esta propriedade para garantir apenas um arquivo por vez
+        multiple: false,
+        accept: 'application/pdf',
     });
 
-    // Formulário
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
+    
         if (name.startsWith('rout.')) {
             const routProperty = name.split('.')[1];
             const updatedRout = [...editedTemplate.rout];
             updatedRout[parseInt(routProperty, 10)] = value;
-
+    
             setEditedTemplate({
                 ...editedTemplate,
                 rout: updatedRout
             });
+        } else if (name.startsWith('doc.keys.')) {
+            const keyParts = name.split('.');
+            const keyIndex = parseInt(keyParts[2], 10);
+            const keyProperty = keyParts[3];
+    
+            setEditedTemplate((prevState) => {
+                const updatedDocKeys = prevState.doc && prevState.doc.keys
+                    ? [...prevState.doc.keys]
+                    : [];
+    
+                if (updatedDocKeys[keyIndex]) {
+                    updatedDocKeys[keyIndex] = {
+                        ...updatedDocKeys[keyIndex],
+                        [keyProperty]: value
+                    };
+                }
+    
+                return {
+                    ...prevState,
+                    doc: {
+                        ...prevState.doc,
+                        keys: updatedDocKeys
+                    }
+                };
+            });
         } else {
-            setEditedTemplate({ ...editedTemplate, [name]: value });
+            // Atualização do campo de título
+            setEditedTemplate((prevState) => ({
+                ...prevState,
+                title: value
+            }));
         }
     };
-
+    
 
     const handleAddTemplateClick = () => {
         setDrawerOpen(true);
@@ -145,10 +155,41 @@ function Template() {
     };
 
     const handleSaveTemplate = () => {
-        // Handle logic for saving the edited template
+        // Validar se o título está presente
+        if (!editedTemplate.title) {
+            setErrorStatus('Por favor, forneça um título para o template.');
+            return;
+        }
+    
+        // Validar se há um documento
+        if (!editedTemplate.doc || !editedTemplate.doc.name) {
+            setErrorStatus('Por favor, envie um documento.');
+            return;
+        }
+    
+        // Validar se há pelo menos um caminho e nenhum caminho vazio
+        if (!editedTemplate.rout || editedTemplate.rout.length === 0 || editedTemplate.rout.some(path => !path.trim())) {
+            setErrorStatus('Por favor, adicione pelo menos um caminho válido.');
+            return;
+        }
+    
+        // Validar se há pelo menos uma chave do documento e nenhuma chave vazia
+        if (
+            editedTemplate.doc.keys &&
+            editedTemplate.doc.keys.length > 0 &&
+            editedTemplate.doc.keys.some(key => !key.name.trim())
+        ) {
+            setErrorStatus('Por favor, preencha todas as chaves do documento.');
+            return;
+        }
+    
+        // Todas as validações passaram, você pode prosseguir com a lógica de salvamento
+        setErrorStatus(null)
         console.log('Saved Template:', editedTemplate);
-        closeDrawer();
+        //closeDrawer();
     };
+    
+
 
     const handleDeleteTemplate = () => {
         // Handle logic for saving the edited template
@@ -178,8 +219,40 @@ function Template() {
         setEditedTemplate({ ...editedTemplate, doc: null });
     };
 
+    const handleAddDocKey = () => {
+        setEditedTemplate(prevState => {
+            const updatedDocKeys = prevState.doc && prevState.doc.keys
+                ? [...prevState.doc.keys, { name: '', type: 'texto' }]
+                : [{ name: '', type: 'texto' }];
+
+            return {
+                ...prevState,
+                doc: {
+                    ...prevState.doc,
+                    keys: updatedDocKeys
+                }
+            };
+        });
+    };
+
+    const handleRemoveDocKey = (index) => {
+        setEditedTemplate(prevState => {
+            const updatedDocKeys = prevState.doc && prevState.doc.keys
+                ? prevState.doc.keys.filter((key, i) => i !== index)
+                : [];
+
+            return {
+                ...prevState,
+                doc: {
+                    ...prevState.doc,
+                    keys: updatedDocKeys
+                }
+            };
+        });
+    };
+
     const dataFake = [
-        { title: "Template 1", doc: "Doc_1", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
+        { title: "Template 1", doc: "Doc_1", rout: [] },
         { title: "Template 2", doc: "Doc_2", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
         { title: "Template 3", doc: "Doc_3", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
         { title: "Template 4", doc: "Doc_4", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
@@ -207,26 +280,32 @@ function Template() {
                     <MdDelete className='bt-template-delete' onClick={handleDeleteTemplate} />
 
                     <form>
-                        <label>
-                            Titulo:
-                            <input
-                                type='text'
-                                id='title'
-                                value={editedTemplate?.title || ''}
-                                onChange={handleInputChange}
-                            />
-                        </label>
-                        <label>
-                            Documento (.doc):
-                            <div className="file-preview" >
-                                <div {...getRootProps()} style={dropzoneStyles}>
-                                    <input {...getInputProps()} />
-                                    <p>Arraste e solte um arquivo DOC aqui ou clique para selecionar.</p>
+                        <div>
+                            <label>
+                                Titulo:
+                                <input
+                                    type='text'
+                                    id='title'
+                                    value={editedTemplate?.title || ''}
+                                    onChange={handleInputChange}
+                                />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                Documento (.doc):
+                                <div className="file-preview" >
+                                    <div {...getRootProps()} style={dropzoneStyles}>
+                                        <input {...getInputProps()} />
+                                        <p>Arraste e solte um arquivo DOC aqui ou clique para selecionar.</p>
+                                    </div>
+                                    <embed src={editedTemplate.doc.uri} type='application/pdf' />
                                 </div>
-                                <embed src={editedTemplate.doc.uri} type='application/pdf' />
-                            </div>
-                        </label>
-                        {uploadStatus && <p>{uploadStatus}</p>}
+                            </label>
+                        </div>
+                        <div>
+                            {uploadStatus && <p>{uploadStatus}</p>}
+                        </div>
                         <div>
                             <label>Caminho:</label>
                             {editedTemplate.rout.map((subAssunto, index) => (
@@ -245,12 +324,53 @@ function Template() {
                                     )}
                                 </div>
                             ))}
+                            {editedTemplate.rout.length === 0 && (
+                                <button className="bt-rout" onClick={handleAddSubAssunto}>Adicionar Caminho</button>
+                            )}
+                        </div>
+                        <div>
+                            <label>Chaves do Documento:</label>
+                            {editedTemplate.doc && editedTemplate.doc.keys && editedTemplate.doc.keys.map((key, index) => (
+                                <div className='doc-key-item' key={index}>
+                                    <input
+                                        type='text'
+                                        name={`doc.keys.${index}.name`}
+                                        placeholder='Chave'
+                                        value={key.name}
+                                        onChange={handleInputChange}
+                                    />
+                                    <select
+                                        name={`doc.keys.${index}.type`}
+                                        value={key.type}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value='texto'>Texto</option>
+                                        <option value='monetário'>Monetário</option>
+                                        <option value='data'>Data</option>
+                                        <option value='inteiro'>Inteiro</option>
+                                        {/* Adicione outros tipos conforme necessário */}
+                                    </select>
+                                    {editedTemplate.doc.keys.length === index + 1 && (
+                                        <button className="bt-rout" onClick={handleAddDocKey}>+</button>
+                                    )}
+                                    {editedTemplate.doc.keys.length > 1 && (
+                                        <button className="bt-rout" onClick={() => handleRemoveDocKey(index)}>-</button>
+                                    )}
+                                </div>
+                            ))}
+                            {(!editedTemplate.doc || !editedTemplate.doc.keys || editedTemplate.doc.keys.length === 0) && (
+                                <button className="bt-rout" onClick={handleAddDocKey}>Adicionar Chave do Documento</button>
+                            )}
                         </div>
                     </form>
 
                     <div className='template-bts-act'>
                         <button className="bt-cancelar" onClick={closeDrawer}>Cancelar</button>
                         <button className="bt-aplicar" onClick={handleSaveTemplate}>Aplicar</button>
+                    </div>
+
+                    <div>
+                        {errorStatus && <p>{errorStatus}</p>}
                     </div>
                 </div>
             )}

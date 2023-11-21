@@ -148,6 +148,40 @@
     background-color: var(--red);
 }
 
+.doc-key-item {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.doc-key-item input {
+    width: 50%;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.doc-key-item select {
+    flex: 1; /* Ocupa todo o espaço disponível no contêiner */
+    padding: 5px;
+    margin: 0;
+    height: fit-content;
+    font-size: small; /* Tamanho da fonte ajustado */
+}
+
+.doc-key-item button {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.doc-key-item button:last-child {
+    margin-left: 0;
+}
+
+.doc-key-item .bt-rout {
+    height: 23px;
+    border-radius: 25%;
+    background-color: var(); /* Adicione a cor desejada */
+}
+
 @media (max-width: 700px) {
     .drawer_template {
         top: 45px;

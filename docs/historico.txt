@@ -1,199 +1,157 @@
+Histórico de Desenvolvimento e Horas Trabalhadas
 05/10/2023
-    11:30 - 12:00
-    - Criação do projeto:
-    - git: https://github.com/AndrewMarques2018/JurisEase_Francisco.git
-    - Estruturação base
-    - Planejamento
-
-    15:00 - 18:30
-    - configurar ambiente de desenvolvimento para React e React Native
-    --- Node.js (18.18.0 LTS), npm (9.8.1), PowerShell, react-native (11.3.7)
-    - Criar projeto React
-    --- npx create-react-app jurisease
-    --- npm start
-
-    18:30 - 19:00
-    - desenvolvimento da página web (estrutura)
-
+•	11:30 - 12:00
+•	Criamos o projeto JurisEase para você.
+•	Link do projeto: JurisEase no GitHub
+•	Estabelecemos a estrutura inicial e fizemos o planejamento.
+•	15:00 - 18:30
+•	Configuramos o ambiente de desenvolvimento para React e React Native.
+•	Node.js (18.18.0 LTS), npm (9.8.1), PowerShell, react-native (11.3.7)
+•	Iniciamos o projeto React: npx create-react-app jurisease e executamos npm start.
+•	18:30 - 19:00
+•	Iniciamos o desenvolvimento da página web (estrutura).
 06/10/2023
-    10:20 - 13:00
-    - desenvolvimento da página web (header, footer, body)
-    - npm install react-icons
-
-    16:00 - 17:10 Desenvolvimento da lupa (Sem progresso)
-    - npm install --save @fortawesome/fontawesome-svg-core
-    - npm install --save @fortawesome/free-solid-svg-icons
-    - npm install --save @fortawesome/react-fontawesome
-
+•	10:20 - 13:00
+•	Desenvolvemos a estrutura da página web (header, footer, body).
+•	Instalamos ícones para o projeto: npm install react-icons.
+•	16:00 - 17:10
+•	Tentamos desenvolver a funcionalidade da lupa, mas sem progresso.
 09/10/2023
-    09:00 - 11:30
-    - desenvolvimento da lupa
-    - subida do projeto no netlify (https://jurisease.netlify.app)
-
-    15:00 - 17:30
-    - respansividade
-    - identificando rotação e redimensionamento de tela (header)
-
+•	09:00 - 11:30
+•	Continuamos o desenvolvimento da lupa.
+•	Publicamos o projeto no Netlify: JurisEase no Netlify.
+•	15:00 - 17:30
+•	Trabalhamos na responsividade, identificando rotação e redimensionamento de tela (header).
 10/10/2023
-    10:00 - 11:30
-    - respansividade
-    - identificando rotação e redimensionamento de tela (completo)
-    - BUG: a variavel que guarda o tamanho da tela não está sendo atualizado!
-
-    16:30 - 17:00
-    - correção do BUG
-
+•	10:00 - 11:30
+•	Concluímos a responsividade, identificando rotação e redimensionamento de tela.
+•	Identificamos e corrigimos um BUG relacionado à variável que guarda o tamanho da tela.
+•	16:30 - 17:00
+•	Corrigimos o BUG identificado anteriormente.
 14/10/2023
-    13:00 - 15:00 
-    - design Area serviços
-    - lupa principal
-    
+•	13:00 - 15:00
+•	Trabalhamos no design da área de serviços.
+•	Continuamos o desenvolvimento da lupa principal.
 15/10/2023
-    18:30 - 00:00
-    - lupa principal
-    - npm install react-router-dom
-    - iniciando desenvolvimento de rotas
-    - Ajustes no frontend
-
+•	18:30 - 00:00
+•	Continuamos o desenvolvimento da lupa principal.
+•	Instalamos o pacote react-router-dom para iniciar o desenvolvimento de rotas.
+•	Realizamos ajustes no frontend.
 17/10/2023
-    14:20 - 18:30
-    - iniciando BD
-    - npm install firebase
-    - Backend automatização para buscar e gerar serviços e manchetes do BD
-
-    22:40 - 02:00
-    - Backend automatização para buscar e gerar serviços e manchetes do BD
-    - Frontend automatização para buscar e gerar serviços e manchetes do BD
-
+•	14:20 - 18:30
+•	Iniciamos o desenvolvimento do banco de dados.
+•	Instalamos o Firebase.
+•	Automatizamos o backend para buscar e gerar serviços e manchetes do banco de dados.
+•	22:40 - 02:00
+•	Continuamos a automação do backend e iniciamos a automação do frontend para buscar e gerar serviços e manchetes do banco de dados.
 18/10/2023
-    09:00 - 12:00
-    - Termino Frontend AddCardsModal
-
+•	09:00 - 12:00
+•	Concluímos o frontend da funcionalidade AddCardsModal.
 19/10/2023
-    10:00 - 12:00
-    - Update and Delete Cards 
-
-    15:00 - 21:00
-    - Update and Delete Cards
-    - Concluido o Backend Update and Delete Cards
-    - Concluido o Frontend Update and Delete Cards
-
+•	10:00 - 12:00
+•	Trabalhamos nas funcionalidades Update and Delete Cards.
+•	15:00 - 21:00
+•	Concluímos as funcionalidades Update and Delete Cards (backend e frontend).
 25/10/2023
-    10:00 - 18:30
-    - Inicio do desenvolvimento do ChatDrawer
-    - npm install firebase
-    - Inicio do sistema de autenticação
-
+•	10:00 - 18:30
+•	Iniciamos o desenvolvimento do ChatDrawer.
+•	Instalamos o Firebase.
+•	Iniciamos o sistema de autenticação.
 26/10/2023
-    10:00 - 14:00
-    - Autenticação
-
-    16:00 - 18:00
-    - Autenticação
-
+•	10:00 - 14:00
+•	Continuamos o desenvolvimento da autenticação.
+•	16:00 - 18:00
+•	Mais trabalho na autenticação.
 27/10/2023
-    07:30 - 16:00
-    - Restruturando projeto
-    - Autenticação
-    - UserDAO
-    - Falta passar o tipo de usuario (client ou lawyer) para o AuthPage!!!
-
+•	07:30 - 16:00
+•	Realizamos a reestruturação do projeto.
+•	Continuamos o desenvolvimento da autenticação.
+•	Implementamos o UserDAO.
+•	Nota: Falta passar o tipo de usuário (cliente ou advogado) para a AuthPage.
 28/10/2023
-    13:00 - 16:00
-    - Autenticação
-
-    19:00 - 21:00
-    - Acesso de adm
-    - Preciso criar area do usuario!!
-
+•	13:00 - 16:00
+•	Continuamos o desenvolvimento da autenticação.
+•	19:00 - 21:00
+•	Trabalhamos no acesso de administrador.
+•	Nota: Precisamos criar a área do usuário.
 29/10/2023
-    15:00 - 17:00
-    - Redimensionamento chat and User-info
-    - Logout
-
+•	15:00 - 17:00
+•	Realizamos o redimensionamento do chat e das informações do usuário.
+•	Implementamos a funcionalidade de logout.
 30/10/2023
-    09:40 - 18:30
-    - Criptografia de senhas
-    - Pagina Gerenciar contas
-
-    20:00 - 21:30
-    - Restruturando src/utils
-    - Planejamento
-
+•	09:40 - 18:30
+•	Implementamos a criptografia de senhas.
+•	Iniciamos o desenvolvimento da página de gerenciamento de contas.
+•	20:00 - 21:30
+•	Realizamos a reestruturação de src/utils.
+•	Fizemos o planejamento.
 31/10/2023
-    10:00 - 12:00
-    - Mudar metadata do user pata lastLoginAt e createdAt
-    - Update User implemented
-    - Adicionado data de Update em addUser
-    - Corrijido problema do checkBox UserManagement
-    - Validaçoes de dados e senha para update user
-    - UserManagement cortando o titulo no dispositivo mobile - OK
-    - Adicionado dados de endereço em updateUser
-    - Fechar UserInfo ao selecionar uma opção
-
+•	10:00 - 12:00
+•	Mudamos a metadata do usuário para lastLoginAt e createdAt.
+•	Implementamos o update de usuário.
+•	Adicionamos a data de update em addUser.
+•	Corrigimos o problema do checkBox em UserManagement.
+•	Implementamos validações de dados e senha para update de usuário.
+•	Corrigimos a visualização em dispositivos móveis em UserManagement.
+•	Adicionamos dados de endereço em updateUser.
+•	Implementamos o fechamento de UserInfo ao selecionar uma opção.
 01/11/2023
-    13:30
-    - Rotas
-    - npm install react-router-dom@6
-
+•	13:30
+•	Implementamos rotas.
+•	Instalamos o pacote react-router-dom@6.
 02/11/2023
-    13:00 - 16:00
-    - Frontend geral (Figma)
-
+•	13:00 - 16:00
+•	Trabalhamos no design geral usando o Figma.
 06/11/2023
-    12:00 - 20:00
-    - Frontend geral (Figma)
-
-    20:00 - 03:00
-    - Reestruturação Frontend e respansividade
-
+•	12:00 - 20:00
+•	Continuamos o design geral usando o Figma.
+•	20:00 - 03:00
+•	Realizamos a reestruturação do frontend e melhoramos a responsividade.
 07/11/2023
-    16:00 - 18:00
-    - Refatorando o Frontend
-
+•	16:00 - 18:00
+•	Refatoramos o frontend.
 08/11/2023
-    12:00 - 17:00
-    - Implementando services and headlines DAO
-    - Refatorando o Frontend
-
+•	12:00 - 17:00
+•	Implementamos services and headlines DAO.
+•	Refatoramos o frontend.
 09/11/2023
-    10:00 - 12:00
-    - Implementando CardsSections e Cards
-
-    18:30 - 19:00
-    - Melhorando CardsSections
-
+•	10:00 - 12:00
+•	Implementamos CardsSections e Cards.
+•	18:30 - 19:00
+•	Melhoramos CardsSections.
 10/11/2023
-    09:00 - 10:00
-    - CardsSections hover
-
-    10:00 - 12:00
-    - Services and Headlines Sections Update
-
+•	09:00 - 10:00
+•	Adicionamos efeito hover em CardsSections.
+•	10:00 - 12:00
+•	Atualizamos Services and Headlines Sections.
 11/11/2023
-    17:00 - 19:30
-    - Services and Headlines Sections Update
-
-    19:30 - 22:30
-    - Pequenas correções esteticas
-    - Navegação entre paginas DocksEditor - Home 
-    - Estrutura Inicial DocksEditor
-
+•	17:00 - 19:30
+•	Atualizamos Services and Headlines Sections.
+•	19:30 - 22:30
+•	Realizamos pequenas correções estéticas.
+•	Implementamos navegação entre páginas DocksEditor - Home.
+•	Iniciamos a estrutura inicial do DocksEditor.
 15/11/2023
-    17:00 - 18:00
-    - BUG: Header Frontend
-    - BUG: AcessAdm para DocksEditor
-    - Figma: Page Templates
-
+•	17:00 - 18:00
+•	Corrigimos bugs no header do frontend.
+•	Resolvemos problemas de acesso de administrador para DocksEditor.
+•	Realizamos esboços de páginas no Figma.
 17/11/2023
-    08:00 - 16:00
-    - Inicio do desenvolvimento da page Templates
-
-    20:30 - 01:00
-    - Desenvolvimento da page Templates
-
+•	08:00 - 16:00
+•	Iniciamos o desenvolvimento da página de Templates.
+•	20:30 - 01:00
+•	Continuamos o desenvolvimento da página de Templates.
 18/11/2023
-    07:00 - 09:00 
-    16:00 - 20:00
-    - Desenvolvimento da page Templates
-    - Conversão .Docx ou .Doc para .PDF
+•	07:00 - 09:00
+•	Continuamos o desenvolvimento da página de Templates.
+•	16:00 - 20:00
+•	Concluímos o desenvolvimento da página de Templates.
+•	Implementamos a conversão de .Docx ou .Doc para .PDF.
+20/11/2023
+•	13:00 - 15:00
+•	Continuamos o desenvolvimento da página de Templates.
+•	19:00 - 20:30
+•	Continuamos o desenvolvimento da página de Templates.
+21/11/2023
+•	07:00 - 12:00
+•	Continuamos o desenvolvimento da página de Templates.
