@@ -10,6 +10,8 @@ import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 
 import { useDropzone } from 'react-dropzone';
 
+import { lerDoc } from '../../../utils/tools/docsUtils'
+
 function Template() {
     const [errorStatus, setErrorStatus] = useState(null);
 
@@ -58,6 +60,17 @@ function Template() {
         if (uploadSuccessful) {
             setUploadStatus('Documento enviado com sucesso!');
 
+            setEditedTemplate({
+                ...editedTemplate,
+                doc: {
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    uri: window.URL.createObjectURL(file),
+                },
+            });
+
+            /*
             // Verifica se o arquivo é um documento do Word (.doc)
             if (file.type !== "application/pdf") {
                 setUploadStatus('O arquivo não é do tipo .pdf!');
@@ -73,6 +86,7 @@ function Template() {
                     },
                 });
             }
+            */
         } else {
             setUploadStatus('Falha ao enviar o documento. Tente novamente.');
         }
@@ -86,12 +100,12 @@ function Template() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name.startsWith('rout.')) {
             const routProperty = name.split('.')[1];
             const updatedRout = [...editedTemplate.rout];
             updatedRout[parseInt(routProperty, 10)] = value;
-    
+
             setEditedTemplate({
                 ...editedTemplate,
                 rout: updatedRout
@@ -100,19 +114,19 @@ function Template() {
             const keyParts = name.split('.');
             const keyIndex = parseInt(keyParts[2], 10);
             const keyProperty = keyParts[3];
-    
+
             setEditedTemplate((prevState) => {
                 const updatedDocKeys = prevState.doc && prevState.doc.keys
                     ? [...prevState.doc.keys]
                     : [];
-    
+
                 if (updatedDocKeys[keyIndex]) {
                     updatedDocKeys[keyIndex] = {
                         ...updatedDocKeys[keyIndex],
                         [keyProperty]: value
                     };
                 }
-    
+
                 return {
                     ...prevState,
                     doc: {
@@ -129,7 +143,7 @@ function Template() {
             }));
         }
     };
-    
+
 
     const handleAddTemplateClick = () => {
         setDrawerOpen(true);
@@ -160,19 +174,19 @@ function Template() {
             setErrorStatus('Por favor, forneça um título para o template.');
             return;
         }
-    
+
         // Validar se há um documento
         if (!editedTemplate.doc || !editedTemplate.doc.name) {
             setErrorStatus('Por favor, envie um documento.');
             return;
         }
-    
+
         // Validar se há pelo menos um caminho e nenhum caminho vazio
         if (!editedTemplate.rout || editedTemplate.rout.length === 0 || editedTemplate.rout.some(path => !path.trim())) {
             setErrorStatus('Por favor, adicione pelo menos um caminho válido.');
             return;
         }
-    
+
         // Validar se há pelo menos uma chave do documento e nenhuma chave vazia
         if (
             editedTemplate.doc.keys &&
@@ -182,14 +196,18 @@ function Template() {
             setErrorStatus('Por favor, preencha todas as chaves do documento.');
             return;
         }
-    
+
+        teste()
+
         // Todas as validações passaram, você pode prosseguir com a lógica de salvamento
         setErrorStatus(null)
         console.log('Saved Template:', editedTemplate);
         //closeDrawer();
     };
-    
 
+    const teste = async function () {
+        await lerDoc(editedTemplate.doc)
+    }
 
     const handleDeleteTemplate = () => {
         // Handle logic for saving the edited template
