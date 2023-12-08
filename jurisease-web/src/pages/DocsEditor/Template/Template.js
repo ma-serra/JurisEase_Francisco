@@ -8,8 +8,6 @@ import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentic
 import { addTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 
-import { useDropzone } from 'react-dropzone';
-
 import { lerDoc } from '../../../utils/tools/docsUtils'
 
 function Template() {
@@ -43,7 +41,39 @@ function Template() {
     }, []);
 
 
-    // Drop Zone
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        const blob = new Blob([file], { type: file.type });
+        const content = URL.createObjectURL(blob);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+
+            // Atualizar o estado com o conteúdo do arquivo
+            setEditedTemplate({
+                ...editedTemplate,
+                doc: {
+                    content: content,
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    uri: URL.createObjectURL(file),
+                },
+            });
+        };
+
+        if (file.type.startsWith('text')) {
+            // Se o tipo do arquivo é texto, leia como texto
+            reader.readAsText(file);
+        } else {
+            // Se não for texto, leia como dados binários
+            reader.readAsArrayBuffer(file);
+        }
+
+        setUploadStatus('Documento enviado com sucesso!');
+    };
+
     const [uploadStatus, setUploadStatus] = useState(null);
 
     const dropzoneStyles = {
@@ -53,33 +83,6 @@ function Template() {
         textAlign: 'center',
         cursor: 'pointer',
     };
-
-    const onDrop = useCallback(async (acceptedFiles) => {
-        console.log("acceptedFiles:", acceptedFiles);
-        const file = acceptedFiles[0];
-      
-        const blob = new Blob([file], { type: file.type });
-        const content = URL.createObjectURL(blob);
-      
-        setEditedTemplate({
-          ...editedTemplate,
-          doc: {
-            content: content,
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            uri: content,
-            arrayBuffer: await file.arrayBuffer(), // Adicionado para obter o ArrayBuffer diretamente
-          },
-        });
-      
-        setUploadStatus('Documento enviado com sucesso!');
-      }, [editedTemplate]);
-
-    const { getRootProps, getInputProps } = useDropzone({
-        onDrop,
-        multiple: false,
-    });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -309,11 +312,16 @@ function Template() {
                         <div>
                             <label>
                                 Documento (.doc):
-                                <div className="file-preview" >
-                                    <div {...getRootProps()} style={dropzoneStyles}>
-                                        <input {...getInputProps()} />
-                                        <p>Arraste e solte um arquivo DOC aqui ou clique para selecionar.</p>
-                                    </div>
+                                <div className='file-preview'>
+                                    <label htmlFor='fileInput' style={dropzoneStyles}>
+                                        Clique para selecionar seu arquivo.
+                                    </label>
+                                    <input
+                                        type='file'
+                                        id='fileInput'
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                    />
                                     {editedTemplate.doc && editedTemplate.doc.uri && (
                                         <embed src={editedTemplate.doc.uri} />
                                     )}
