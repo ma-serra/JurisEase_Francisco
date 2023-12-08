@@ -51,16 +51,16 @@ export const addService = async (serviceData) => {
   }
 
   export const getService = async (id) => {
-    const usersRef = await getRef(`services/${id}`);
+    const serviceRef = await getRef(`services/${id}`);
   
     return new Promise((resolve, reject) => {
-      onValue(usersRef, (snapshot) => {
-        const userData = snapshot.val();
+      onValue(serviceRef, (snapshot) => {
+        const serviceData = snapshot.val();
   
-        if (userData) {
-          resolve(userData);
+        if (serviceData) {
+          resolve(serviceData);
         } else {
-          reject('Usuário não encontrado');
+          reject('Serviço não encontrado');
         }
   
       });

@@ -1,6 +1,7 @@
-import User from "./modals/user.ts";
-import Service from "./modals/service.ts";
-import Headline from "./modals/headline.ts";
+import User from "./modals/user.js";
+import Service from "./modals/service.js";
+import Headline from "./modals/headline.js";
+import Template from "./modals/template.js";
 
 export function createUserByData(data) {
   const createdAt = data.metadata.creationTime;
@@ -126,4 +127,41 @@ export function createHeadlineByData(data) {
   )
     
   return headline;
+}
+
+export function createTemplateByData(data) {
+  const { id, createdAt, updatedAt, title, rout, doc, keys } = data;
+  const missingFields = [];
+
+  if (!id) {
+    missingFields.push('id');
+  }
+  
+  if (!title) {
+    missingFields.push('title');
+  }
+
+  if (!doc) {
+    missingFields.push('doc');
+  }
+
+  if (!rout) {
+    missingFields.push('rout');
+  }
+
+  if (missingFields.length > 0) {
+    throw new Error(`Campos obrigatórios não fornecidos: ${missingFields.join(', ')}`);
+  }
+
+  const template = new Template (
+    id,
+    createdAt,
+    updatedAt || createdAt,
+    title,
+    doc,
+    rout,
+    keys
+  )
+    
+  return template;
 }
