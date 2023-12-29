@@ -1,14 +1,13 @@
 import './Template.css';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Header from '../../../components/Header/Header';
 import CardTemplate from './CardTemplate/CardTemplate';
 import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
-import { addTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
+import { getTemplates, addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
-
-import { lerDoc } from '../../../utils/tools/docsUtils'
+import { removeObjetosVazios } from '../../../utils/tools/tools'
 
 function Template() {
     const [errorStatus, setErrorStatus] = useState(null);
@@ -16,9 +15,10 @@ function Template() {
     // User
     const [user, setUser] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [templates, setTemplates] = useState([]);
     const [editedTemplate, setEditedTemplate] = useState({
         title: '',
-        doc: null,
+        doc: {},
         rout: [],
         keys: []
     });
@@ -38,38 +38,32 @@ function Template() {
         }
 
         fetchUser();
-    }, []);
 
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-
-        const blob = new Blob([file], { type: file.type });
-        const content = URL.createObjectURL(blob);
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-
-            // Atualizar o estado com o conteúdo do arquivo
-            setEditedTemplate({
-                ...editedTemplate,
-                doc: {
-                    content: content,
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    uri: URL.createObjectURL(file),
-                },
+        const fetchTemplatesAndListen = () => {
+            getTemplates((templatesData) => {
+                const templates = removeObjetosVazios(templatesData)
+                setTemplates(templates);
+                console.log("Templates:", templates)
             });
         };
 
-        if (file.type.startsWith('text')) {
-            // Se o tipo do arquivo é texto, leia como texto
-            reader.readAsText(file);
-        } else {
-            // Se não for texto, leia como dados binários
-            reader.readAsArrayBuffer(file);
-        }
+        fetchTemplatesAndListen();
+    }, []);
+
+
+    // Resgate do arquivo
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        setEditedTemplate({
+            ...editedTemplate,
+            doc: {
+                name: file.name,
+                type: file.type,
+                size: file.size,
+                file: file
+            },
+        });
 
         setUploadStatus('Documento enviado com sucesso!');
     };
@@ -144,11 +138,14 @@ function Template() {
 
         setEditedTemplate((prevState) => ({
             ...prevState,
+            id: data.id || null,
             title: data.title || '',
             doc: data.doc || null,
             rout: data.rout || [],
             keys: data.keys || [],
         }));
+
+        console.log("handleCardClick:", editedTemplate)
     };
 
     const closeDrawer = () => {
@@ -190,30 +187,24 @@ function Template() {
             return;
         }
 
-        teste()
-
-        // Todas as validações passaram, você pode prosseguir com a lógica de salvamento
-        setErrorStatus(null)
-        console.log('Saved Template:', editedTemplate);
-        //closeDrawer();
+        salvarTemplate()
     };
 
-    const teste = async function () {
-        await lerDoc(editedTemplate.doc)
-        addTemplate(editedTemplate)
+    const salvarTemplate = async function () {
+        try {
+            addTemplate(editedTemplate)
+            setErrorStatus(null)
+            closeDrawer();
+        } catch (e) {
+            setErrorStatus("Erro ao adicionar template:" + e)
+        }
     }
 
-    const handleDeleteTemplate = () => {
+    const handleDeleteTemplate = async () => {
         // Handle logic for saving the edited template
-        console.log('Delete Template:', editedTemplate);
+        console.log("handleDeleteTemplate:", editedTemplate)
+        await removeTemplate(editedTemplate.id)
         closeDrawer();
-    };
-
-    const handleAddSubAssunto = () => {
-        setEditedTemplate({
-            ...editedTemplate,
-            rout: [...editedTemplate.rout, '']
-        });
     };
 
     const handleRemoveFile = () => {
@@ -221,22 +212,14 @@ function Template() {
         setEditedTemplate({ ...editedTemplate, doc: null });
     };
 
-    const handleAddKey = () => {
-        setEditedTemplate(prevState => {
-            const updatedKeyhandleAddKeys = prevState.keys
-                ? [...prevState.keys, { name: '', type: 'texto' }]
-                : [{ name: '', type: 'texto' }];
-
-            return {
-                ...prevState,
-                keys: updatedKeyhandleAddKeys,
-                doc: prevState.doc || null,
-                rout: prevState.rout || [],
-            };
+    const handleAddRout = () => {
+        setEditedTemplate({
+            ...editedTemplate,
+            rout: [...editedTemplate.rout, '']
         });
     };
 
-    const handleRemoveSubAssunto = (index) => {
+    const handleRemoveRout = (index) => {
         setEditedTemplate((prevState) => {
             const updatedRout = [...prevState.rout];
             updatedRout.splice(index, 1);
@@ -248,6 +231,26 @@ function Template() {
                 keys: prevState.keys || [],
             };
         });
+    };
+
+    const handleAddKey = () => {
+        try {
+            setEditedTemplate(prevState => {
+                console.log(prevState)
+                const updatedKeyhandleAddKeys = prevState.keys
+                    ? [...prevState.keys, { name: '', type: 'texto' }]
+                    : [{ name: '', type: 'texto' }];
+
+                return {
+                    ...prevState,
+                    keys: updatedKeyhandleAddKeys,
+                    doc: prevState.doc || {},
+                    rout: prevState.rout || [],
+                };
+            });
+        } catch (e) {
+            //ignored
+        }
     };
 
     const handleRemoveKey = (index) => {
@@ -268,15 +271,6 @@ function Template() {
 
     };
 
-
-    const dataFake = [
-        { title: "Template 1", doc: "Doc_1", rout: ["a", "b", "c"], keys: [{ name: "nome 1", type: "Texto" }, { name: "nome 2", type: "Texto" }, { name: "nome 3", type: "Texto" }, { name: "nome 4", type: "Texto" }, { name: "nome 5", type: "Texto" },] },
-        { title: "Template 2", doc: "Doc_2", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
-        { title: "Template 3", doc: "Doc_3", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
-        { title: "Template 4", doc: "Doc_4", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
-        { title: "Template 5", doc: "Doc_5", rout: ["Assunto 1", "Assunto 2", "Assunto 3", "Assunto 4", "Assunto 5", "Assunto 6"] },
-    ]
-
     return (
         <div className={`Template`}>
             <Header user={user} />
@@ -287,7 +281,7 @@ function Template() {
             </div>
 
             <div className='grd_templates'>
-                {dataFake.map((template, index) => (
+                {templates.map((template, index) => (
                     <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
                 ))}
             </div>
@@ -311,7 +305,17 @@ function Template() {
                         </div>
                         <div>
                             <label>
-                                Documento (.doc):
+                                <div>
+                                    {editedTemplate.doc && editedTemplate.doc.link_download ? (
+
+                                        <span>
+                                            {editedTemplate.doc.name + ": "}
+                                            <a href={editedTemplate.doc.link_download} target="_blank" rel="noopener noreferrer"> download </a>
+                                        </span>
+                                    ) : (
+                                        <span>Documento (.doc):</span>
+                                    )}
+                                </div>
                                 <div className='file-preview'>
                                     <label htmlFor='fileInput' style={dropzoneStyles}>
                                         Clique para selecionar seu arquivo.
@@ -322,8 +326,8 @@ function Template() {
                                         style={{ display: 'none' }}
                                         onChange={handleFileChange}
                                     />
-                                    {editedTemplate.doc && editedTemplate.doc.uri && (
-                                        <embed src={editedTemplate.doc.uri} />
+                                    {editedTemplate.doc && editedTemplate.doc.name && (
+                                        <img className="img_doc_default" src="/images/icons8-file.png" alt="Ícone de arquivo" />
                                     )}
                                 </div>
                             </label>
@@ -333,24 +337,24 @@ function Template() {
                         </div>
                         <div>
                             <label>Caminho:</label>
-                            {editedTemplate.rout.map((subAssunto, index) => (
+                            {editedTemplate.rout.map((rout, index) => (
                                 <div className='rout-item' key={index}>
                                     <input
                                         type='text'
                                         name={`rout.${index}`}
-                                        value={subAssunto}
+                                        value={rout}
                                         onChange={handleInputChange}
                                     />
                                     {editedTemplate.rout.length === index + 1 && (
-                                        <button className="bt-rout" onClick={handleAddSubAssunto}>+</button>
+                                        <button className="bt-rout" onClick={handleAddRout}>+</button>
                                     )}
                                     {editedTemplate.rout.length === index + 1 && (
-                                        <button className="bt-rout" onClick={() => handleRemoveSubAssunto(index)}>-</button>
+                                        <button className="bt-rout" onClick={() => handleRemoveRout(index)}>-</button>
                                     )}
                                 </div>
                             ))}
                             {editedTemplate.rout.length === 0 && (
-                                <button className="bt-rout" onClick={handleAddSubAssunto}>Adicionar Caminho</button>
+                                <button className="bt-addvar" onClick={handleAddRout}>Adicionar Caminho</button>
                             )}
                         </div>
                         <div>
@@ -384,7 +388,7 @@ function Template() {
                                 </div>
                             ))}
                             {(!editedTemplate.doc || !editedTemplate.keys || editedTemplate.keys.length === 0) && (
-                                <button onClick={handleAddKey}>Adicionar Chave do Documento</button>
+                                <button className="bt-addvar" onClick={handleAddKey}>Adicionar Chave do Documento</button>
                             )}
                         </div>
                     </form>

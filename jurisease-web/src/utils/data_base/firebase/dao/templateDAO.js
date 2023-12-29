@@ -1,32 +1,37 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
-import { generateCustomID, getCurrentFormattedDate } from '../../../tools/tools';
+import { getCurrentFormattedDate, formatString } from '../../../tools/tools';
 import { addDocument, getRef } from '../firebaseConfig'
 import { createTemplateByData } from '../dataProcessing';
 
 export const addTemplate = async (templateData) => {
-
-  const templateID = generateCustomID("template");
+  const templateID = formatString(templateData.title);
   templateData.id = templateID
   templateData.createdAt = getCurrentFormattedDate();
 
   const template = createTemplateByData(templateData)
   const templateRef = await getRef(`templates/${templateID}`);
 
-  console.log('templateData.createdAt: ', templateData.createdAt)
-  console.log('addtemplate:', template)
+  try {
+    // Adicione o documento ao Firebase Storage e obtenha o URL de download
+    const uploadResult = await addDocument(`templates/${templateID}`, template.doc);
+    console.log("uploadResult:", uploadResult)
+    // Verifique se houve algum erro durante o upload
+    if (uploadResult.error) {
+      throw new Error(uploadResult.error);
+    }
 
-  await addDocument("templates", templateData.doc)
+    // Adicione o URL de download ao template.doc
+    template.doc.link_download = uploadResult.url;
 
-  set(templateRef, template)
-    .then(() => {
-      console.log('Template adicionado com sucesso.');
+    // Adicione os outros dados ao documento no Firestore
+    await set(templateRef, template);
 
-      
-    })
-    .catch((error) => {
-      console.error('Erro ao adicionar template: ', error);
-    });
+    console.log('Template adicionado com sucesso.');
+  } catch (error) {
+    console.error('Erro ao adicionar template: ', error);
+    throw error
+  }
 }
 
 export const removeTemplate = async (templateId) => {

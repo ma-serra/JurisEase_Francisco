@@ -5,6 +5,16 @@ export function generateCustomID(prefix) {
   return customID;
 }
 
+export function formatString(inputString) {
+  // Remove caracteres especiais usando uma expressão regular
+  const stringWithoutSpecialChars = inputString.replace(/[^\w\s]/gi, '');
+
+  // Substitui espaços por "_"
+  const formattedString = stringWithoutSpecialChars.replace(/\s+/g, '_');
+
+  return formattedString;
+}
+
 export function getCurrentFormattedDate() {
   const currentDate = new Date();
 

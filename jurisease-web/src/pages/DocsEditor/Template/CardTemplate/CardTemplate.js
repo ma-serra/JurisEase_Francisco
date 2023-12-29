@@ -15,7 +15,7 @@ function CardTemplate({ data, onClick }) {
 
             <h1>{data.title}</h1>
             <div className='template-doc'>
-                {data.doc}
+                {data.doc.name}
             </div>
             <p>{data.rout}</p>
 

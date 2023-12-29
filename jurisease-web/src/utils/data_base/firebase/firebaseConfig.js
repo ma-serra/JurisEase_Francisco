@@ -27,43 +27,24 @@ export const getRef = async (url) => {
   return ref(db, url);
 }
 
-export const addDocument = async (path, file) => {
-  console.log("addDocument:", file);
-
-  // Verificar se o arquivo possui conteúdo
-  if (!file || !file.uri) {
-    console.error("O arquivo está vazio ou não contém conteúdo.");
-    return;
-  }
-
+export const addDocument = async (path, doc) => {
   try {
+    // Verificar se o arquivo possui conteúdo
+    if (!doc || !doc.file) {
+      return { error: "O arquivo está vazio ou não contém conteúdo." };
+    }
+
     // Enviar o conteúdo do arquivo para o Firebase Storage
-    const uploadTask = uploadBytesResumable(storageRef(storage, `${path}/${file.name}`), file);
+    const uploadTaskSnapshot = await uploadBytesResumable(storageRef(storage, `${path}/${doc.name}`), doc.file);
 
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        // Monitorar o progresso do upload, se necessário
-      },
-      (error) => {
-        console.error("Erro durante o upload:", error);
-      },
-      async () => {
-        try {
-          // Obter a URL de download após o upload
-          const url = await getDownloadURL(uploadTask.snapshot.ref);
-          console.log("URL de download:", url);
+    // Obter a URL de download após o upload
+    const url = await getDownloadURL(uploadTaskSnapshot.ref);
 
-        } catch (error) {
-          console.error("Erro ao obter a URL de download:", error);
-        }
-      }
-    );
+    // Adicione o URL de download ao documento
+    doc.link_download = url;
+
+    return { url: url };
   } catch (error) {
-    console.error("Erro ao enviar o arquivo para o Firebase Storage:", error);
+    return { error: "Erro ao enviar o arquivo para o Firebase Storage: " + error };
   }
-};
-
-
-
-
-
+}
