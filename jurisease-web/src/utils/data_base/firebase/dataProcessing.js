@@ -130,7 +130,7 @@ export function createHeadlineByData(data) {
 }
 
 export function createTemplateByData(data) {
-  const { id, createdAt, updatedAt, title, rout, doc, keys } = data;
+  const { id, createdAt, updatedAt, title, rout, content, keys } = data;
   const missingFields = [];
 
   if (!id) {
@@ -141,8 +141,8 @@ export function createTemplateByData(data) {
     missingFields.push('title');
   }
 
-  if (!doc) {
-    missingFields.push('doc');
+  if (!content) {
+    missingFields.push('content');
   }
 
   if (!rout) {
@@ -158,7 +158,7 @@ export function createTemplateByData(data) {
     createdAt,
     updatedAt || createdAt,
     title,
-    doc,
+    content,
     rout,
     keys
   )

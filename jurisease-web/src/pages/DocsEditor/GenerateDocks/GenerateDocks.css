@@ -4,38 +4,66 @@
 
 .main-section {
     display: flex;
-    justify-content: space-around;
-    background-color: brown;
-}
-
-.left-panel {
+    flex-direction: row;
+    
     background-color: var(--gray-30);
-    flex: 3;
-
-    display: flex;
-    justify-content: center;
+    color: var(--primary-dark-50);
 }
 
-.sheet-content {
-    width: 210mm; /* Largura equivalente à largura de uma folha A4 */
-    height: 297mm; /* Altura equivalente à altura de uma folha A4 */
-    background-color: var(--white); /* Cor de fundo branca */
-    padding: 20px; /* Espaçamento interno para o conteúdo */
-    border: 1px solid #ccc; /* Borda cinza para simular as margens da folha */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    margin: 20px; /* Espaçamento externo para a "folha" */
-    display: inline-block; /* Permite a centralização horizontal */
-}
-
-.document-content {
-    font-family: 'Arial', sans-serif;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-.right-drawer {
-    background-color: var(--primary-dark-50);
+.templateForm {
     flex: 1;
+    padding: 1em;
+}
+
+.preview {
+    flex: 1;
+    padding: 1em;
+
+    display: block;
+}
+
+.preview .sheet {
+    background-color: white;
+    width: calc(21cm * 0.5); /* Largura equivalente a uma folha A4 */
+    height: calc(29.7cm * 0.5); /* Altura equivalente a uma folha A4 */
+    padding: calc(1.65cm * 0.5); /* Margem interna equivalente a uma folha A4 */
+    margin: 0; /* Centralizar horizontalmente */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
+}
+
+.sheet .content * {
+    text-align: left;
+    color: black;
+    font-size: calc(12pt * 0.5); /* Tamanho da fonte */
+    line-height: calc(0.5cm * 0.5); /* Espaçamento entre linhas */
+}
+
+.sheet .content {
+    height: 100%;
+    overflow: hidden;
+}
+
+.sheet .content h1 {
+    font-size: calc(24pt * 0.5); /* Tamanho da fonte para h1 */
+}
+
+.sheet .content h2 {
+    font-size: calc(18pt * 0.5); /* Tamanho da fonte para h2 */
+}
+
+.sheet .content h3 {
+    font-size: calc(16pt * 0.5); /* Tamanho da fonte para h3 */
+}
+
+.drawer {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    flex: 1;
+}
+
+.drawer form{
+    padding: 5px;
 }
 
 .bottom-drawer {
@@ -44,4 +72,28 @@
 
 .bottom-drawer p {
     margin: 0;
+}
+
+.content-cards .CardTemplate {
+    padding:7.5px;
+    margin-top: 4px;
+}
+
+.key-input {
+    width: 85%;
+}
+
+.key-input label{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.key-input input{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    margin-bottom: 3px;
 }

@@ -48,3 +48,17 @@ export const addDocument = async (path, doc) => {
     return { error: "Erro ao enviar o arquivo para o Firebase Storage: " + error };
   }
 }
+
+export const searchDocument = async (url) => {
+  const fileRef = storage.refFromURL(url);
+
+  // Baixa o URL do arquivo
+  fileRef.getDownloadURL()
+    .then((url) => {
+      // Use o URL para fazer o que quiser, como abrir em uma nova janela ou fazer o download
+      window.open(url);
+    })
+    .catch((error) => {
+      console.error("Erro ao obter URL de download:", error);
+    });
+}

@@ -1,3 +1,64 @@
+import html2pdf from 'html2pdf.js';
+
+export async function gerarPDF(htmlString) {
+  return new Promise((resolve, reject) => {
+    html2pdf()
+      .from(htmlString)
+      .toPdf()
+      .save('saida.pdf');
+    // .output('blob')
+    // .then(blob => {
+    //     resolve(URL.createObjectURL(blob));
+    // })
+    // .catch(error => {
+    //     reject(error);
+    // });
+  });
+}
+
+export function refactoreHTMLtoPDF(htmlString) {
+  // Adiciona as classes de estilo ao texto HTML
+  const novoHTML = `
+  <style>
+      .sheet {
+          padding: 1.65cm;
+          background-color: white;
+          margin: 0; /* Centralizar horizontalmente */
+      }
+
+      .sheet .content * {
+        text-align: left;
+        color: black;
+        font-size: calc(12pt * 1); /* Tamanho da fonte */
+        line-height: calc(0.5cm * 1); /* Espaçamento entre linhas */
+    }
+    
+    .sheet .content h1 {
+        font-size: calc(24pt * 1); /* Tamanho da fonte para h1 */
+    }
+    
+    .sheet .content h2 {
+        font-size: calc(18pt * 1); /* Tamanho da fonte para h2 */
+    }
+    
+    .sheet .content h3 {
+        font-size: calc(16pt * 1); /* Tamanho da fonte para h3 */
+    }
+  </style>
+
+      <div class="sheet">
+          <div class="content">
+              ${htmlString}
+          </div>
+      </div>
+  `;
+
+  console.log('Novo HTML:', novoHTML)
+  return novoHTML;
+}
+
+
+
 export function generateCustomID(prefix) {
   const timestamp = new Date().getTime();
   const randomString = Math.random().toString(36).substring(2, 12);

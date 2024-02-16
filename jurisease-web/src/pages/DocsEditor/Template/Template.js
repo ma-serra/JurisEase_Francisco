@@ -8,8 +8,11 @@ import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentic
 import { getTemplates, addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 import { removeObjetosVazios } from '../../../utils/tools/tools'
+import MyEditor from '../../../components/MyEditor/MyEditor';
 
 function Template() {
+    const [dataValue, setDataValue] = useState("<p>Seu texto aqui</p>");
+
     const [errorStatus, setErrorStatus] = useState(null);
 
     // User
@@ -18,7 +21,7 @@ function Template() {
     const [templates, setTemplates] = useState([]);
     const [editedTemplate, setEditedTemplate] = useState({
         title: '',
-        doc: {},
+        content: '',
         rout: [],
         keys: []
     });
@@ -49,34 +52,6 @@ function Template() {
 
         fetchTemplatesAndListen();
     }, []);
-
-
-    // Resgate do arquivo
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-
-        setEditedTemplate({
-            ...editedTemplate,
-            doc: {
-                name: file.name,
-                type: file.type,
-                size: file.size,
-                file: file
-            },
-        });
-
-        setUploadStatus('Documento enviado com sucesso!');
-    };
-
-    const [uploadStatus, setUploadStatus] = useState(null);
-
-    const dropzoneStyles = {
-        border: '2px dashed #cccccc',
-        borderRadius: '4px',
-        padding: '20px',
-        textAlign: 'center',
-        cursor: 'pointer',
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -127,7 +102,7 @@ function Template() {
         setDrawerOpen(true);
         setEditedTemplate({
             title: '',
-            doc: null,
+            content: '',
             rout: [],
             keys: []
         });
@@ -140,10 +115,12 @@ function Template() {
             ...prevState,
             id: data.id || null,
             title: data.title || '',
-            doc: data.doc || null,
+            content: data.content || '',
             rout: data.rout || [],
             keys: data.keys || [],
         }));
+
+        setDataValue(data.content)
 
         console.log("handleCardClick:", editedTemplate)
     };
@@ -152,22 +129,18 @@ function Template() {
         setDrawerOpen(false);
         setEditedTemplate({
             title: '',
-            doc: null,
+            content: '',
             rout: [],
             keys: []
         });
     };
 
     const handleSaveTemplate = () => {
+
+        {console.log("Valor:", dataValue)} 
         // Validar se o título está presente
         if (!editedTemplate.title) {
             setErrorStatus('Por favor, forneça um título para o template.');
-            return;
-        }
-
-        // Validar se há um documento
-        if (!editedTemplate.doc || !editedTemplate.doc.name) {
-            setErrorStatus('Por favor, envie um documento.');
             return;
         }
 
@@ -187,6 +160,13 @@ function Template() {
             return;
         }
 
+        if (dataValue.length == 0) {
+            setErrorStatus('Por favor, preencha o documento.');
+            return;
+        }
+
+        editedTemplate.content = dataValue;
+
         salvarTemplate()
     };
 
@@ -195,6 +175,7 @@ function Template() {
             addTemplate(editedTemplate)
             setErrorStatus(null)
             closeDrawer();
+
         } catch (e) {
             setErrorStatus("Erro ao adicionar template:" + e)
         }
@@ -205,11 +186,6 @@ function Template() {
         console.log("handleDeleteTemplate:", editedTemplate)
         await removeTemplate(editedTemplate.id)
         closeDrawer();
-    };
-
-    const handleRemoveFile = () => {
-        setUploadStatus(null);
-        setEditedTemplate({ ...editedTemplate, doc: null });
     };
 
     const handleAddRout = () => {
@@ -227,7 +203,6 @@ function Template() {
             return {
                 ...prevState,
                 rout: updatedRout,
-                doc: prevState.doc || null,
                 keys: prevState.keys || [],
             };
         });
@@ -244,7 +219,6 @@ function Template() {
                 return {
                     ...prevState,
                     keys: updatedKeyhandleAddKeys,
-                    doc: prevState.doc || {},
                     rout: prevState.rout || [],
                 };
             });
@@ -304,36 +278,7 @@ function Template() {
                             </label>
                         </div>
                         <div>
-                            <label>
-                                <div>
-                                    {editedTemplate.doc && editedTemplate.doc.link_download ? (
-
-                                        <span>
-                                            {editedTemplate.doc.name + ": "}
-                                            <a href={editedTemplate.doc.link_download} target="_blank" rel="noopener noreferrer"> download </a>
-                                        </span>
-                                    ) : (
-                                        <span>Documento (.doc):</span>
-                                    )}
-                                </div>
-                                <div className='file-preview'>
-                                    <label htmlFor='fileInput' style={dropzoneStyles}>
-                                        Clique para selecionar seu arquivo.
-                                    </label>
-                                    <input
-                                        type='file'
-                                        id='fileInput'
-                                        style={{ display: 'none' }}
-                                        onChange={handleFileChange}
-                                    />
-                                    {editedTemplate.doc && editedTemplate.doc.name && (
-                                        <img className="img_doc_default" src="/images/icons8-file.png" alt="Ícone de arquivo" />
-                                    )}
-                                </div>
-                            </label>
-                        </div>
-                        <div>
-                            {uploadStatus && <p>{uploadStatus}</p>}
+                            <MyEditor data={dataValue} onDataChange={setDataValue} />
                         </div>
                         <div>
                             <label>Caminho:</label>
@@ -387,7 +332,7 @@ function Template() {
                                     )}
                                 </div>
                             ))}
-                            {(!editedTemplate.doc || !editedTemplate.keys || editedTemplate.keys.length === 0) && (
+                            {(!editedTemplate.keys || editedTemplate.keys.length === 0) && (
                                 <button className="bt-addvar" onClick={handleAddKey}>Adicionar Chave do Documento</button>
                             )}
                         </div>

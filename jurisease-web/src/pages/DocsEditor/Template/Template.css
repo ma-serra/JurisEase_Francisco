@@ -34,7 +34,7 @@
     position: absolute;
     right: 0;
     top: 65px;
-    max-width: 250px;
+    max-width: 500px;
     width: 65%;
     
     min-height: calc(100% - 65px);
@@ -49,6 +49,21 @@
     box-shadow: -5px 4px 6px rgba(0, 0, 0, 0.1);
 
     color: var(--white);
+}
+
+.MyEditor {
+    color: black;
+    background-color: #FFF;
+}
+
+.ck-content {
+    min-height: 250px;
+    color: black;
+    font-size: medium;
+}
+
+.ck-content > p {
+    text-align: left;
 }
 
 .bt-template-delete {

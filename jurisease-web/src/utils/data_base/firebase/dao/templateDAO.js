@@ -13,21 +13,9 @@ export const addTemplate = async (templateData) => {
   const templateRef = await getRef(`templates/${templateID}`);
 
   try {
-    // Adicione o documento ao Firebase Storage e obtenha o URL de download
-    const uploadResult = await addDocument(`templates/${templateID}`, template.doc);
-    console.log("uploadResult:", uploadResult)
-    // Verifique se houve algum erro durante o upload
-    if (uploadResult.error) {
-      throw new Error(uploadResult.error);
-    }
-
-    // Adicione o URL de download ao template.doc
-    template.doc.link_download = uploadResult.url;
-
-    // Adicione os outros dados ao documento no Firestore
     await set(templateRef, template);
-
     console.log('Template adicionado com sucesso.');
+
   } catch (error) {
     console.error('Erro ao adicionar template: ', error);
     throw error
@@ -85,6 +73,7 @@ export const updateTemplate = async (templateData) => {
   try {
     update(templatesRef, templateData);
     console.log("Template atualizado com sucesso.");
+    
   } catch (error) {
     console.error("Erro ao atualizar o template:", error);
   }

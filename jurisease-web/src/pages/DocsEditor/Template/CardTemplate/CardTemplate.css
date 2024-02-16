@@ -9,6 +9,7 @@
     width: 100%;
     box-sizing: border-box; 
     box-shadow: -5px 4px 6px rgba(0, 0, 0, 0.3);
+    margin: 10px;
 }
 
 .CardTemplate:hover {
@@ -18,13 +19,9 @@
 .CardTemplate h1 {
     color: var(--white);
     font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.template-doc {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    text-align: center;
 }
 
 .CardTemplate p {
@@ -33,4 +30,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+} 
+
+.template-doc {
+    overflow: hidden;
+    height: 200px;
+}
+
+.template-doc * {
+    color: aliceblue;
+    margin: 0; /* Espaçamento entre parágrafos reduzido */
+    font-size: 0.8rem; /* Tamanho da fonte dos parágrafos */
+}
+
+.template-doc h1 {
+    font-size: 1.5rem; /* Tamanho da fonte para h1 */
+}
+
+.template-doc h2 {
+    font-size: 1.25rem; /* Tamanho da fonte para h2 */
+}
+
+.template-doc h3 {
+    font-size: 1.1rem; /* Tamanho da fonte para h3 */
 }
