@@ -2,8 +2,17 @@ import html2pdf from 'html2pdf.js';
 
 export async function gerarPDF(htmlString) {
   return new Promise((resolve, reject) => {
+    var opt = {
+      margin:       0.5,
+      filename:     'saida.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 1},
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
     html2pdf()
       .from(htmlString)
+      .set(opt)
       .toPdf()
       .save('saida.pdf')
       .output('blob')
@@ -21,8 +30,6 @@ export function refactoreHTMLtoPDF(htmlString) {
   const novoHTML = `
   <style>
       .sheet {
-          padding: 1.65cm;
-          background-color: white;
           margin: 0; /* Centralizar horizontalmente */
       }
 
