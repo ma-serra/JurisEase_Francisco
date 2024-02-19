@@ -63,6 +63,21 @@ export function refactoreHTMLtoPDF(htmlString) {
   return novoHTML;
 }
 
+export function extractKeys(texto) {
+  // Expressão regular para encontrar todas as chaves no formato {{chave}}
+  const regex = /{{(.*?)}}/g;
+  const chaves = [];
+  let match;
+
+  // Enquanto houver correspondências da expressão regular no texto, extraia as chaves
+  while ((match = regex.exec(texto)) !== null) {
+      // O grupo de captura match[1] contém o nome da chave sem os delimitadores {{ }}
+      chaves.push(match[1]);
+  }
+
+  // Retornar um array com as chaves extraídas
+  return chaves;
+}
 
 
 export function generateCustomID(prefix) {

@@ -7,7 +7,7 @@ import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
 import { getTemplates, addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
-import { removeObjetosVazios } from '../../../utils/tools/tools'
+import { removeObjetosVazios, extractKeys } from '../../../utils/tools/tools'
 import MyEditor from '../../../components/MyEditor/MyEditor';
 
 function Template() {
@@ -136,8 +136,6 @@ function Template() {
     };
 
     const handleSaveTemplate = () => {
-
-        {console.log("Valor:", dataValue)} 
         // Validar se o título está presente
         if (!editedTemplate.title) {
             setErrorStatus('Por favor, forneça um título para o template.');
@@ -160,7 +158,7 @@ function Template() {
             return;
         }
 
-        if (dataValue.length == 0) {
+        if (dataValue.length === 0) {
             setErrorStatus('Por favor, preencha o documento.');
             return;
         }
@@ -244,6 +242,23 @@ function Template() {
         }
 
     };
+
+    const autoGenerateKeys = () => {
+        const keys = extractKeys(dataValue);
+        console.log(keys)
+    
+        // Mapeia cada chave para o formato de objeto desejado
+        const keysArray = keys.map((key, index) => ({
+            name: key,
+            type: 'texto' // Se necessário, você pode ajustar o tipo conforme necessário
+        }));
+    
+        // Atualiza o estado com o novo array de chaves
+        setEditedTemplate({
+            ...editedTemplate,
+            keys: keysArray
+        });
+    }    
 
     return (
         <div className={`Template`}>
@@ -335,6 +350,7 @@ function Template() {
                             {(!editedTemplate.keys || editedTemplate.keys.length === 0) && (
                                 <button className="bt-addvar" onClick={handleAddKey}>Adicionar Chave do Documento</button>
                             )}
+                            <button type="button" className="bt-auto-generate" onClick={autoGenerateKeys}>Auto generate</button>
                         </div>
                     </form>
 
