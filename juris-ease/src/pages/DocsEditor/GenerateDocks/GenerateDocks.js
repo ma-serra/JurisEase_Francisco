@@ -35,16 +35,42 @@ function GenerateDocks() {
     const [options, setOptions] = useState([])
     const [resultado, setResultado] = useState(null);
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [form, setForm] = useState({})
+    const [content, setContent] = useState('')
 
     const handleProcessarArquivo = async () => {
-        console.log("data:", templateSelected.content)
         try {
-            const data = refactoreHTMLtoPDF(templateSelected.content)
+            const data = refactoreHTMLtoPDF(content)
             const url = await gerarPDF(data);
             setPdfUrl(url);
             console.log("URL do PDF:", url);
         } catch (error) {
             console.error('Erro ao gerar PDF:', error);
+        }
+    };
+
+    function replaceKeys(keys) {
+        let content = templateSelected.content;
+    
+        Object.keys(keys).forEach(key => {
+            const regex = new RegExp('{{' + key + '}}', 'g');
+            content = content.replace(regex, keys[key]);
+        });
+    
+        return content;
+    }
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+    
+        if (name.startsWith('key.')) {
+            const key = name.split('.')[1]; // key.name
+            setForm({
+                ...form,
+                [key]: value
+            });
+    
+            setContent(replaceKeys({...form, [key]: value}));
         }
     };
 
@@ -76,6 +102,16 @@ function GenerateDocks() {
             rout: rout || [],
             keys: keys || [],
         }));
+
+        setContent(content)
+        clearInputs()
+    };
+
+    const clearInputs = () => {
+        const inputElements = document.querySelectorAll('.key-input input');
+        inputElements.forEach(input => {
+            input.value = ''; // Limpa o valor do input
+        });
     };
 
     useEffect(() => {
@@ -151,7 +187,11 @@ function GenerateDocks() {
                             {templateSelected.keys.map((key, index) => (
                                 <div className='key-input' key={index}>
                                     <label htmlFor="name">{key.name}</label>
-                                    <input id="name" type='text' />
+                                    <input 
+                                    type='text' 
+                                    name={`key.${key.name}`}
+                                    onChange={handleInputChange}
+                                    />
                                 </div>
                             ))}
                             <button onClick={handleProcessarArquivo}>Processar Arquivo</button>
@@ -174,7 +214,7 @@ function GenerateDocks() {
                     <h2>Preview</h2>
                     <div className='sheet'>
                         {templateSelected && (
-                            <div className='content' dangerouslySetInnerHTML={{ __html: templateSelected.content }} />
+                            <div className='content' dangerouslySetInnerHTML={{ __html: content }} />
                         )}
                     </div>
 

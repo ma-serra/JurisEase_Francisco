@@ -5,14 +5,14 @@ export async function gerarPDF(htmlString) {
     html2pdf()
       .from(htmlString)
       .toPdf()
-      .save('saida.pdf');
-    // .output('blob')
-    // .then(blob => {
-    //     resolve(URL.createObjectURL(blob));
-    // })
-    // .catch(error => {
-    //     reject(error);
-    // });
+      .save('saida.pdf')
+      .output('blob')
+      .then(blob => {
+        resolve(URL.createObjectURL(blob));
+      })
+      .catch(error => {
+        reject(error);
+      });
   });
 }
 
@@ -53,7 +53,6 @@ export function refactoreHTMLtoPDF(htmlString) {
       </div>
   `;
 
-  console.log('Novo HTML:', novoHTML)
   return novoHTML;
 }
 
