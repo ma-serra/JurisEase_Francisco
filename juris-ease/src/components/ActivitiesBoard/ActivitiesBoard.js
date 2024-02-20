@@ -8,6 +8,7 @@ import { isUserAuthenticated } from '../../utils/data_base/firebase/authenticati
 import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 
 function ActivitiesBoard() {
+    const [search, setSearch] = useState('');
     const [user, setUser] = useState(null);
     const [permissionEdit, setPermission] = useState(false);
 
@@ -37,14 +38,18 @@ function ActivitiesBoard() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        console.log("search:", search)
+    }, [search])
+
     return (
         <section className={`ActivitiesBoard`}>
             <div className='search-activities'>
-                <Search />
+                <Search setSearch={setSearch}/>
             </div>
 
-            <ServicesSection permisionEdit={permissionEdit} />
-            <HeadlinesSection permisionEdit={permissionEdit} />
+            <ServicesSection permisionEdit={permissionEdit} filter={search}/>
+            <HeadlinesSection permisionEdit={permissionEdit} filter={search}/>
         </section>
     );
 }

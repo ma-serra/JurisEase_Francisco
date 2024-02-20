@@ -1,19 +1,27 @@
 import './Search.css'
+import React, { useEffect, useState } from 'react';
 
-import React, { useState } from 'react';
-
-function Search() {
-
+function Search({ setSearch }) {
   const [busca, setBusca] = useState("");
 
+  useEffect(() => {
+    if (setSearch != null) {
+      setSearch(busca);
+    }
+  }, [busca, setSearch]);
+  
+  const handleInputChange = (e) => {
+    setBusca(e.target.value);
+  };
+
   return (
-    <div className={`Search`}>
+    <div className="Search">
       <div className="search-container">
         <input
           type="text"
           placeholder="O que você procura?"
           value={busca}
-          onChange={(e) => setBusca(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
     </div>
