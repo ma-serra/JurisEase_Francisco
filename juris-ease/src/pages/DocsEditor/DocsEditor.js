@@ -42,10 +42,6 @@ function DocsEditor() {
         <div className='management-templates' onClick={() => { navigateTo('templates')}}>
           <p className='action-title'>Gerenciar Templates</p>
         </div>
-
-        <div className='management-templates' onClick={() => { navigateTo('test')}}>
-          <p className='action-title'>Testes</p>
-        </div>
       </div>
     </div>
   );

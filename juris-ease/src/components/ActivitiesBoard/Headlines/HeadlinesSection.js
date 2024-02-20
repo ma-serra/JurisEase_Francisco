@@ -3,14 +3,30 @@ import React, { useEffect, useState } from 'react';
 import CardEditSection from '../Cards/CardEditSection';
 import CardsSection from '../CardsSection/CardsSection';
 import { getHeadlines, addHeadline, removeHeadline, updateHeadline } from '../../../utils/data_base/firebase/dao/headlinesDAO';
-import { isEmptyObject, removeObjetosVazios } from '../../../utils/tools/tools'
+import { removeObjetosVazios, normalizeText } from '../../../utils/tools/tools'
 
-function HeadlineSection({ permisionEdit }) {
+function HeadlineSection({ permisionEdit, filter }) {
     const [headlines, setHeadlines] = useState([]);
     const [editingHeadline, setEditingHeadline] = useState(null);
+    const [filtredHeadlines, setFiltredHeadlines] = useState(null)
 
     const handleEditHeadline = (card) => {
         setEditingHeadline(card);
+    };
+
+    const filterCards = (filterText) => {
+        if (!filterText) {
+            return null
+        }
+
+        const searchText = normalizeText(filterText)
+
+        const filtered = headlines.filter(card => {
+            const description = normalizeText(card.description)
+            const title = normalizeText(card.title)
+            return title.includes(searchText) || description.includes(searchText);
+        });
+        setFiltredHeadlines(filtered);
     };
 
     useEffect(() => {
@@ -24,6 +40,10 @@ function HeadlineSection({ permisionEdit }) {
         fetchHeadlinesAndListen();
     }, []);
 
+    useEffect(() => {
+        filterCards(filter.trim());
+    }, [filter]);
+
     return (
         <div className={`HeadlinesSection`}>
             {editingHeadline && (
@@ -31,7 +51,7 @@ function HeadlineSection({ permisionEdit }) {
             )}
 
             {!editingHeadline && (
-                <CardsSection type={'Manchetes'} cardList={headlines} isEditable={permisionEdit} setOnEditCard={handleEditHeadline} />
+                <CardsSection type={'Manchetes'} cardList={ filtredHeadlines !== null ? filtredHeadlines : headlines } isEditable={permisionEdit} setOnEditCard={handleEditHeadline} />
             )}
         </div>
     );

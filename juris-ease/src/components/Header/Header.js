@@ -1,10 +1,7 @@
 import './Header.css'
 import React, { useState } from 'react';
 import Search from '../Search/Search';
-
-
 import { logout } from '../../utils/data_base/firebase/authentication'
-
 import { IoIosArrowDown } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -51,10 +48,6 @@ function Header({ openAuth, user, openUserManagement }) {
             </div>
 
             <div className="right-container">
-                <div className="search">
-                    <Search />
-                </div>
-
                 {!user && (
                     <div>
                         <button className="bt-login" onClick={toggleLogin}>

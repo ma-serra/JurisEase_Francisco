@@ -1,5 +1,14 @@
 import html2pdf from 'html2pdf.js';
 
+export function normalizeText(text) {
+  const normalizedText = text
+      .toLowerCase() // Converter para minúsculas
+      .normalize("NFD") // Normalizar caracteres (remover acentos)
+      .replace(/[\u0300-\u036f]/g, ""); // Remover diacríticos
+
+  return normalizedText;
+}
+
 export async function gerarPDF(htmlString) {
   return new Promise((resolve, reject) => {
     var opt = {
