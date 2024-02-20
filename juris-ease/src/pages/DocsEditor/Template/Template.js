@@ -277,7 +277,7 @@ function Template() {
 
             {drawerOpen && (
                 <div className='back_drawer_template' onClick={closeDrawer}>
-                    <div className='drawer_template'>
+                    <div className='drawer_template' onClick={(e) => e.stopPropagation()}>
                         <h2>Edit Template</h2>
                         <MdDelete className='bt-template-delete' onClick={handleDeleteTemplate} />
 
