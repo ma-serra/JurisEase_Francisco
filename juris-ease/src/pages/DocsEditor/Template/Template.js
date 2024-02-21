@@ -106,6 +106,7 @@ function Template() {
             rout: [],
             keys: []
         });
+        setDataValue("<p>Seu texto aqui</p>")
     };
 
     const handleCardClick = (data) => {
@@ -264,108 +265,112 @@ function Template() {
         <div className={`Template`}>
             <Header user={user} />
 
-            <div className='title'>
-                <h1>Templates</h1>
-                <MdLibraryAdd className='bt-add-template' onClick={handleAddTemplateClick} />
-            </div>
+            <div className='content'>
+                <div className='content-templates'>
+                    <div className='title'>
+                        <h1>Templates</h1>
+                        <MdLibraryAdd className='bt-add-template' onClick={handleAddTemplateClick} />
+                    </div>
 
-            <div className='grd_templates'>
-                {templates.map((template, index) => (
-                    <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
-                ))}
-            </div>
-
-            {drawerOpen && (
-                <div className='back_drawer_template' onClick={closeDrawer}>
-                    <div className='drawer_template' onClick={(e) => e.stopPropagation()}>
-                        <h2>Edit Template</h2>
-                        <MdDelete className='bt-template-delete' onClick={handleDeleteTemplate} />
-
-                        <form>
-                            <div>
-                                <label>
-                                    Titulo:
-                                    <input
-                                        type='text'
-                                        id='title'
-                                        value={editedTemplate?.title || ''}
-                                        onChange={handleInputChange}
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <MyEditor data={dataValue} onDataChange={setDataValue} />
-                            </div>
-                            <div>
-                                <label>Caminho:</label>
-                                {editedTemplate.rout.map((rout, index) => (
-                                    <div className='rout-item' key={index}>
-                                        <input
-                                            type='text'
-                                            name={`rout.${index}`}
-                                            value={rout}
-                                            onChange={handleInputChange}
-                                        />
-                                        {editedTemplate.rout.length === index + 1 && (
-                                            <button className="bt-rout" onClick={handleAddRout}>+</button>
-                                        )}
-                                        {editedTemplate.rout.length === index + 1 && (
-                                            <button className="bt-rout" onClick={() => handleRemoveRout(index)}>-</button>
-                                        )}
-                                    </div>
-                                ))}
-                                {editedTemplate.rout.length === 0 && (
-                                    <button className="bt-addvar" onClick={handleAddRout}>Adicionar Caminho</button>
-                                )}
-                            </div>
-                            <div>
-                                <label>Chaves do Documento:</label>
-                                {editedTemplate.keys && editedTemplate.keys.map((key, index) => (
-                                    <div className='doc-key-item' key={index}>
-                                        <input
-                                            type='text'
-                                            name={`keys.${index}.name`}
-                                            placeholder='Chave'
-                                            value={key.name}
-                                            onChange={handleInputChange}
-                                        />
-                                        <select
-                                            name={`keys.${index}.type`}
-                                            value={key.type}
-                                            onChange={handleInputChange}
-                                        >
-                                            <option value='texto'>Texto</option>
-                                            <option value='monetário'>Monetário</option>
-                                            <option value='data'>Data</option>
-                                            <option value='inteiro'>Inteiro</option>
-                                            {/* Adicione outros tipos conforme necessário */}
-                                        </select>
-                                        {editedTemplate.keys.length === index + 1 && (
-                                            <button className="bt-rout" onClick={handleAddKey}>+</button>
-                                        )}
-                                        {editedTemplate.keys.length === index + 1 && (
-                                            <button className="bt-rout" onClick={() => handleRemoveKey(index)}>-</button>
-                                        )}
-                                    </div>
-                                ))}
-                                {(!editedTemplate.keys || editedTemplate.keys.length === 0) && (
-                                    <button className="bt-addvar" onClick={handleAddKey}>Adicionar Chave do Documento</button>
-                                )}
-                                <button type="button" className="bt-auto-generate" onClick={autoGenerateKeys}>Auto generate</button>
-                            </div>
-                        </form>
-
-                        <div className='template-bts-act'>
-                            <button className="bt-cancelar" onClick={closeDrawer}>Cancelar</button>
-                            <button className="bt-aplicar" onClick={handleSaveTemplate}>Aplicar</button>
-                        </div>
-
-                        <div>
-                            {errorStatus && <p>{errorStatus}</p>}
-                        </div>
+                    <div className='grd_templates'>
+                        {templates.map((template, index) => (
+                            <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
+                        ))}
                     </div>
                 </div>
-            )}
+
+                {drawerOpen && (
+                    <div className='back_drawer_template' onClick={closeDrawer}>
+                        <div className='drawer_template' onClick={(e) => e.stopPropagation()}>
+                            <form>
+                                <h2>Edit Template</h2>
+                                <MdDelete className='bt-template-delete' onClick={handleDeleteTemplate} />
+
+                                <div>
+                                    <label>
+                                        Titulo:
+                                        <input
+                                            type='text'
+                                            id='title'
+                                            value={editedTemplate?.title || ''}
+                                            onChange={handleInputChange}
+                                        />
+                                    </label>
+                                </div>
+                                <div>
+                                    <MyEditor data={dataValue} onDataChange={setDataValue} />
+                                </div>
+                                <div>
+                                    <label>Caminho:</label>
+                                    {editedTemplate.rout.map((rout, index) => (
+                                        <div className='rout-item' key={index}>
+                                            <input
+                                                type='text'
+                                                name={`rout.${index}`}
+                                                value={rout}
+                                                onChange={handleInputChange}
+                                            />
+                                            {editedTemplate.rout.length === index + 1 && (
+                                                <button className="bt-rout" onClick={handleAddRout}>+</button>
+                                            )}
+                                            {editedTemplate.rout.length === index + 1 && (
+                                                <button className="bt-rout" onClick={() => handleRemoveRout(index)}>-</button>
+                                            )}
+                                        </div>
+                                    ))}
+                                    {editedTemplate.rout.length === 0 && (
+                                        <button className="bt-addvar" onClick={handleAddRout}>Adicionar Caminho</button>
+                                    )}
+                                </div>
+                                <div>
+                                    <label>Chaves do Documento:</label>
+                                    {editedTemplate.keys && editedTemplate.keys.map((key, index) => (
+                                        <div className='doc-key-item' key={index}>
+                                            <input
+                                                type='text'
+                                                name={`keys.${index}.name`}
+                                                placeholder='Chave'
+                                                value={key.name}
+                                                onChange={handleInputChange}
+                                            />
+                                            <select
+                                                name={`keys.${index}.type`}
+                                                value={key.type}
+                                                onChange={handleInputChange}
+                                            >
+                                                <option value='texto'>Texto</option>
+                                                <option value='monetário'>Monetário</option>
+                                                <option value='data'>Data</option>
+                                                <option value='inteiro'>Inteiro</option>
+                                                {/* Adicione outros tipos conforme necessário */}
+                                            </select>
+                                            {editedTemplate.keys.length === index + 1 && (
+                                                <button className="bt-rout" onClick={handleAddKey}>+</button>
+                                            )}
+                                            {editedTemplate.keys.length === index + 1 && (
+                                                <button className="bt-rout" onClick={() => handleRemoveKey(index)}>-</button>
+                                            )}
+                                        </div>
+                                    ))}
+                                    {(!editedTemplate.keys || editedTemplate.keys.length === 0) && (
+                                        <button className="bt-addvar" onClick={handleAddKey}>Adicionar Chave do Documento</button>
+                                    )}
+                                    <button type="button" className="bt-auto-generate" onClick={autoGenerateKeys}>Auto generate</button>
+                                </div>
+                            </form>
+
+                            <div className='template-bts-act'>
+                                <button className="bt-cancelar" onClick={closeDrawer}>Cancelar</button>
+                                <button className="bt-aplicar" onClick={handleSaveTemplate}>Aplicar</button>
+                            </div>
+
+                            <div>
+                                {errorStatus && <p>{errorStatus}</p>}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
 
         </div>
     );

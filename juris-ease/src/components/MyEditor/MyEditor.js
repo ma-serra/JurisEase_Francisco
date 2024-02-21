@@ -21,7 +21,6 @@ class MyEditor extends Component {
                     }}
                     onChange={(event, editor) => {
                         const data = editor.getData();
-                        console.log({ event, editor, data });
                         this.setState({ parameter: 'data' }); // Atualiza o parâmetro para 'data'
                         this.props.onDataChange(data); // Chama a função onDataChange para atualizar o valor no componente pai
                     }}
