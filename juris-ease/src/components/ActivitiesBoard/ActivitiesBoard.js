@@ -38,10 +38,6 @@ function ActivitiesBoard() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        console.log("search:", search)
-    }, [search])
-
     return (
         <section className={`ActivitiesBoard`}>
             <div className='search-activities'>

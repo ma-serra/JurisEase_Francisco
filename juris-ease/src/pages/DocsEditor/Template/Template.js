@@ -7,12 +7,15 @@ import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
 import { getTemplates, addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
-import { removeObjetosVazios, extractKeys } from '../../../utils/tools/tools'
+import { removeObjetosVazios, extractKeys, normalizeText } from '../../../utils/tools/tools'
 import MyEditor from '../../../components/MyEditor/MyEditor';
+import Search from '../../../components/Search/Search';
 
 function Template() {
     const [dataValue, setDataValue] = useState("<p>Seu texto aqui</p>");
 
+    const [search, setSearch] = useState('');
+    const [filtredTemplates, setFiltredTemplates] = useState(null)
     const [errorStatus, setErrorStatus] = useState(null);
 
     // User
@@ -25,6 +28,35 @@ function Template() {
         rout: [],
         keys: []
     });
+
+    const filterCards = (filterText) => {
+        if (!filterText) {
+            return null
+        }
+
+        const searchText = normalizeText(filterText)
+
+        const filtered = templates.filter(card => {
+            const content = normalizeText(card.content)
+            const title = normalizeText(card.title)
+            const rout = normalizeText(card.rout)
+
+            console.log('template description:', card.content)
+            console.log('template description:', content)
+            console.log('template title:', card.title)
+            console.log('template title:', title)
+            console.log('template rout:', card.rout)
+            console.log('template rout:', rout)
+
+            return title.includes(searchText) || content.includes(searchText) || rout.includes(searchText);
+        });
+
+        setFiltredTemplates(filtered);
+    };
+
+    useEffect(() => {
+        filterCards(search.trim());
+    }, [search]);
 
     useEffect(() => {
         async function fetchUser() {
@@ -266,16 +298,37 @@ function Template() {
             <Header user={user} />
 
             <div className='content'>
+
                 <div className='content-templates'>
                     <div className='title'>
                         <h1>Templates</h1>
                         <MdLibraryAdd className='bt-add-template' onClick={handleAddTemplateClick} />
                     </div>
 
+                    <div className='search-templates'>
+                        <Search setSearch={setSearch} />
+                    </div>
+
                     <div className='grd_templates'>
-                        {templates.map((template, index) => (
-                            <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
-                        ))}
+                        {/* Verifica se filtredTemplates é nulo */}
+                        {filtredTemplates === null ? (
+                            // Se filtredTemplates for nulo, mostra os templates
+                            templates.map((template, index) => (
+                                <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
+                            ))
+                        ) : (
+                            // Se filtredTemplates não for nulo
+                            // Verifica se filtredTemplates não é um array vazio
+                            filtredTemplates.length > 0 ? (
+                                // Se filtredTemplates não for um array vazio, mostra filtredTemplates
+                                filtredTemplates.map((template, index) => (
+                                    <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
+                                ))
+                            ) : (
+                                // Se filtredTemplates for um array vazio, mostra a mensagem "Nenhum template encontrado!"
+                                <p>Nenhum template encontrado!</p>
+                            )
+                        )}
                     </div>
                 </div>
 

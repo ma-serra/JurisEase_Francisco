@@ -1,13 +1,30 @@
 import html2pdf from 'html2pdf.js';
 
 export function normalizeText(text) {
-  const normalizedText = text
+  console.log('normalizeText:', text);
+  if (text === undefined || text === null) {
+      return '';
+  }
+
+  if (Array.isArray(text)) {
+      console.log('Text is Array');
+      // Mapeia cada elemento do array para seu equivalente normalizado
+      const normalizedArray = text.map(element => normalizeElement(element));
+      // Une os elementos normalizados em uma única string separada por espaços
+      return normalizedArray.join(' ');
+  }
+
+  // Se não for um array, trata como uma única string e normaliza
+  return normalizeElement(text);
+}
+
+function normalizeElement(element) {
+  return element
       .toLowerCase() // Converter para minúsculas
       .normalize("NFD") // Normalizar caracteres (remover acentos)
       .replace(/[\u0300-\u036f]/g, ""); // Remover diacríticos
-
-  return normalizedText;
 }
+
 
 export async function gerarPDF(htmlString) {
   return new Promise((resolve, reject) => {
