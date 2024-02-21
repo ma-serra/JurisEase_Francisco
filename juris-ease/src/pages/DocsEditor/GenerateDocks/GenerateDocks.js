@@ -51,26 +51,26 @@ function GenerateDocks() {
 
     function replaceKeys(keys) {
         let content = templateSelected.content;
-    
+
         Object.keys(keys).forEach(key => {
             const regex = new RegExp('{{' + key + '}}', 'g');
             content = content.replace(regex, keys[key]);
         });
-    
+
         return content;
     }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name.startsWith('key.')) {
             const key = name.split('.')[1]; // key.name
             setForm({
                 ...form,
                 [key]: value
             });
-    
-            setContent(replaceKeys({...form, [key]: value}));
+
+            setContent(replaceKeys({ ...form, [key]: value }));
         }
     };
 
@@ -140,38 +140,37 @@ function GenerateDocks() {
     return (
         <div className="GenerateDocks">
             <Header user={user} />
-            <div className="main-section">
+            <div className="document-generator">
 
-                <div className="drawer">
-                    <h2>Selecione um documento</h2>
-                    <form>
-                        <div>
+                <div className="content-templates">
+                    <h2>Selecione seus templates</h2>
+
+                    <div className='rout-path'>
+                        <form>
                             <label>
-                                Caminho:
-                                <span style={{ cursor: 'pointer', color: 'blue' }} onClick={() => resetRout()}>
-                                    {" ..."}
-                                    <span>
-                                        {" > "}
-                                    </span>
-                                </span>
+                                <span className="path-span" onClick={() => resetRout()}> {'Templates'} </span>
+                                <span> {' / '} </span>
+
                                 {rout.map((rt, index) => (
-                                    <span style={{ cursor: 'pointer', color: 'blue' }} onClick={() => undoRout(index)}>
-                                        {rt}
-                                        <span key={index}>
-                                            {' > '}
+                                    <>
+                                        <span key={index} className="path-span" onClick={() => undoRout(index)}>
+                                            {rt}
                                         </span>
-                                    </span>
+                                        <span> {' / '} </span>
+                                    </>
                                 ))}
                             </label>
-                            <select name={`rout`} value={rout[rout.length - 1] || ''} onChange={handleChangeRout}>
+
+                            <select name={`rout`} value={rout[rout.length - 1] || ''} onChange={handleChangeRout} className="select-option">
+                                <option value="">Selecione</option> {/* Mensagem "Selecione" */}
                                 {options.map((option, index) => (
                                     <option key={index} value={option}>
                                         {option}
                                     </option>
                                 ))}
                             </select>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
 
                     <div className='content-cards'>
                         {filteredTemplates.map((template, index) => (
@@ -180,17 +179,18 @@ function GenerateDocks() {
                     </div>
 
                 </div>
-                <div className='templateForm'>
+
+                <div className='content-form'>
                     <h2>Template Form</h2>
                     {templateSelected &&
                         <div>
                             {templateSelected.keys.map((key, index) => (
                                 <div className='key-input' key={index}>
                                     <label htmlFor="name">{key.name}</label>
-                                    <input 
-                                    type='text' 
-                                    name={`key.${key.name}`}
-                                    onChange={handleInputChange}
+                                    <input
+                                        type='text'
+                                        name={`key.${key.name}`}
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             ))}
@@ -210,7 +210,7 @@ function GenerateDocks() {
                     }
                 </div>
 
-                <div className="preview">
+                <div className="content-preview">
                     <h2>Preview</h2>
                     <div className='sheet'>
                         {templateSelected && (

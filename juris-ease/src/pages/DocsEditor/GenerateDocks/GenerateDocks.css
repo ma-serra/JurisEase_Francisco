@@ -1,28 +1,56 @@
-.GenerateDocks .Search {
-    display: none;
-}
-
-.main-section {
+.document-generator {
     display: flex;
     flex-direction: row;
     
     background-color: var(--gray-30);
     color: var(--primary-dark-50);
+    width: 100%;
 }
 
-.templateForm {
+.document-generator h2 {
+    font-size: 12pt;
+    margin: 0;
+ }
+
+.content-templates {
     flex: 1;
-    padding: 1em;
+    padding: 20px; 
 }
 
-.preview {
+.content-templates .rout-path {
+    margin-bottom: 15px;
+}
+
+.content-templates .rout-path * {
+    font-size: 8pt;
+}
+
+.content-templates .rout-path .path-span {
+    cursor: pointer;
+}
+
+.content-templates .rout-path select {
+    border: none;
+    background-color: transparent;
+    width: 62px;
+    text-align: left;
+    margin-left: -3px;
+    font-size: xx-small;
+    cursor: pointer;
+    
+}
+
+.content-form {
     flex: 1;
-    padding: 1em;
-
-    display: block;
+    padding: 20px;
 }
 
-.preview .sheet {
+.content-preview {
+    flex: 1;
+    padding: 20px;
+}
+
+.sheet {
     background-color: white;
     width: calc(21cm * 0.5); /* Largura equivalente a uma folha A4 */
     height: calc(29.7cm * 0.5); /* Altura equivalente a uma folha A4 */
