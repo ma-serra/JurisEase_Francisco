@@ -2,14 +2,19 @@
     background-color: var(--primary-dark-50);
     border: 1px solid var(--primary-dark-90);
     border-radius: 8px;
-    padding: 20px;
+    padding: 25px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
-    max-width: 300px;
     width: 100%;
     box-sizing: border-box; 
     box-shadow: -5px 4px 6px rgba(0, 0, 0, 0.3);
     margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+    height: 400px;
 }
 
 .CardTemplate:hover {
@@ -18,7 +23,7 @@
 
 .CardTemplate h1 {
     color: var(--white);
-    font-size: 1.2rem;
+    font-size: 12pt;
     margin-bottom: 20px;
     margin-top: 0px;
     text-align: center;
@@ -26,31 +31,120 @@
 
 .CardTemplate p {
     color: var(--white);
-    font-size: 0.8rem;
+    font-size: 9pt;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 } 
 
 .template-doc {
-    overflow: hidden;
-    height: 200px;
+    overflow: hidden; 
+    height: 90%;
+    margin-bottom: 10px;
 }
 
 .template-doc * {
     color: aliceblue;
     margin: 0; /* Espaçamento entre parágrafos reduzido */
-    font-size: 0.8rem; /* Tamanho da fonte dos parágrafos */
-}
-
-.template-doc h1 {
-    font-size: 1.5rem; /* Tamanho da fonte para h1 */
+    font-size: 8pt; /* Tamanho da fonte dos parágrafos */
 }
 
 .template-doc h2 {
-    font-size: 1.25rem; /* Tamanho da fonte para h2 */
+    font-size: 12pt; /* Tamanho da fonte para h1 */
 }
 
 .template-doc h3 {
-    font-size: 1.1rem; /* Tamanho da fonte para h3 */
+    font-size: 10pt; /* Tamanho da fonte para h2 */
+}
+
+.template-doc h4 {
+    font-size: 8pt; /* Tamanho da fonte para h3 */
+}
+
+/* -25% */ 
+@media (max-width: 1000px) {
+    .CardTemplate {
+        border-radius: 6px;
+        padding: 15px;
+        box-shadow: -4px 3px 5px rgba(0, 0, 0, 0.3);
+        margin: 7.5px;
+    
+        width: 225px;
+        height: 300px;
+    }
+    
+    .CardTemplate h1 {
+        font-size: 10pt;
+        margin-bottom: 15px;
+    }
+    
+    .CardTemplate p {
+        font-size: 8pt;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    } 
+    
+    .template-doc {
+        overflow: hidden;
+        height: 150px;
+    }
+    
+    .template-doc * {
+        font-size: 7pt; /* Tamanho da fonte dos parágrafos */
+    }
+    
+    .template-doc h2 {
+        font-size: 9pt; /* Tamanho da fonte para h1 */
+    }
+    
+    .template-doc h3 {
+        font-size: 8pt; /* Tamanho da fonte para h2 */
+    }
+    
+    .template-doc h4 {
+        font-size: 7pt; /* Tamanho da fonte para h3 */
+    }
+}
+
+/* -50% */
+@media (max-width: 550px) {
+    .CardTemplate {
+        border-radius: 4px;
+        padding: 10px;
+        box-shadow: -2.5px 2px 3px rgba(0, 0, 0, 0.3);
+        margin: 5px;
+    
+        width: 150px;
+        height: 200px;
+    }
+    
+    .CardTemplate h1 {
+        font-size: 7pt;
+        margin-bottom: 10px;
+    }
+    
+    .CardTemplate p {
+        font-size: 5pt;
+    } 
+    
+    .template-doc {
+        height: 100px;
+    }
+    
+    .template-doc * {
+        font-size: 5pt; /* Tamanho da fonte dos parágrafos */
+    }
+    
+    .template-doc h2 {
+        font-size: 7pt; /* Tamanho da fonte para h1 */
+    }
+    
+    .template-doc h3 {
+        font-size: 6pt; /* Tamanho da fonte para h2 */
+    }
+    
+    .template-doc h4 {
+        font-size: 5pt; /* Tamanho da fonte para h3 */
+    }
 }

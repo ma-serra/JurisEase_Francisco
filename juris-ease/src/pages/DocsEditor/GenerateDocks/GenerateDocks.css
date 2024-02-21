@@ -43,16 +43,16 @@
     overflow: hidden;
 }
 
-.sheet .content h1 {
-    font-size: calc(24pt * 0.5); /* Tamanho da fonte para h1 */
-}
-
 .sheet .content h2 {
     font-size: calc(18pt * 0.5); /* Tamanho da fonte para h2 */
 }
 
 .sheet .content h3 {
     font-size: calc(16pt * 0.5); /* Tamanho da fonte para h3 */
+}
+
+.sheet .content h4 {
+    font-size: calc(14pt * 0.5); /* Tamanho da fonte para h3 */
 }
 
 .drawer {
