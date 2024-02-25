@@ -10,6 +10,7 @@ import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
 import { getTemplates } from '../../../utils/data_base/firebase/dao/templateDAO';
 import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF } from '../../../utils/tools/tools'
+import SheetPreview from '../../../components/SheetPreview/SheetPreview';
 
 const filterTemplatesByRout = (rout, templates) => {
     let filteredTemplates = [...templates];
@@ -212,12 +213,7 @@ function GenerateDocks() {
 
                 <div className="content-preview">
                     <h2>Preview</h2>
-                    <div className='sheet'>
-                        {templateSelected && (
-                            <div className='content' dangerouslySetInnerHTML={{ __html: content }} />
-                        )}
-                    </div>
-
+                    <SheetPreview content={content}/>
                 </div>
 
             </div>

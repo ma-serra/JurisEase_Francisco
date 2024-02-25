@@ -39,16 +39,6 @@
     }
 }
 
-.grd_templates {
-    margin: 0 5%;
-    width: 90%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    align-items: center;
-    justify-items: center;
-}
-
 .back_drawer_template {
     position: absolute;
     background-color: var(--transparent-75);
@@ -94,19 +84,19 @@
     font-size: 8pt;
 }
 
-.ck-content > h2 {
+.ck-content>h2 {
     font-size: 12pt;
 }
 
-.ck-content > h3 {
+.ck-content>h3 {
     font-size: 10pt;
 }
 
-.ck-content > h4 {
+.ck-content>h4 {
     font-size: 8pt;
 }
 
-.ck-content > p {
+.ck-content>p {
     font-size: 8pt;
 }
 
@@ -255,15 +245,42 @@
     max-height: 120px;
 }
 
+.grd_templates {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5%;
+    align-items: center;
+    justify-items: center;
+
+    .CardTemplate {
+        width: 300px;
+        height: 400px;
+        font-size: 100px;
+    }
+}
+
 @media (max-width: 1000px) {
     .grd_templates {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+        .CardTemplate {
+            width: 225px;
+            height: 300px;
+            font-size: 75px;
+        }
     }
 }
 
 @media (max-width: 550px) {
     .grd_templates {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+        .CardTemplate {
+            width: 150px;
+            height: 200px;
+            font-size: 50px;
+        }
     }
 
     .bt-template-delete {

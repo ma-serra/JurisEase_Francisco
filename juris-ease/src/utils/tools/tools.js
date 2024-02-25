@@ -3,15 +3,15 @@ import html2pdf from 'html2pdf.js';
 export function normalizeText(text) {
   console.log('normalizeText:', text);
   if (text === undefined || text === null) {
-      return '';
+    return '';
   }
 
   if (Array.isArray(text)) {
-      console.log('Text is Array');
-      // Mapeia cada elemento do array para seu equivalente normalizado
-      const normalizedArray = text.map(element => normalizeElement(element));
-      // Une os elementos normalizados em uma única string separada por espaços
-      return normalizedArray.join(' ');
+    console.log('Text is Array');
+    // Mapeia cada elemento do array para seu equivalente normalizado
+    const normalizedArray = text.map(element => normalizeElement(element));
+    // Une os elementos normalizados em uma única string separada por espaços
+    return normalizedArray.join(' ');
   }
 
   // Se não for um array, trata como uma única string e normaliza
@@ -20,11 +20,10 @@ export function normalizeText(text) {
 
 function normalizeElement(element) {
   return element
-      .toLowerCase() // Converter para minúsculas
-      .normalize("NFD") // Normalizar caracteres (remover acentos)
-      .replace(/[\u0300-\u036f]/g, ""); // Remover diacríticos
+    .toLowerCase() // Converter para minúsculas
+    .normalize("NFD") // Normalizar caracteres (remover acentos)
+    .replace(/[\u0300-\u036f]/g, ""); // Remover diacríticos
 }
-
 
 export async function gerarPDF(htmlString) {
   return new Promise((resolve, reject) => {
@@ -41,49 +40,36 @@ export async function gerarPDF(htmlString) {
       .set(opt)
       .toPdf()
       .save('saida.pdf')
-      .output('blob')
-      .then(blob => {
-        resolve(URL.createObjectURL(blob));
-      })
-      .catch(error => {
-        reject(error);
-      });
   });
 }
 
 export function refactoreHTMLtoPDF(htmlString) {
   // Adiciona as classes de estilo ao texto HTML
   const novoHTML = `
-  <style>
-      .sheet {
-          margin: 0; /* Centralizar horizontalmente */
-      }
-
-      .sheet .content * {
+    <style>
+      .content * {
         text-align: left;
         color: black;
         font-size: calc(12pt * 1); /* Tamanho da fonte */
         line-height: calc(0.5cm * 1); /* Espaçamento entre linhas */
-    }
-    
-    .sheet .content h1 {
-        font-size: calc(24pt * 1); /* Tamanho da fonte para h1 */
-    }
-    
-    .sheet .content h2 {
-        font-size: calc(18pt * 1); /* Tamanho da fonte para h2 */
-    }
-    
-    .sheet .content h3 {
-        font-size: calc(16pt * 1); /* Tamanho da fonte para h3 */
-    }
-  </style>
+      }
 
-      <div class="sheet">
-          <div class="content">
-              ${htmlString}
-          </div>
-      </div>
+      .content h1 {
+        font-size: calc(24pt * 1); /* Tamanho da fonte para h1 */
+      }
+
+      .content h2 {
+        font-size: calc(18pt * 1); /* Tamanho da fonte para h2 */
+      }
+
+      .content h3 {
+        font-size: calc(16pt * 1); /* Tamanho da fonte para h3 */
+      }
+    </style>
+      
+    <div class="content">
+      ${htmlString}
+    </div>
   `;
 
   return novoHTML;
@@ -97,8 +83,8 @@ export function extractKeys(texto) {
 
   // Enquanto houver correspondências da expressão regular no texto, extraia as chaves
   while ((match = regex.exec(texto)) !== null) {
-      // O grupo de captura match[1] contém o nome da chave sem os delimitadores {{ }}
-      chaves.push(match[1]);
+    // O grupo de captura match[1] contém o nome da chave sem os delimitadores {{ }}
+    chaves.push(match[1]);
   }
 
   // Retornar um array com as chaves extraídas
