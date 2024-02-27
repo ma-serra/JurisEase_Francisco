@@ -50,20 +50,20 @@ export function refactoreHTMLtoPDF(htmlString) {
       .content * {
         text-align: left;
         color: black;
-        font-size: calc(12pt * 1); /* Tamanho da fonte */
-        line-height: calc(0.5cm * 1); /* Espaçamento entre linhas */
+        font-size: 12pt; /* Tamanho da fonte */
+        line-height: 0.5cm; /* Espaçamento entre linhas */
       }
 
       .content h1 {
-        font-size: calc(24pt * 1); /* Tamanho da fonte para h1 */
+        font-size: 24pt; /* Tamanho da fonte para h1 */
       }
 
       .content h2 {
-        font-size: calc(18pt * 1); /* Tamanho da fonte para h2 */
+        font-size: 18pt; /* Tamanho da fonte para h2 */
       }
 
       .content h3 {
-        font-size: calc(16pt * 1); /* Tamanho da fonte para h3 */
+        font-size: 16pt; /* Tamanho da fonte para h3 */
       }
     </style>
       

@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase, ref } from 'firebase/database';
 import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDc7A5qpg8VAGX6UVRrwM4GJ-dX8LGcIVg",
   authDomain: "juris-ease.firebaseapp.com",

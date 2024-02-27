@@ -19,7 +19,7 @@ function ChatDrawer({ device }) {
         <Search />
         
         <div className="chat-content">
-
+          <p>Em desenvolvimento</p>
         </div>
       </div>
 

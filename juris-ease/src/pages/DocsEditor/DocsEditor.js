@@ -28,18 +28,34 @@ function DocsEditor() {
     fetchUser(); // Chame a função de busca de usuário aqui
   }, [])
 
+  const breakAcess = () => {
+    while (!user){
+      setTimeout(1000)
+    }
+
+    if (!user.acessAdmin){
+      alert('Usuario não tem permissão de acesso a essa página!')
+      navigateTo('')
+    }
+    
+  }
+
   return (
     <div className={`DocsEditor`}>
       <Header user={user} />
 
+      {user && (
+        breakAcess()
+      )}
+
       <h1 className='dock-edit-title'>Edição de Documentos</h1>
 
       <div className='dock-edit-actions'>
-        <div className='generate-docks' onClick={() => { navigateTo('generate-docks')}}>
+        <div className='generate-docks' onClick={() => { navigateTo('generate-docks') }}>
           <p className='action-title'>Gerar Documentos</p>
         </div>
 
-        <div className='management-templates' onClick={() => { navigateTo('templates')}}>
+        <div className='management-templates' onClick={() => { navigateTo('templates') }}>
           <p className='action-title'>Gerenciar Templates</p>
         </div>
       </div>

@@ -1,9 +1,8 @@
 import './Header.css'
 import React, { useState } from 'react';
-import Search from '../Search/Search';
 import { logout } from '../../utils/data_base/firebase/authentication'
 import { IoIosArrowDown } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Header({ openAuth, user, openUserManagement }) {
     const [isLoginOpen, setLoginOpen] = useState(false);
@@ -63,20 +62,18 @@ function Header({ openAuth, user, openUserManagement }) {
                     </div>
                 )}
 
-                <div className='contato'>
-                    <p>Fale conosco</p>
-                </div>
-
                 {!!user && (
                     <div>
                         <p className='user-name' onClick={toggleUserInfo}>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
                         {isUserInfoOpen && (
                             <div className="drop-down">
-                                {user.type === 'lawyer' && (
-                                    <p onClick={() => { navigateTo('docs-editor')}}>Docks Editor</p>
+                                {user.type === 'lawyer' && user.acessAdmin && (
+                                    <p onClick={() => { navigateTo('docs-editor') }}>Docks Editor</p>
+                                )}
+                                {user.type === 'lawyer' && !user.acessAdmin && (
+                                    <p onClick={() => { navigateTo('generate-docks') }}>Docks Editor</p>
                                 )}
                                 <p onClick={() => { toggleUserInfo(); openUserManagement() }}>Gerenciar Conta</p>
-                                <p onClick={toggleUserInfo}>Info</p>
                                 <p onClick={() => { logout(); window.location.reload(); }}>Sair</p>
                             </div>
                         )}

@@ -2,6 +2,7 @@ import './UserManagement.css';
 import React, { useState } from 'react';
 import { validarOAB, comparePassword } from '../../../utils/tools/tools'
 import { updateUser } from '../../../utils/data_base/firebase/dao/userDAO'
+import { recoverPassword, logout } from '../../../utils/data_base/firebase/authentication'
 
 function UserManagement({ device, close, user }) {
 
@@ -113,6 +114,18 @@ function UserManagement({ device, close, user }) {
         updatedUser.address = formData.address;
 
         return updatedUser;
+    }
+
+    async function forgotPassword() {
+        const email = user.email
+        try {
+          await recoverPassword(email);
+          logout();
+          setTimeout(() => window.location.reload(), 3000);
+
+        } catch (error) {
+          console.log(error.message);
+        }
     }
 
     return (
@@ -261,7 +274,7 @@ function UserManagement({ device, close, user }) {
                         />
                     </div>
                 </form>
-                <p className='forgot-password'>Esqueceu sua senha? Clique aqui!</p>
+                <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
                 {error && <p className="msg-error">{error}</p>}
                 <div className='bts-options'>
                     <button onClick={cancelChanges}>Cancelar</button>

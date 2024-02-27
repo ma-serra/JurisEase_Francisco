@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
 import { getUser } from '../../utils/data_base/firebase/dao/userDAO'
+import ChatDrawer from '../../components/ChatDrawer/ChatDrawer';
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -54,6 +55,8 @@ function Home() {
       )}
 
       <Footer />
+
+      <ChatDrawer/>
     </div>
   );
 }

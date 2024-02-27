@@ -10,6 +10,8 @@ import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 import { removeObjetosVazios, extractKeys, normalizeText } from '../../../utils/tools/tools'
 import MyEditor from '../../../components/MyEditor/MyEditor';
 import Search from '../../../components/Search/Search';
+import { useNavigate } from 'react-router-dom';
+
 
 function Template() {
     const [dataValue, setDataValue] = useState("<p>Seu texto aqui</p>");
@@ -293,9 +295,29 @@ function Template() {
         });
     }
 
+    const navigate = useNavigate();
+    const navigateTo = (link) => {
+        navigate(`/${link}`);
+    };
+
+    const breakAcess = () => {
+        while (!user) {
+            setTimeout(1000)
+        }
+
+        if (!user.acessAdmin) {
+            alert('Usuario não tem permissão de acesso a essa página!')
+            navigateTo('')
+        }
+    }
+
     return (
         <div className={`Template`}>
             <Header user={user} />
+
+            {user && (
+                breakAcess()
+            )}
 
             <div className='content'>
 

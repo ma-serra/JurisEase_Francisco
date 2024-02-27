@@ -1,6 +1,6 @@
 import './AuthPage.css';
 import React, { useState } from 'react';
-import { signIn, register } from '../../../utils/data_base/firebase/authentication';
+import { signIn, register, recoverPassword } from '../../../utils/data_base/firebase/authentication';
 import { addUser } from '../../../utils/data_base/firebase/dao/userDAO'
 import { validarOAB, encryptPassword } from '../../../utils/tools/tools'
 
@@ -40,11 +40,12 @@ function AuthPage({ device, toogleAuth, auth }) {
     if (formData.name && formData.email && formData.password && formData.confirmPassword) {
       if (formData.password === formData.confirmPassword) {
 
-        const oabValidationResult = validarOAB(formData.oab);
-
-        if (!oabValidationResult) {
-          setError('O número da OAB está em um formato inválido. O formato correto é: UF999999');
-          return; 
+        if (auth !== 'client') {
+          const oabValidationResult = validarOAB(formData.oab);
+          if (!oabValidationResult) {
+            setError('O número da OAB não é inválido.');
+            return;
+          }
         }
 
         const data = await register(formData.email, formData.password);
@@ -85,6 +86,23 @@ function AuthPage({ device, toogleAuth, auth }) {
   const closeAuth = () => {
     toogleAuth('none');
   };
+
+  async function forgotPassword() {
+    const email = formData.email
+
+    if (!email) {
+      setError("Informe o e-mail para recuperar sua senha!")
+      return
+    }
+
+    try {
+      await recoverPassword(email);
+      setTimeout(() => window.location.reload(), 3000);
+
+    } catch (error) {
+      setError(error.message)
+    }
+  }
 
   return (
     <div className={`content-auth ${device}`} onClick={(closeAuth)}>
@@ -153,6 +171,9 @@ function AuthPage({ device, toogleAuth, auth }) {
               </>
             )}
           </div>
+          {isLogin && (
+            <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
+          )}
           {error && <p className="msg-error">{error}</p>}
           {isLogin ? (
             <button className='btn-login' type="button" onClick={handleLogin}>
