@@ -4,6 +4,27 @@ import { getFirebaseErrorMessage } from './firebaseException'
 
 let auth = await getAuthentication();
 
+export async function verifyPassword(email, password) {
+	console.log("Verificando password to", email)
+	console.log("pass entry:", password)
+	try {
+	  // Autenticação com o Firebase
+	  console.log("disparo da solicitação")
+	  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+	  console.log("Retorno:", userCredential)
+  
+	  // Se a autenticação foi bem-sucedida, a senha é válida
+	  if (userCredential.user) {
+		return true;
+	  } else {
+		return false;
+	  }
+	} catch (error) {
+	  // Se houve algum erro, a senha não é válida
+	  return false;
+	}
+  }
+
 export async function recoverPassword(email) {
 	console.log("recovery pass:", email)
 	await sendPasswordResetEmail(auth, email).then(() => {

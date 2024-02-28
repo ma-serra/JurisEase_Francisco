@@ -1,8 +1,8 @@
 import './UserManagement.css';
 import React, { useState } from 'react';
-import { validarOAB, comparePassword } from '../../../utils/tools/tools'
+import { validarOAB } from '../../../utils/tools/tools'
 import { updateUser } from '../../../utils/data_base/firebase/dao/userDAO'
-import { recoverPassword, logout } from '../../../utils/data_base/firebase/authentication'
+import { recoverPassword, logout, verifyPassword } from '../../../utils/data_base/firebase/authentication'
 
 function UserManagement({ device, close, user }) {
 
@@ -70,7 +70,7 @@ function UserManagement({ device, close, user }) {
             if (!formData.password) {
                 throw new Error('Preencha o campo password para aplicar mudanças!')
             } else {
-                const validatePass = await comparePassword(formData.password, user.password)
+                const validatePass = await verifyPassword(user.email, formData.password)
                 if (!validatePass) {
                     throw new Error('Password inválido!')
                 }

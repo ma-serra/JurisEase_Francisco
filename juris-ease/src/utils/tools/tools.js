@@ -151,19 +151,6 @@ export async function encryptPassword(password) {
   return encryptedData.toString();
 }
 
-/**
- * Função para verificar se a senha fornecida corresponde ao hash armazenado
- * @param {string} inputPassword - A senha inserida pelo usuário
- * @param {string} storedPassword - O hash de senha armazenado
- * @returns {boolean} - true se as senhas corresponderem, false caso contrário
- */
-export async function comparePassword(inputPassword, storedPassword) {
-  const decryptedBytes = CryptoJS.AES.decrypt(storedPassword, secretKey);
-  const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
-
-  return inputPassword === decryptedData;
-}
-
 export function removeObjetosVazios(lista) {
   return lista.filter(objeto => typeof objeto === 'object');
 }

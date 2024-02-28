@@ -29,15 +29,14 @@ function DocsEditor() {
   }, [])
 
   const breakAcess = () => {
-    while (!user){
+    while (!user) {
       setTimeout(1000)
     }
 
-    if (!user.acessAdmin){
+    if (!user.acessAdmin) {
       alert('Usuario não tem permissão de acesso a essa página!')
       navigateTo('')
     }
-    
   }
 
   return (

@@ -178,7 +178,6 @@ function GenerateDocks() {
                             <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
                         ))}
                     </div>
-
                 </div>
 
                 <div className='content-form'>
