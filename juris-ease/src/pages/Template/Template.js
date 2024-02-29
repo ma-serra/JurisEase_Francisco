@@ -13,7 +13,6 @@ import { MdLibraryAdd, MdDelete } from 'react-icons/md';
 import { removeObjetosVazios, extractKeys, normalizeText } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
 
-
 function Template() {
     const [dataValue, setDataValue] = useState("<p>Seu texto aqui</p>");
 
@@ -303,10 +302,10 @@ function Template() {
 
     const breakAcess = () => {
         while (!user) {
-            setTimeout(1000)
+            setTimeout(500)
         }
 
-        if (!user.acessAdmin) {
+        if (!user.permissions.templates) {
             alert('Usuario não tem permissão de acesso a essa página!')
             navigateTo('')
         }

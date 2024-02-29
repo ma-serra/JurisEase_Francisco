@@ -9,6 +9,7 @@ import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
 import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools'
+import { useNavigate } from 'react-router-dom';
 
 const filterTemplatesByRout = (rout, templates) => {
     let filteredTemplates = [...templates];
@@ -136,9 +137,30 @@ function GenerateDocks() {
 
     }, [templates, rout]); // Adicione templates e rout ao array de dependências
 
+    const navigate = useNavigate();
+    const navigateTo = (link) => {
+        navigate(`/${link}`);
+    };
+
+    const breakAcess = () => {
+        while (!user) {
+            setTimeout(500)
+        }
+
+        if (!user.permissions.document_generation) {
+            alert('Usuario não tem permissão de acesso a essa página!')
+            navigateTo('')
+        }
+    }
+
     return (
         <div className="GenerateDocks">
             <Header user={user} />
+
+            {user && (
+                breakAcess()
+            )}
+            
             <div className="document-generator">
 
                 <div className="content-templates">
