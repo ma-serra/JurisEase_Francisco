@@ -30,8 +30,12 @@ function Home() {
       const isAuthenticated = isUserAuthenticated();
 
       if (isAuthenticated) {
-        const userData = await getUser(isAuthenticated);
-        setUser(userData);
+        try {
+          const userData = await getUser(isAuthenticated);
+          setUser(userData);
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
 

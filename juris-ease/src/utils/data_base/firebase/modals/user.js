@@ -3,7 +3,6 @@ export class User {
     uid,
     accessToken,
     email,
-    password,
     createdAt,
     updatedAt,
     lastLoginAt,
@@ -12,12 +11,12 @@ export class User {
     name,
     type,
     oab,
-    acessAdmin
+    acessAdmin,
+    permissions
   ) {
     this.uid = uid;
     this.accessToken = accessToken;
     this.email = email;
-    this.password = password;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.lastLoginAt = lastLoginAt;
@@ -27,6 +26,7 @@ export class User {
     this.type = type;
     this.oab = oab;
     this.acessAdmin = acessAdmin;
+    this.permissions = permissions;
   }
 }
 

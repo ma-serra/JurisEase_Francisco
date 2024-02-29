@@ -244,6 +244,7 @@ function UserManagement({ device, close, user }) {
                             name="type"
                             value={formData.type}
                             onChange={handleInputChange}
+                            disabled={true}
                         >
                             <option value="client">Cliente</option>
                             <option value="lawyer">Advogado</option>
@@ -259,20 +260,10 @@ function UserManagement({ device, close, user }) {
                                 name="oab"
                                 value={formData.oab}
                                 onChange={handleInputChange}
+                                disabled={true}
                             />
                         </div>
                     )}
-
-                    <div className="form-group">
-                        <label htmlFor="acessAdmin">Acesso de Administrador</label>
-                        <input
-                            type="checkbox"
-                            id="acessAdmin"
-                            name="acessAdmin"
-                            checked={formData.acessAdmin}
-                            onChange={handleCheckboxChange}
-                        />
-                    </div>
                 </form>
                 <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
                 {error && <p className="msg-error">{error}</p>}

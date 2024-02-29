@@ -126,12 +126,6 @@ function CardsSection({ type, cardList, isEditable, setOnEditCard }) {
                 ))}
             </div>
 
-            <div className='section-bt-mostrar-todos'>
-                <button className="bt-mostrar-todos" onClick={() => handleScroll('right')}>
-                    Todos os {type.toLowerCase()}
-                </button>
-            </div>
-
         </div>
     );
 }

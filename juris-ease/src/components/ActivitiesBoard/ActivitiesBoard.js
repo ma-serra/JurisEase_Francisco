@@ -10,7 +10,6 @@ import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 function ActivitiesBoard() {
     const [search, setSearch] = useState('');
     const [user, setUser] = useState(null);
-    const [permissionEdit, setPermission] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -23,15 +22,14 @@ function ActivitiesBoard() {
                     if (userData) {
                         setUser(userData);
 
-                        setPermission(userData.acessAdmin);
                     } else {
                         console.error("Erro ao obter dados do usuário. Usuário é null.");
                     }
                 } else {
-                    console.error("Erro de autenticação. Auth é null.");
+                    console.log("Erro de autenticação: Auth auth não encontrado.");
                 }
             } catch (error) {
-                console.error("Erro ao buscar dados:", error);
+                console.log("Erro ao buscar dados:", error);
             }
         }
 
@@ -44,8 +42,8 @@ function ActivitiesBoard() {
                 <Search setSearch={setSearch}/>
             </div>
 
-            <ServicesSection permisionEdit={permissionEdit} filter={search}/>
-            <HeadlinesSection permisionEdit={permissionEdit} filter={search}/>
+            <ServicesSection permisionEdit={user && user.permissions.services} filter={search}/>
+            <HeadlinesSection permisionEdit={user && user.permissions.headlines} filter={search}/>
         </section>
     );
 }

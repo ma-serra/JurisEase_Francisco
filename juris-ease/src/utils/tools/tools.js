@@ -1,13 +1,11 @@
 import html2pdf from 'html2pdf.js';
 
 export function normalizeText(text) {
-  console.log('normalizeText:', text);
   if (text === undefined || text === null) {
     return '';
   }
 
   if (Array.isArray(text)) {
-    console.log('Text is Array');
     // Mapeia cada elemento do array para seu equivalente normalizado
     const normalizedArray = text.map(element => normalizeElement(element));
     // Une os elementos normalizados em uma única string separada por espaços

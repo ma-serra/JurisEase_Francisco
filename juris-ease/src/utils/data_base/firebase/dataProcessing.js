@@ -7,7 +7,7 @@ export function createUserByData(data) {
   const createdAt = data.metadata.creationTime;
   const updatedAt = data.metadata.lastSignInTime || "";
   const lastLoginAt = data.metadata.lastLoginAt || "";
-  const { uid, accessToken, email, password, phoneNumber, address, name, type, oab, acessAdmin } = data;
+  const { uid, accessToken, email, phoneNumber, address, name, type, oab, acessAdmin, permissions } = data;
   const missingFields = [];
 
   if (!uid) {
@@ -18,9 +18,6 @@ export function createUserByData(data) {
   }
   if (!email) {
     missingFields.push('email');
-  }
-  if (!password) {
-    missingFields.push('password');
   }
   if (!name) {
     missingFields.push('name');
@@ -40,7 +37,6 @@ export function createUserByData(data) {
     uid,
     accessToken,
     email,
-    password,
     createdAt,
     updatedAt,
     lastLoginAt,
@@ -50,6 +46,7 @@ export function createUserByData(data) {
     type,
     oab,
     acessAdmin || false,
+    permissions || {services: true, headlines: true, templates: false, document_generation: false}
   );
 
   return user;

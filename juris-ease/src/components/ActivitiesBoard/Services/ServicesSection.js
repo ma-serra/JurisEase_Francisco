@@ -5,7 +5,7 @@ import CardsSection from '../CardsSection/CardsSection';
 import { getServices, addService, removeService, updateService } from '../../../utils/data_base/firebase/dao/servicesDAO';
 import { removeObjetosVazios, normalizeText } from '../../../utils/tools/tools'
 
-function ServiceSection ({ permisionEdit, filter }) {
+function ServiceSection({ permisionEdit, filter }) {
     const [services, setServices] = useState([]);
     const [filtredServices, setFiltredServices] = useState(null)
     const [editingService, setEditingService] = useState(null);
@@ -47,11 +47,11 @@ function ServiceSection ({ permisionEdit, filter }) {
     return (
         <div className={`ServicesSection`}>
             {editingService && (
-                <CardEditSection cardInEdition={editingService} onCancelEdit={handleEditService} onAddCard={addService} onRemoveCard={removeService} onUpdateCard={updateService}/>
+                <CardEditSection cardInEdition={editingService} onCancelEdit={handleEditService} onAddCard={addService} onRemoveCard={removeService} onUpdateCard={updateService} />
             )}
 
-            {!editingService && (                
-                <CardsSection type={'Serviços'} cardList={ filtredServices !== null ? filtredServices : services } isEditable={permisionEdit} setOnEditCard={handleEditService} />
+            {!editingService && (
+                <CardsSection type={'Serviços'} cardList={filtredServices !== null ? filtredServices : services} isEditable={permisionEdit} setOnEditCard={handleEditService} />
             )}
         </div>
     );

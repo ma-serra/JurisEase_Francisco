@@ -54,7 +54,6 @@ function AuthPage({ device, toogleAuth, auth }) {
 
         } else {
           data.user.name = formData.name;
-          data.user.password = await encryptPassword(formData.password);
           data.user.type = auth;
           data.user.oab = formData.oab;
           data.user.acessAdmin = false;
