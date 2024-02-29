@@ -1,7 +1,9 @@
 import './ServiceSection.css'
 import React, { useEffect, useState } from 'react';
-import CardEditSection from '../Cards/CardEditSection';
-import CardsSection from '../CardsSection/CardsSection';
+
+import CardEditSection from '../../Cards/Card/CardEditSection';
+import CardsSection from '../../Cards/Card/CardsSection';
+
 import { getServices, addService, removeService, updateService } from '../../../utils/data_base/firebase/dao/servicesDAO';
 import { removeObjetosVazios, normalizeText } from '../../../utils/tools/tools'
 

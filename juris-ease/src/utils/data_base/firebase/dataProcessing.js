@@ -46,7 +46,7 @@ export function createUserByData(data) {
     type,
     oab,
     acessAdmin || false,
-    permissions || {services: true, headlines: true, templates: false, document_generation: false}
+    permissions || {services: true, headlines: true, templates: false, document_generation: false, manege_users: false}
   );
 
   return user;

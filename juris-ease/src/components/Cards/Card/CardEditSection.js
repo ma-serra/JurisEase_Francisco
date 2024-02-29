@@ -1,5 +1,6 @@
 import './CardEditSection.css'
 import React, { useEffect, useState } from 'react';
+
 import { isEmptyObject } from '../../../utils/tools/tools'
 
 function CardEditSection({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition, onCancelEdit }) {

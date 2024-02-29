@@ -1,16 +1,14 @@
-// Importe os estilos
 import './GenerateDocks.css';
-
-// Importe as bibliotecas necessárias
-import Header from "../../../components/Header/Header";
-import CardTemplate from '../Template/CardTemplate/CardTemplate';
 import React, { useEffect, useState } from 'react';
 
-import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
-import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
-import { getTemplates } from '../../../utils/data_base/firebase/dao/templateDAO';
-import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF } from '../../../utils/tools/tools'
-import SheetPreview from '../../../components/SheetPreview/SheetPreview';
+import Header from "../../components/Header/Header";
+import CardTemplate from '../../components/Cards/CardTemplate/CardTemplate';
+import SheetPreview from '../../components/SheetPreview/SheetPreview';
+
+import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
+import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
+import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
+import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools'
 
 const filterTemplatesByRout = (rout, templates) => {
     let filteredTemplates = [...templates];

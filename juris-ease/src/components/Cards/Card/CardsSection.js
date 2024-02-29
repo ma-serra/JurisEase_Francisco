@@ -1,6 +1,7 @@
 import './CardsSection.css'
 import React, { useEffect, useState } from 'react';
-import Card from '../Cards/Card';
+
+import Card from './Card';
 
 // Icons
 import { MdLibraryAdd } from 'react-icons/md';

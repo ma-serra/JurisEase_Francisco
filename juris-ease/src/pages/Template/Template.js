@@ -1,15 +1,16 @@
 import './Template.css';
 import React, { useEffect, useState } from 'react';
 
-import Header from '../../../components/Header/Header';
-import CardTemplate from './CardTemplate/CardTemplate';
-import { getUser } from '../../../utils/data_base/firebase/dao/userDAO';
-import { isUserAuthenticated } from '../../../utils/data_base/firebase/authentication';
-import { getTemplates, addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
+import Header from '../../components/Header/Header';
+import CardTemplate from '../../components/Cards/CardTemplate/CardTemplate';
+import MyEditor from '../../components/MyEditor/MyEditor';
+import Search from '../../components/Search/Search';
+
+import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
+import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
+import { getTemplates, addTemplate, removeTemplate } from '../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
-import { removeObjetosVazios, extractKeys, normalizeText } from '../../../utils/tools/tools'
-import MyEditor from '../../../components/MyEditor/MyEditor';
-import Search from '../../../components/Search/Search';
+import { removeObjetosVazios, extractKeys, normalizeText } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
 
 

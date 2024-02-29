@@ -1,16 +1,15 @@
 import './Home.css';
-import Header from '../../components/Header/Header';
-import LawyerSection from '../../components/LawyerSection/LawyerSection';
-import Footer from '../../components/Footer/Footer';
+import React, { useEffect, useState } from 'react';
 
+import Header from '../../components/Header/Header';
+import LawyerSection from '../../components/Sections/LawyerSection';
+import Footer from '../../components/Footer/Footer';
 import AuthPage from '../../components/Popups/AuthPage/AuthPage';
 import UserManagement from '../../components/Popups/UserManagement/UserManagement';
 import ActivitiesBoard from '../../components/ActivitiesBoard/ActivitiesBoard';
-import { useEffect, useState } from 'react';
 
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
 import { getUser } from '../../utils/data_base/firebase/dao/userDAO'
-import ChatDrawer from '../../components/ChatDrawer/ChatDrawer';
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -59,8 +58,6 @@ function Home() {
       )}
 
       <Footer />
-
-      <ChatDrawer/>
     </div>
   );
 }

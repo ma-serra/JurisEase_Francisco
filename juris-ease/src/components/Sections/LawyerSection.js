@@ -1,7 +1,7 @@
 import './LawyerSection.css'
 import React from 'react';
 
-function LawyerSection({ orientation, device }) {
+function LawyerSection() {
     return (
         <section>
             <div className={`Lawyer-section`}>
