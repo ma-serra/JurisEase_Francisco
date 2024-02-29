@@ -24,21 +24,21 @@ function Header({ openAuth, user, openUserManagement }) {
     };
 
     const toggleUserInfo = () => {
-        if (!!openAuth){
+        if (!!openAuth) {
             setUserInfoOpen(!isUserInfoOpen);
         }
     };
 
     const navigate = useNavigate();
 
-    const navigateTo = ( link ) => {
+    const navigateTo = (link) => {
         navigate(`/${link}`);
     };
 
     return (
         <header className={`Header`}>
 
-            <div className="left-container" onClick={() => { navigateTo('')}}>
+            <div className="left-container" onClick={() => { navigateTo('') }}>
                 <div >
                     <img className="logo" src="images/logo.png" alt="Logo do Meu Site" />
                 </div>
@@ -47,44 +47,41 @@ function Header({ openAuth, user, openUserManagement }) {
                 </div>
             </div>
 
-            <div className="right-container">
-                {!user && (
-                    <div>
-                        <button className="bt-login" onClick={toggleLogin}>
-                            Login <IoIosArrowDown />
-                        </button>
+            {!user && (
+                <div className="right-container">
+                    <button className="bt-login" onClick={toggleLogin}>
+                        Login <IoIosArrowDown />
+                    </button>
 
-                        {isLoginOpen && (
-                            <div className="drop-down">
-                                <p onClick={openClientAuth} >Cliente</p>
-                                <p onClick={openLawyerAuth} >Advogado</p>
-                            </div>
-                        )}
-                    </div>
-                )}
+                    {isLoginOpen && (
+                        <div className="drop-down">
+                            <p onClick={openClientAuth} >Cliente</p>
+                            <p onClick={openLawyerAuth} >Advogado</p>
+                        </div>
+                    )}
+                </div>
+            )}
 
-                {!!user && (
-                    <div>
-                        <p className='user-name' onClick={toggleUserInfo}>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
-                        {isUserInfoOpen && (
-                            <div className="drop-down">
-                                <p onClick={() => { toggleUserInfo(); openUserManagement() }}>Gerenciar Conta</p>
-                                {user.permissions.document_generation && (
-                                    <p onClick={() => { navigateTo('generate-docks') }}>Gerador de Documentos</p>
-                                )}
-                                {user.permissions.templates && (
-                                    <p onClick={() => { navigateTo('templates') }}>Templates</p>
-                                )}
-                                {user.permissions.manege_users && (
-                                    <p onClick={() => { navigateTo('manege-users') }}>Gerenciar Usuários</p>
-                                )}
-                                <p onClick={() => { logout(); window.location.reload(); }}>Sair</p>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-            </div>
+            {!!user && (
+                <div className="right-container">
+                    <p className='user-name' onClick={toggleUserInfo}>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
+                    {isUserInfoOpen && (
+                        <div className="drop-down">
+                            <p onClick={() => { toggleUserInfo(); openUserManagement() }}>Gerenciar Conta</p>
+                            {user.permissions.document_generation && (
+                                <p onClick={() => { navigateTo('generate-docks') }}>Gerador de Documentos</p>
+                            )}
+                            {user.permissions.templates && (
+                                <p onClick={() => { navigateTo('templates') }}>Templates</p>
+                            )}
+                            {user.permissions.manege_users && (
+                                <p onClick={() => { navigateTo('manege-users') }}>Gerenciar Usuários</p>
+                            )}
+                            <p onClick={() => { logout(); window.location.reload(); }}>Sair</p>
+                        </div>
+                    )}
+                </div>
+            )}
         </header>
     );
 }
