@@ -155,3 +155,10 @@ Histórico de Desenvolvimento e Horas Trabalhadas
 	Update verify password
 29/02/2024
 	Clean project, update logs, catches erros, security
+29/02/2024
+	Reestruturação do modal usuário, adicionar parâmetros de permissão para serviços, manchetes, geração de documentos e templates, gerenciamento de conta
+	Bloqueador de acessos as páginas
+30/02/2024
+
+
+

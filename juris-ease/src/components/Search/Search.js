@@ -19,6 +19,8 @@ function Search({ setSearch }) {
       <div className="search-container">
         <input
           type="text"
+          id="searchInput" 
+          name="searchInput"
           placeholder="O que você procura?"
           value={busca}
           onChange={handleInputChange}

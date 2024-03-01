@@ -156,3 +156,12 @@ export function removeObjetosVazios(lista) {
 export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
+
+export function translateName(key) {
+  const translationDict = {
+      "lawyer": "Advogado",
+      "client": "Cliente",
+  };
+
+  return translationDict[key] || "Translation not found";
+}

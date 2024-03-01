@@ -1,18 +1,17 @@
 import './UserManagement.css';
 import React, { useState } from 'react';
 
-import { validarOAB } from '../../../utils/tools/tools'
+import { translateName, validarOAB } from '../../../utils/tools/tools'
 import { updateUser } from '../../../utils/data_base/firebase/dao/userDAO'
 import { recoverPassword, logout, verifyPassword } from '../../../utils/data_base/firebase/authentication'
 
-function UserManagement({ device, close, user }) {
+function UserManagement({ close, user }) {
 
     const initialFormData = {
         name: user.name,
         email: user.email,
         password: '',
         oab: user.oab,
-        acessAdmin: user.acessAdmin,
         phoneNumber: user.phoneNumber,
         type: user.type,
         address: user.address ? { ...user.address } : {
@@ -43,15 +42,6 @@ function UserManagement({ device, close, user }) {
         }
     };
 
-    const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
-        setFormData({ ...formData, [name]: checked });
-      };
-
-    const clearForm = () => {
-        setFormData(initialFormData);
-    };
-
     const closePage = () => {
         close();
     };
@@ -77,12 +67,11 @@ function UserManagement({ device, close, user }) {
                 }
             }
 
-            if (!formData.name || !formData.email || !formData.type) {
-                // sempre está caindo aqui, mesmo com os campos preenchidos!
+            if (!formData.name || !user.email) {
                 throw new Error('Os campos nome e email são obrigatórios!')
             }
 
-            if (formData.type === 'lawyer') {
+            if (user.type === 'lawyer') {
                 const validateOAB = validarOAB(formData.oab)
                 if (!validateOAB) {
                     throw new Error('Número da OAB inválido!')
@@ -107,11 +96,8 @@ function UserManagement({ device, close, user }) {
         const updatedUser = { ...user };
 
         updatedUser.name = formData.name;
-        updatedUser.email = formData.email;
         updatedUser.oab = formData.oab;
-        updatedUser.acessAdmin = formData.acessAdmin;
         updatedUser.phoneNumber = formData.phoneNumber;
-        updatedUser.type = formData.type;
         updatedUser.address = formData.address;
 
         return updatedUser;
@@ -120,17 +106,17 @@ function UserManagement({ device, close, user }) {
     async function forgotPassword() {
         const email = user.email
         try {
-          await recoverPassword(email);
-          logout();
-          setTimeout(() => window.location.reload(), 3000);
+            await recoverPassword(email);
+            logout();
+            setTimeout(() => window.location.reload(), 3000);
 
         } catch (error) {
-          console.log(error.message);
+            console.log(error.message);
         }
     }
 
     return (
-        <div className={`content-user-page ${device}`} onClick={(closePage)}>
+        <div className={`content-user-page`} onClick={(closePage)}>
             <div className="user-page" onClick={(e) => e.stopPropagation()}>
                 <h1>Gerenciar Conta</h1>
                 <form>
@@ -142,6 +128,7 @@ function UserManagement({ device, close, user }) {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
+                            autocomplete="on"
                         />
                     </div>
 
@@ -151,8 +138,9 @@ function UserManagement({ device, close, user }) {
                             type="email"
                             id="email"
                             name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
+                            value={user.email}
+                            autocomplete="on"
+                            disabled={true}
                         />
                     </div>
 
@@ -179,9 +167,16 @@ function UserManagement({ device, close, user }) {
                     </div>
 
                     <div className="form-group address">
-                        <label htmlFor="toggleAddress" className="address-title" onClick={toggleAddressSubfields}>
+                        <label className="address-title" onClick={toggleAddressSubfields}>
                             Endereço
                             <img className='arrow-down' src='/images/icons8-arrow-down-30.png' alt='arrow-down'></img>
+
+                            <input
+                                type="text"
+                                id="toggleAddress"  
+                                name="toggleAddress" 
+                                style={{ display: 'none' }}
+                            />
                         </label>
 
                         <div id="toggleAddress" className="address-subfields">
@@ -216,7 +211,7 @@ function UserManagement({ device, close, user }) {
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="address.rua">Rua</label>
+                                <label htmlFor="rua">Rua</label>
                                 <input
                                     type="text"
                                     id="rua"
@@ -240,16 +235,13 @@ function UserManagement({ device, close, user }) {
 
                     <div className="form-group">
                         <label htmlFor="type">Tipo de Usuário</label>
-                        <select
+                        <input
                             id="type"
                             name="type"
-                            value={formData.type}
-                            onChange={handleInputChange}
+                            value={translateName(user.type)}
                             disabled={true}
                         >
-                            <option value="client">Cliente</option>
-                            <option value="lawyer">Advogado</option>
-                        </select>
+                        </input>
                     </div>
 
                     {formData.type === 'lawyer' && (
@@ -261,7 +253,6 @@ function UserManagement({ device, close, user }) {
                                 name="oab"
                                 value={formData.oab}
                                 onChange={handleInputChange}
-                                disabled={true}
                             />
                         </div>
                     )}

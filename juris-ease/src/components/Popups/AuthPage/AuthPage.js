@@ -171,9 +171,6 @@ function AuthPage({ device, toogleAuth, auth }) {
               </>
             )}
           </div>
-          {isLogin && (
-            <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
-          )}
           {error && <p className="msg-error">{error}</p>}
           {isLogin ? (
             <button className='btn-login' type="button" onClick={handleLogin}>
@@ -185,6 +182,9 @@ function AuthPage({ device, toogleAuth, auth }) {
             </button>
           )}
         </form>
+        {isLogin && (
+            <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
+          )}
         <p>
           {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
           <button

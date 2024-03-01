@@ -160,7 +160,7 @@ function GenerateDocks() {
             {user && (
                 breakAcess()
             )}
-            
+
             <div className="document-generator">
 
                 <div className="content-templates">
@@ -168,7 +168,7 @@ function GenerateDocks() {
 
                     <div className='rout-path'>
                         <form>
-                            <label>
+                            <div>
                                 <span className="path-span" onClick={() => resetRout()}> {'Templates'} </span>
                                 <span> {' / '} </span>
 
@@ -180,16 +180,16 @@ function GenerateDocks() {
                                         <span> {' / '} </span>
                                     </>
                                 ))}
-                            </label>
 
-                            <select name={`rout`} value={rout[rout.length - 1] || ''} onChange={handleChangeRout} className="select-option">
-                                <option value="">Selecione</option> {/* Mensagem "Selecione" */}
-                                {options.map((option, index) => (
-                                    <option key={index} value={option}>
-                                        {option}
-                                    </option>
-                                ))}
-                            </select>
+                                <select name={`rout`} value={rout[rout.length - 1] || ''} onChange={handleChangeRout} className="select-option">
+                                    <option value="">Selecione</option>
+                                    {options.map((option, index) => (
+                                        <option key={index} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </form>
                     </div>
 
@@ -201,7 +201,7 @@ function GenerateDocks() {
                 </div>
 
                 <div className='content-form'>
-                    <h2>Template Form</h2>
+                    <h2>Formulário</h2>
                     {templateSelected &&
                         <div>
                             {templateSelected.keys.map((key, index) => (
@@ -231,8 +231,8 @@ function GenerateDocks() {
                 </div>
 
                 <div className="content-preview">
-                    <h2>Preview</h2>
-                    <SheetPreview content={content}/>
+                    <h2>Pré-visualização</h2>
+                    <SheetPreview content={content} />
                 </div>
 
             </div>
