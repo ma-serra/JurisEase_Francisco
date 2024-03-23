@@ -1,4 +1,26 @@
 import html2pdf from 'html2pdf.js';
+const htmlDocx = require('html-docx-js/dist/html-docx');
+const { Blob } = require('blob-polyfill');
+
+export async function gerarDOC(htmlString) {
+  return new Promise((resolve, reject) => {
+    try {
+      const docx = htmlDocx.asBlob(htmlString);
+      const blob = new Blob([docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'saida.docx';
+      document.body.appendChild(a);
+      a.click();
+
+      resolve('Documento gerado e baixado com sucesso');
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
 export function normalizeText(text) {
   if (text === undefined || text === null) {

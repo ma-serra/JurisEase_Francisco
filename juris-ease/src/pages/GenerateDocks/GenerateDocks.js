@@ -8,7 +8,7 @@ import SheetPreview from '../../components/SheetPreview/SheetPreview';
 import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
-import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools'
+import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF, gerarDOC } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
 
 const filterTemplatesByRout = (rout, templates) => {
@@ -41,7 +41,7 @@ function GenerateDocks() {
     const handleProcessarArquivo = async () => {
         try {
             const data = refactoreHTMLtoPDF(content)
-            const url = await gerarPDF(data);
+            const url = await gerarDOC(data);
             setPdfUrl(url);
             console.log("URL do PDF:", url);
         } catch (error) {

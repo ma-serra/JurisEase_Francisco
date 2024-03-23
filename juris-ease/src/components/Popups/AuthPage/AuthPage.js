@@ -183,8 +183,8 @@ function AuthPage({ device, toogleAuth, auth }) {
           )}
         </form>
         {isLogin && (
-            <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
-          )}
+          <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
+        )}
         <p>
           {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
           <button

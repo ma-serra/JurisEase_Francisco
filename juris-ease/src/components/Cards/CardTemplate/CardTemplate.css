@@ -21,7 +21,7 @@
 
 .CardTemplate h1 {
     color: var(--white);
-    font-size: 20%;
+    font-size: 15%;
     margin-bottom: 5%;
     margin-top: 0px;
     text-align: center;
@@ -44,19 +44,20 @@
 .template-doc * {
     color: aliceblue;
     margin: 0; /* Espaçamento entre parágrafos reduzido */
-    font-size: 12%; /* Tamanho da fonte dos parágrafos */
+    font-size: 5%; /* Tamanho da fonte dos parágrafos */
+    margin-top: 1%;
 }
 
 .template-doc h2 {
-    font-size: 16%; /* Tamanho da fonte para h1 */
+    font-size: 9%; /* Tamanho da fonte para h1 */
 }
 
 .template-doc h3 {
-    font-size: 14%; /* Tamanho da fonte para h2 */
+    font-size: 7%; /* Tamanho da fonte para h2 */
 }
 
 .template-doc h4 {
-    font-size: 12%; /* Tamanho da fonte para h3 */
+    font-size: 5%; /* Tamanho da fonte para h3 */
 } 
 
 .template-doc p strong {
