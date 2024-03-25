@@ -3,6 +3,29 @@ import { set, remove, update, onValue } from 'firebase/database';
 import { getCurrentFormattedDate } from '../../../tools/tools';
 import { createUserByData } from '../../../data_base/firebase/dataProcessing';
 import { getRef } from '../firebaseConfig'
+import { get, query, orderByKey } from 'firebase/database';
+
+export const getUsers = async () => {
+    const usersRef = await getRef('users');
+    const usersQuery = query(usersRef, orderByKey());
+
+    try {
+        const snapshot = await get(usersQuery);
+        const users = [];
+
+        if (snapshot.exists()) {
+            snapshot.forEach((childSnapshot) => {
+                const userData = childSnapshot.val();
+                users.push(userData);
+            });
+        }
+
+        return users;
+    } catch (error) {
+        console.error('Erro ao obter todos os usuários:', error);
+        return [];
+    }
+};
 
 export const addUser = async (userData) => {
   const user = createUserByData(userData)

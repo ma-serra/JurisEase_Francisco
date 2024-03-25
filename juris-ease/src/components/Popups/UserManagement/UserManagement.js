@@ -16,10 +16,10 @@ function UserManagement({ close, user }) {
         type: user.type,
         address: user.address ? { ...user.address } : {
             cep: '',
-            estado: '',
-            cidade: '',
-            rua: '',
-            numero: ''
+            state: '',
+            city: '',
+            street: '',
+            number: ''
         }
     };
 
@@ -191,42 +191,42 @@ function UserManagement({ close, user }) {
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="estado">Estado</label>
+                                <label htmlFor="state">Estado</label>
                                 <input
                                     type="text"
-                                    id="estado"
-                                    name="address.estado"
-                                    value={formData.address.estado}
+                                    id="state"
+                                    name="address.state"
+                                    value={formData.address.state}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="cidade">Cidade</label>
+                                <label htmlFor="city">Cidade</label>
                                 <input
                                     type="text"
-                                    id="cidade"
-                                    name="address.cidade"
-                                    value={formData.address.cidade}
+                                    id="city"
+                                    name="address.city"
+                                    value={formData.address.city}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="rua">Rua</label>
+                                <label htmlFor="street">Rua</label>
                                 <input
                                     type="text"
-                                    id="rua"
-                                    name="address.rua"
-                                    value={formData.address.rua}
+                                    id="street"
+                                    name="address.street"
+                                    value={formData.address.street}
                                     onChange={handleInputChange}
                                 />
                             </div>
                             <div className="subfield">
-                                <label htmlFor="numero">Número</label>
+                                <label htmlFor="number">Número</label>
                                 <input
                                     type="text"
-                                    id="numero"
-                                    name="address.numero"
-                                    value={formData.address.numero}
+                                    id="number"
+                                    name="address.number"
+                                    value={formData.address.number}
                                     onChange={handleInputChange}
                                 />
                             </div>

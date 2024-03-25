@@ -12,7 +12,8 @@ export class User {
     type,
     oab,
     acessAdmin,
-    permissions
+    permissions,
+    state
   ) {
     this.uid = uid;
     this.accessToken = accessToken;
@@ -27,6 +28,7 @@ export class User {
     this.oab = oab;
     this.acessAdmin = acessAdmin;
     this.permissions = permissions;
+    this.state = state;
   }
 }
 

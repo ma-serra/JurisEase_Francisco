@@ -136,7 +136,7 @@ function AuthPage({ device, toogleAuth, auth }) {
           {!isLogin && auth === 'lawyer' && (
             <>
               <div className="form-group">
-                <label htmlFor="oab">Numero da OAB</label>
+                <label htmlFor="oab">Número da OAB</label>
                 <input
                   type="text"
                   id="oab"

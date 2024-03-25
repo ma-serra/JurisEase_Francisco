@@ -1,15 +1,17 @@
 .content {
-    margin-top: 2em;
-    margin-left: 5%;
-    width: 90%;
+    width: 100%;
+}
 
+.content-manegment {
+
+    margin: 5%;
     display: flex;
     flex-direction: column;
     background-color: var(--gray-30);
     border: 1px solid var(--primary-dark-10);
 }
 
-.content h1 {
+.content-manegment h1 {
     margin-left: 3%;
     font-size: 22px;
     font-weight: 600;
@@ -59,7 +61,8 @@
 .table-header,
 .user-row {
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr 1fr 0.5fr;}
+    grid-template-columns: 2fr 2fr 1fr 1fr 0.5fr;
+}
 
 .user-row {
     border-top: 2px solid #ddd;
@@ -96,20 +99,24 @@
 }
 
 .user-row.active {
-    background-color: var(--primary-dark-90); /* Defina a cor de fundo para ativo */
+    background-color: var(--primary-dark-90);
+    /* Defina a cor de fundo para ativo */
 }
 
 .user-row.inactive {
-    background-color: var(--red); /* Defina a cor de fundo para inativo */
+    background-color: var(--red);
+    /* Defina a cor de fundo para inativo */
 }
 
 .user-row.active p:nth-child(4) {
-    color: var(--green); /* Defina a cor do texto para verde se ativo */
+    color: var(--green);
+    /* Defina a cor do texto para verde se ativo */
     font-weight: 1000;
 }
 
 .user-row.inactive p:nth-child(4) {
-    color: white; /* Defina a cor do texto para branco se inativo */
+    color: white;
+    /* Defina a cor do texto para branco se inativo */
     font-weight: 1000;
 }
 
@@ -126,4 +133,96 @@
 
 .navigation button {
     margin: 1%;
+}
+
+.drawer-user-managment {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--primary-dark-90);
+    width: 50%;
+    max-width: 800px;
+    padding: 2.5%;
+    padding-top: 4em;
+}
+
+.drawer-user-managment form {
+    color: white;
+    width: 100%;
+}
+
+.drawer-user-managment label {
+    margin-bottom: 0.5%;
+    display: flex;
+    align-items: center;
+}
+
+.drawer-user-managment label p {
+    flex: 1;
+    font-weight: bold;
+    /* Deixar o texto em negrito */
+    text-align: left;
+    margin: 0;
+}
+
+/* Estilos para os inputs e selects */
+.drawer-user-managment input,
+.drawer-user-managment select {
+    flex: 3;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent;
+    color: white;
+    height: 100%;
+}
+
+.drawer-user-managment select {
+    background-color: var(--primary-dark-90); /* Defina a cor desejada para a seleção */
+}
+
+.drawer-user-managment div {
+    margin-left: 5%;
+    scale: .95;
+}
+
+.permissions-fields label {
+    background-color: var(--primary-dark-50);
+}
+
+.permissions-fields label p {
+    flex: 9;
+}
+
+.permissions-fields label input {
+    flex: 1;
+    justify-self: left;
+}
+
+.bts-actions {
+    margin-top: 2em;
+}
+
+.bt-apply,
+.bt-cancel {
+    color: var(--white, #FFF);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 5px;
+    width: 50%;
+    max-width: 200px;
+
+    &:hover {
+        scale: 1.1;
+        cursor: pointer;
+    }
+}
+
+.bt-apply {
+    background-color: var(--green);
+}
+
+.bt-cancel {
+    background-color: var(--red);
 }
