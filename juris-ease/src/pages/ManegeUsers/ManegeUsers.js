@@ -3,16 +3,17 @@ import React, { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
-import { getUser, getUsers } from '../../utils/data_base/firebase/dao/userDAO';
+import { getUser, getUsers, updateUser } from '../../utils/data_base/firebase/dao/userDAO';
 import Header from '../../components/Header/Header';
 import { FaPencilAlt } from 'react-icons/fa';
 import { AiFillCaretLeft, AiFillCaretRight, AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import { checkBlocked, convertDateToPtBr } from '../../utils/tools/tools';
 
 
 function ManegeUsers() {
 
     const [user, setUser] = useState(null);
-    const [formUser, setFormUser] = useState(null);
+    const [formUser, setFormUser] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(10);
 
@@ -50,28 +51,48 @@ function ManegeUsers() {
         }
     }
 
-    const handleSubmitForm = () => {
-        console.log("Submit:", formUser)
+    const handleSubmitForm = async (event) => {
+        event.preventDefault();
+        checkBlocked(formUser)
+        await updateUser(formUser)
+        alert('Dados atualizados com sucesso!')
+        window.location.reload();
     };
 
     const handleEdit = (userId) => {
         setFormUser(users.find(user => user.uid === userId))
     };
 
-    const closeDrawerForm = () => {
-        setFormUser(null)
+    const closeDrawerForm = (event) => {
+        event.preventDefault();
+        setFormUser({})
     }
 
     const handleInputChange = (event) => {
-
-    };
+        const { id, value, type, checked } = event.target;
     
+        setFormUser(prevState => {
+            const updatedUser = { ...prevState };
+    
+            // Verificar se o campo é uma caixa de seleção
+            const isCheckbox = type === 'checkbox';
+    
+            // Atualizar o valor do campo no estado do usuário do formulário
+            if (isCheckbox) {
+                updatedUser.permissions[id] = checked;
+            } else {
+                updatedUser[id] = value;
+            }
+    
+            return updatedUser;
+        });
+    };
 
     useEffect(() => {
         async function fetchUser() {
             try {
                 const isAuthenticated = isUserAuthenticated();
-
+    
                 if (isAuthenticated) {
                     const userData = await getUser(isAuthenticated);
                     setUser(userData);
@@ -80,11 +101,16 @@ function ManegeUsers() {
                 console.error('Error fetching user data:', error);
             }
         }
-
+    
         fetchUser();
-        obterEstatisticasUsuarios();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    
+    useEffect(() => {
+        obterEstatisticasUsuarios();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
     const navigate = useNavigate();
     const navigateTo = (link) => {
         navigate(`/${link}`);
@@ -155,11 +181,11 @@ function ManegeUsers() {
                             <div className='table-body'>
                                 {/* Mapeamento dos usuários */}
                                 {currentUsers.map((user) => (
-                                    <div className={`user-row ${user.state === 'Ativo' ? 'active' : 'inactive'}`} key={user.uid} onClick={() => handleEdit(user.uid)}>
+                                    <div className={`user-row ${user.state === 'active' ? 'active' : 'inactive'}`} key={user.uid} onClick={() => handleEdit(user.uid)}>
                                         <p>{user.name}</p>
                                         <p>{user.email}</p>
                                         <p>{user.type}</p>
-                                        <p>{user.state}</p>
+                                        <p>{user.state === 'active' ? 'ativo' : 'bloqueado'}</p>
                                         <p>
                                             <FaPencilAlt className="icon-pencil" />
                                         </p>
@@ -180,7 +206,7 @@ function ManegeUsers() {
 
             </div>
 
-            {formUser && (
+            {formUser.uid && (
                 <div className='drawer-user-managment'>
                     <form>
                         <label htmlFor='name'>
@@ -188,8 +214,8 @@ function ManegeUsers() {
                             <input
                                 type='text'
                                 id='name'
-                                value={formUser.name || ''}
-                                onChange={handleInputChange}
+                                placeholder={formUser.name || ''}
+                                disabled={true}
                             />
                         </label>
 
@@ -198,8 +224,8 @@ function ManegeUsers() {
                             <input
                                 type='email'
                                 id='email'
-                                value={formUser.email || ''}
-                                onChange={handleInputChange}
+                                placeholder={formUser.email || ''}
+                                disabled={true}
                             />
                         </label>
 
@@ -208,8 +234,8 @@ function ManegeUsers() {
                             <input
                                 type='text'
                                 id='createdAt'
-                                value={formUser.createdAt || ''}
-                                readOnly
+                                placeholder={convertDateToPtBr(formUser.createdAt)}
+                                disabled={true}
                             />
                         </label>
 
@@ -218,15 +244,15 @@ function ManegeUsers() {
                             <input
                                 type='text'
                                 id='lastLogin'
-                                value={formUser.lastLoginAt || ''}
-                                readOnly
+                                placeholder={convertDateToPtBr(formUser.lastLoginAt)}
+                                disabled={true}
                             />
                         </label>
 
-                        <label htmlFor='accountType'>
+                        <label htmlFor='type'>
                             <p>Tipo de conta:</p>
                             <select
-                                id='accountType'
+                                id='type'
                                 value={formUser.type || ''}
                                 onChange={handleInputChange}
                             >
@@ -236,11 +262,11 @@ function ManegeUsers() {
                         </label>
 
                         {formUser.type === 'lawyer' && (
-                            <label htmlFor='oabNumber'>
+                            <label htmlFor='oab'>
                                 <p>Número OAB:</p>
                                 <input
                                     type='text'
-                                    id='oabNumber'
+                                    id='oab'
                                     value={formUser.oab || ''}
                                     onChange={handleInputChange}
                                 />
@@ -251,8 +277,8 @@ function ManegeUsers() {
                             <input
                                 type='text'
                                 id='phone'
-                                value={formUser.phoneNumber || ''}
-                                onChange={handleInputChange}
+                                placeholder={formUser.phoneNumber || ''}
+                                disabled={true}
                             />
                         </label>
 
@@ -263,9 +289,8 @@ function ManegeUsers() {
                                 <input
                                     type='text'
                                     id='cep'
-                                    placeholder='CEP'
-                                    value={formUser.address?.cep || ''}
-                                    onChange={handleInputChange}
+                                    placeholder={formUser.address?.cep || ''}
+                                    disabled={true}
                                 />
                             </label>
 
@@ -274,9 +299,8 @@ function ManegeUsers() {
                                 <input
                                     type='text'
                                     id='state'
-                                    placeholder='Estado'
-                                    value={formUser.address?.state || ''}
-                                    onChange={handleInputChange}
+                                    placeholder={formUser.address?.state || ''}
+                                    disabled={true}
                                 />
                             </label>
 
@@ -285,9 +309,8 @@ function ManegeUsers() {
                                 <input
                                     type='text'
                                     id='city'
-                                    placeholder='Cidade'
-                                    value={formUser.address?.city || ''}
-                                    onChange={handleInputChange}
+                                    placeholder={formUser.address?.city || ''}
+                                    disabled={true}
                                 />
                             </label>
 
@@ -296,9 +319,8 @@ function ManegeUsers() {
                                 <input
                                     type='text'
                                     id='street'
-                                    placeholder='Rua'
-                                    value={formUser.address?.street || ''}
-                                    onChange={handleInputChange}
+                                    placeholder={formUser.address?.street || ''}
+                                    disabled={true}
                                 />
                             </label>
 
@@ -307,71 +329,70 @@ function ManegeUsers() {
                                 <input
                                     type='text'
                                     id='number'
-                                    placeholder='Número'
-                                    value={formUser.address?.number || ''}
-                                    onChange={handleInputChange}
+                                    placeholder={formUser.address?.number || ''}
+                                    disabled={true}
                                 />
                             </label>
                         </div>
 
                         <label> <p>Permissões</p> </label>
                         <div className="permissions-fields">
-                            <label htmlFor='headlinePermission'>
+                            <label htmlFor='headlines'>
                                 <p>Manchetes:</p>
                                 <input
                                     type='checkbox'
-                                    id='headlinePermission'
+                                    id='headlines'
                                     checked={formUser.permissions?.headlines || false}
                                     onChange={handleInputChange}
                                 />
                             </label>
 
-                            <label htmlFor='servicesPermission'>
+                            <label htmlFor='services'>
                                 <p>Serviços:</p>
                                 <input
                                     type='checkbox'
-                                    id='servicesPermission'
+                                    id='services'
                                     checked={formUser.permissions?.services || false}
                                     onChange={handleInputChange}
                                 />
                             </label>
 
-                            <label htmlFor='templatesPermission'>
+                            <label htmlFor='templates'>
                                 <p>Templates:</p>
                                 <input
                                     type='checkbox'
-                                    id='templatesPermission'
+                                    id='templates'
                                     checked={formUser.permissions?.templates || false}
                                     onChange={handleInputChange}
                                 />
                             </label>
 
-                            <label htmlFor='documentGeneratorPermission'>
+                            <label htmlFor='document_generation'>
                                 <p>Gerador de Documentos</p>
                                 <input
                                     type='checkbox'
-                                    id='documentGeneratorPermission'
+                                    id='document_generation'
                                     checked={formUser.permissions?.document_generation || false}
                                     onChange={handleInputChange}
                                 />
                             </label>
 
-                            <label htmlFor='userManagerPermission'>
+                            <label htmlFor='manege_users'>
                                 <p>Gerenciador de Usuários:</p>
                                 <input
                                     type='checkbox'
-                                    id='userManagerPermission'
+                                    id='manege_users'
                                     checked={formUser.permissions?.manege_users || false}
                                     onChange={handleInputChange}
                                 />
                             </label>
 
-                            <label htmlFor='adminPermission'>
+                            <label htmlFor='acessAdmin'>
                                 <p>Administrador:</p>
                                 <input
                                     type='checkbox'
-                                    id='adminPermission'
-                                    checked={formUser.acessAdmin || false}
+                                    id='acessAdmin'
+                                    checked={formUser.permissions?.acessAdmin || false}
                                     onChange={handleInputChange}
                                 />
                             </label>

@@ -9,7 +9,9 @@ import UserManagement from '../../components/Popups/UserManagement/UserManagemen
 import ActivitiesBoard from '../../components/ActivitiesBoard/ActivitiesBoard';
 
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
-import { getUser } from '../../utils/data_base/firebase/dao/userDAO'
+import { getUser, updateUser } from '../../utils/data_base/firebase/dao/userDAO'
+import { update } from 'firebase/database';
+import { getCurrentFormattedDate } from '../../utils/tools/tools';
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -31,7 +33,10 @@ function Home() {
       if (isAuthenticated) {
         try {
           const userData = await getUser(isAuthenticated);
+          userData.lastLoginAt = getCurrentFormattedDate()
+          await updateUser(userData)
           setUser(userData);
+
         } catch (e) {
           console.log(e)
         }
@@ -40,6 +45,7 @@ function Home() {
 
     fetchUser(); // Chame a função de busca de usuário aqui
   }, [])
+
 
   return (
     <div className={`Home`}>

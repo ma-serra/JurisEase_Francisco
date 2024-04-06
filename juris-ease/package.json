@@ -11,6 +11,8 @@
     "@types/html2canvas": "^1.0.0",
     "blob-polyfill": "^7.0.20220408",
     "crypto-js": "^4.2.0",
+    "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.0.0",
     "firebase": "^10.8.0",
     "html-docx-js": "^0.3.1",
     "html2canvas": "^1.4.1",

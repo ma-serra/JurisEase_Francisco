@@ -11,7 +11,6 @@ export class User {
     name,
     type,
     oab,
-    acessAdmin,
     permissions,
     state
   ) {
@@ -26,7 +25,6 @@ export class User {
     this.name = name;
     this.type = type;
     this.oab = oab;
-    this.acessAdmin = acessAdmin;
     this.permissions = permissions;
     this.state = state;
   }
