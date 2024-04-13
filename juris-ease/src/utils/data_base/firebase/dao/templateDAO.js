@@ -5,6 +5,7 @@ import { getRef } from '../firebaseConfig'
 import { createTemplateByData } from '../dataProcessing';
 
 export const addTemplate = async (templateData, type) => {
+  
   const templateID = formatString(templateData.title);
   templateData.id = templateID
   templateData.createdAt = getCurrentFormattedDate();

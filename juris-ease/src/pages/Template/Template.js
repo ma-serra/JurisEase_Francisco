@@ -10,24 +10,10 @@ import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
 import { getTemplates, addTemplate, removeTemplate } from '../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd, MdDelete } from 'react-icons/md';
-import { removeObjetosVazios, extractKeys, normalizeText } from '../../utils/tools/tools'
+import { extractKeys, normalizeText } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
 
 function Template() {
-    const [datasEditors, setDatasEditors] = useState({
-        dataBase: "",
-        dataFatos: "",
-        dataFundamentos: "",
-        dataPedidos: ""
-    });
-
-    function setDataTo(data, content) {
-        setDatasEditors(prevState => ({
-            ...prevState,
-            [data]: content
-        }));
-    }
-
     const [search, setSearch] = useState('');
     const [filtredTemplatesBase, setFiltredTemplatesBase] = useState(null)
     const [filtredTemplatesEspecific, setFiltredTemplatesEspecific] = useState(null)
@@ -42,11 +28,26 @@ function Template() {
         title: "",
         rout: [],
         keys: [],
-        contents: {},
+        contents: {
+            base: "",
+            fatos: "",
+            fundamentos: "",
+            pedidos: ""
+        },
         typeTermination: "",
         numberOfComplaints: "",
         typesResponsibilities: []
     });
+
+    function setDataTo(data, content) {
+        setEditedTemplate((prevState) => ({
+            ...prevState,
+            contents: {
+                ...prevState.contents,
+                [data]: content
+            }
+        }));
+    }
 
     const filterCards = (filterText) => {
         if (!filterText) {
@@ -109,14 +110,6 @@ function Template() {
         fetchTemplatesAndListen("specific", setTemplatesEspecific);
     }, [])
 
-    function logBase() {
-        console.log(templatesBase)
-    }
-
-    function logEspecific() {
-        console.log(templatesEspecific)
-    }
-
     const handleInputChange = (event) => {
         const { id, value } = event.target;
 
@@ -142,7 +135,7 @@ function Template() {
         });
     };
 
-    function handleAddTemplateClick (type) {
+    function handleAddTemplateClick(type) {
         setDrawerOpen(true)
         setDrawerType(type)
 
@@ -150,12 +143,16 @@ function Template() {
             title: "",
             rout: [],
             keys: [],
-            contents: {},
+            contents: {
+                base: "",
+                fatos: "",
+                fundamentos: "",
+                pedidos: ""
+            },
             typeTermination: "",
             numberOfComplaints: "",
             typesResponsibilities: []
         });
-        setDatasEditors({})
     };
 
     const handleCardClick = (data, type) => {
@@ -168,33 +165,16 @@ function Template() {
             title: data.title || "",
             rout: data.rout || [],
             keys: data.keys || [],
-            contents: data.contents || {},
+            contents: {
+                base: data.contents.base || "",
+                fatos: data.contents.fatos || "",
+                fundamentos: data.contents.fundamentos || "",
+                pedidos: data.contents.pedidos || "",
+            },
             typeTermination: data.typeTermination || "",
             numberOfComplaints: data.numberOfComplaints || "",
             typesResponsibilities: data.typesResponsibilities || []
         }));
-
-        // Definir os dados de acordo com o tipo de gaveta
-        setDatasEditors((prevState) => {
-            if (drawerType === "base") {
-                return {
-                    dataBase: data.contents.base || "",
-                    dataFatos: "",
-                    dataFundamentos: "",
-                    dataPedidos: "",
-                };
-            } else if (drawerType === "specific") {
-                return {
-                    dataBase: "",
-                    dataFatos: data.contents.fatos || "",
-                    dataFundamentos: data.contents.fundamentos || "",
-                    dataPedidos: data.contents.pedidos || "",
-                };
-            }
-
-            // Retornar o estado anterior se o tipo de gaveta não for reconhecido
-            return prevState;
-        });
     };
 
 
@@ -234,10 +214,11 @@ function Template() {
             return;
         }
 
-        if (drawerType === 'base' && (!datasEditors.dataBase)) {
+        const contents = editedTemplate.contents
+        if (drawerType === 'base' && (!contents.base)) {
             setErrorStatus('Por favor, adicione conteúdo em todos os editores');
             return;
-        } else if (drawerType === 'specific' && (!datasEditors.dataFatos || !datasEditors.dataFundamentos || !datasEditors.dataPedidos)) {
+        } else if (drawerType === 'specific' && (!contents.fatos || !contents.fundamentos || !contents.pedidos)) {
             setErrorStatus('Por favor, adicione conteúdo em todos os editores');
             return;
         }
@@ -252,12 +233,16 @@ function Template() {
             return;
         }
 
+        if (drawerType === 'base' && editedTemplate.numberOfComplaints <= 0) {
+            setErrorStatus('O número de reclamadas é inválido!');
+            return;
+        }
+
         if (drawerType === 'base' && editedTemplate.typesResponsibilities.filter(type => type === "Selecione").length > 0) {
             setErrorStatus('Por favor, preencha os tipos de responsabilidades para cada número de reclamadas.');
             return;
         }
 
-        editedTemplate.contents = datasEditors
         salvarTemplate()
     };
 
@@ -274,12 +259,12 @@ function Template() {
 
     const handleDeleteTemplate = async () => {
         await removeTemplate(editedTemplate.id, drawerType)
-        if(drawerType === "base" && templatesBase.length === 1) {
+        if (drawerType === "base" && templatesBase.length === 1) {
             setTemplatesBase([])
-        }else 
-        if(drawerType === "specific" && templatesEspecific.length === 1) {
-            setTemplatesEspecific([])
-        }
+        } else
+            if (drawerType === "specific" && templatesEspecific.length === 1) {
+                setTemplatesEspecific([])
+            }
         closeDrawer();
     };
 
@@ -344,7 +329,7 @@ function Template() {
         const allKeys = [];
 
         // Percorre cada objeto de dados em dataValue
-        for (const dataObj of Object.values(datasEditors)) {
+        for (const dataObj of Object.values(editedTemplate.contents)) {
             // Obtém as chaves do objeto de dados atual e adiciona ao array de todas as chaves
             const keys = extractKeys(dataObj);
             allKeys.push(...keys);
@@ -453,8 +438,6 @@ function Template() {
 
                 </div>
 
-                <button onClick={logBase}>Log Base</button>
-                <button onClick={logEspecific}>Log Específicos</button>
                 {drawerOpen && (
                     <div className='back-drawer-template'>
                         <div className='drawer-template' onClick={(e) => e.stopPropagation()}>
@@ -478,7 +461,7 @@ function Template() {
                                     <div className='base-data'>
                                         <div>
                                             <p>Corpo:</p>
-                                            <MyEditor data={datasEditors.dataBase} onDataChange={(content) => { setDataTo("dataBase", content) }} />
+                                            <MyEditor data={editedTemplate.contents.base} onDataChange={(content) => { setDataTo("base", content) }} />
                                         </div>
 
                                         <label htmlFor='typeTermination'>
@@ -498,7 +481,7 @@ function Template() {
                                         <label htmlFor='numberOfComplaints'>
                                             <p>Numero de reclamadas:</p>
                                             <input
-                                                type='text'
+                                                type='number'
                                                 id='numberOfComplaints'
                                                 value={editedTemplate?.numberOfComplaints || ''}
                                                 onChange={handleInputChange}
@@ -525,7 +508,6 @@ function Template() {
                                                 ))}
                                             </label>
                                         )}
-
                                     </div>
                                 )}
 
@@ -533,18 +515,18 @@ function Template() {
                                     <div className='base-specific'>
                                         <div>
                                             <p>Fatos:</p>
-                                            <MyEditor data={datasEditors.dataFatos} onDataChange={(content) => { setDataTo("dataFatos", content) }} />
+                                            <MyEditor data={editedTemplate.contents.fatos} onDataChange={(content) => { setDataTo("fatos", content) }} />
                                         </div>
 
 
                                         <div>
                                             <p>Fundamentos:</p>
-                                            <MyEditor data={datasEditors.dataFundamentos} onDataChange={(content) => { setDataTo("dataFundamentos", content) }} />
+                                            <MyEditor data={editedTemplate.contents.fundamentos} onDataChange={(content) => { setDataTo("fundamentos", content) }} />
                                         </div>
 
                                         <div>
                                             <p>Pedidos:</p>
-                                            <MyEditor data={datasEditors.pedidos} onDataChange={(content) => { setDataTo("dataPedidos", content) }} />
+                                            <MyEditor data={editedTemplate.contents.pedidos} onDataChange={(content) => { setDataTo("pedidos", content) }} />
                                         </div>
 
                                     </div>
