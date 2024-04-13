@@ -1,25 +1,29 @@
 import './CardTemplate.css';
 import React from 'react';
 
-function CardTemplate({ data, onClick }) {
+function CardTemplate({ card, onClick }) {
+
     const handleCardClick = () => {
-        onClick(data);
+        onClick(card);
     };
 
     const disableLinks = (html) => {
+        if (!html) {
+            return html
+        }
         // Substitui todas as tags <a> por <span>
         return html.replace(/<a\b[^>]*>/gi, '<span>').replace(/<\/a>/gi, '</span>');
     };
 
-    if (!data) {
+    if (!card) {
         return null;
     }
 
     return (
-        <div className={`CardTemplate ${data.id}`} onClick={handleCardClick}>
-            <h1>{data.title}</h1>
-            <div className='template-doc' dangerouslySetInnerHTML={{ __html: disableLinks(data.content) }} />
-            <p>{data.rout}</p>
+        <div className={`CardTemplate ${card.id}`} onClick={handleCardClick}>
+            <h1>{card.title}</h1>
+            <div className='template-doc' dangerouslySetInnerHTML={{ __html: disableLinks(card.contents[0]) }} />
+            <p>{card.rout}</p>
         </div>
     );
 }

@@ -1,16 +1,16 @@
 import { set, remove, update, onValue } from 'firebase/database';
 
 import { getCurrentFormattedDate, formatString } from '../../../tools/tools';
-import { addDocument, getRef } from '../firebaseConfig'
+import { getRef } from '../firebaseConfig'
 import { createTemplateByData } from '../dataProcessing';
 
-export const addTemplate = async (templateData) => {
+export const addTemplate = async (templateData, type) => {
   const templateID = formatString(templateData.title);
   templateData.id = templateID
   templateData.createdAt = getCurrentFormattedDate();
 
   const template = createTemplateByData(templateData)
-  const templateRef = await getRef(`templates/${templateID}`);
+  const templateRef = await getRef(`templates/${type}/${templateID}`);
 
   try {
     await set(templateRef, template);
@@ -22,10 +22,8 @@ export const addTemplate = async (templateData) => {
   }
 }
 
-export const removeTemplate = async (templateId) => {
-  console.log('removeTemplate:', templateId)
-
-  const templateRef = await getRef(`templates/${templateId}`);
+export const removeTemplate = async (templateId, type) => {
+  const templateRef = await getRef(`templates/${type}/${templateId}`);
   remove(templateRef)
     .then(() => {
       console.log('Template removido com sucesso.');
@@ -35,8 +33,8 @@ export const removeTemplate = async (templateId) => {
     });
 }
 
-export const getTemplates = async (callback) => {
-  const templatesRef = await getRef('templates');
+export const getTemplates = async (callback, type) => {
+const templatesRef = await getRef(`templates/${type}`);
 
   onValue(templatesRef, (snapshot) => {
     const templatesData = snapshot.val();
@@ -46,8 +44,8 @@ export const getTemplates = async (callback) => {
   });
 }
 
-export const getTemplate = async (id) => {
-  const templatesRef = await getRef(`templates/${id}`);
+export const getTemplate = async (id, type) => {
+  const templatesRef = await getRef(`templates/${type}/${id}`);
 
   return new Promise((resolve, reject) => {
     onValue(templatesRef, (snapshot) => {
@@ -63,12 +61,12 @@ export const getTemplate = async (id) => {
   });
 }
 
-export const updateTemplate = async (templateData) => {
+export const updateTemplate = async (templateData, type) => {
   console.log('updateTemplate')
   templateData.updatedAt = getCurrentFormattedDate();
   console.log("template: ", templateData)
 
-  const templatesRef = await getRef(`templates/${templateData.id}`);
+  const templatesRef = await getRef(`templates/${type}/${templateData.id}`);
 
   try {
     update(templatesRef, templateData);

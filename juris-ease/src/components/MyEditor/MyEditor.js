@@ -19,7 +19,6 @@ class MyEditor extends Component {
                     editor={ClassicEditor}
                     data={this.props.data} // Utiliza a propriedade data fornecida
                     onReady={editor => {
-                        console.log('Editor is ready to use!', editor);
                     }}
                     onChange={(event, editor) => {
                         const data = editor.getData();

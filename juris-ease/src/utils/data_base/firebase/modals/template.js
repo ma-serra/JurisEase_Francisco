@@ -1,10 +1,10 @@
 class Template {
-  constructor(id, createdAt, updatedAt, title, content, rout, keys) {
+  constructor(id, createdAt, updatedAt, title, contents, rout, keys) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.title = title;
-    this.content = content;
+    this.contents = contents;
     this.rout = rout;
     this.keys = keys;
   }

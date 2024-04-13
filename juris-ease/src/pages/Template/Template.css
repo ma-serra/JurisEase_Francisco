@@ -26,6 +26,25 @@
     align-items: baseline;
 }
 
+.Template .title-base, .Template .title-specific {
+    display: flex;
+    justify-content: left;
+    align-items: baseline;
+
+    font-size: 10pt;
+    margin-left: 3rem;
+
+    .bt-add-template {
+        font-size: 16pt;
+
+        &:hover {
+            margin-left: 10px;
+            scale: 1.2;
+            box-shadow: 0px 0px 3px var(--contrast-primary-dark);
+        }
+    }
+}
+
 .bt-add-template {
     cursor: pointer;
     font-size: 25pt;
@@ -39,7 +58,7 @@
     }
 }
 
-.back_drawer_template {
+.back-drawer-template {
     position: absolute;
     background-color: var(--transparent-75);
     top: 0;
@@ -51,7 +70,7 @@
     justify-content: end;
 }
 
-.drawer_template {
+.drawer-template {
     max-width: 500px;
     width: 75%;
 
@@ -112,30 +131,30 @@
     }
 }
 
-.drawer_template h2 {
+.drawer-template h2 {
     margin: 0;
     margin-bottom: 20px;
 }
 
-.drawer_template label {
+.drawer-template label {
     display: block;
     margin-bottom: 10px;
 }
 
-.drawer_template input {
+.drawer-template input {
     width: 100%;
     padding: 5px;
     margin-bottom: 10px;
 }
 
-.drawer_template input[type='file'] {
+.drawer-template input[type='file'] {
     width: 100%;
     margin-bottom: 10px;
     border-radius: 3px;
     font-size: 10pt;
 }
 
-.drawer_template div {
+.drawer-template div {
     margin-bottom: 10px;
 }
 
@@ -151,16 +170,16 @@
 }
 
 
-.drawer_template button {
+.drawer-template button {
     margin-left: 5px;
     cursor: pointer;
 }
 
-.drawer_template button:last-child {
+.drawer-template button:last-child {
     margin-left: 0;
 }
 
-.drawer_template .bt-rout {
+.drawer-template .bt-rout {
     height: 23px;
     border-radius: 25%;
     background-color: var();
@@ -240,12 +259,12 @@
     flex-grow: 1;
 }
 
-.img_doc_default {
+.img-doc-default {
     max-width: 100%;
     max-height: 120px;
 }
 
-.grd_templates {
+.grd-templates {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -261,7 +280,7 @@
 }
 
 @media (max-width: 1000px) {
-    .grd_templates {
+    .grd-templates {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 
         .CardTemplate {
@@ -273,7 +292,7 @@
 }
 
 @media (max-width: 550px) {
-    .grd_templates {
+    .grd-templates {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 
         .CardTemplate {
@@ -330,15 +349,15 @@
         font-size: 18px;
     }
 
-    .drawer_template h2 {
+    .drawer-template h2 {
         font-size: medium;
     }
 
-    .drawer_template label {
+    .drawer-template label {
         font-size: small;
     }
 
-    .drawer_template input {
+    .drawer-template input {
         font-size: small;
     }
 
@@ -347,7 +366,7 @@
         font-size: small;
     }
 
-    .drawer_template .bt-rout {
+    .drawer-template .bt-rout {
         height: 23px;
     }
 

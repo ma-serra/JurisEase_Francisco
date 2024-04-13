@@ -128,7 +128,6 @@ function UserManagement({ close, user }) {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            autocomplete="on"
                         />
                     </div>
 
@@ -139,7 +138,6 @@ function UserManagement({ close, user }) {
                             id="email"
                             name="email"
                             value={user.email}
-                            autocomplete="on"
                             disabled={true}
                         />
                     </div>

@@ -126,7 +126,7 @@ function GenerateDocks() {
             getTemplates((templatesData) => {
                 const templates = removeObjetosVazios(templatesData);
                 setTemplates(templates);
-            });
+            }, "specific");
         };
 
         fetchData();

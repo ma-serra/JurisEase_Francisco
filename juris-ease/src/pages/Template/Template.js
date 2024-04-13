@@ -14,21 +14,38 @@ import { removeObjetosVazios, extractKeys, normalizeText } from '../../utils/too
 import { useNavigate } from 'react-router-dom';
 
 function Template() {
-    const [dataValue, setDataValue] = useState("<p>Seu texto aqui</p>");
+    const [datasEditors, setDatasEditors] = useState({
+        dataBase: "",
+        dataFatos: "",
+        dataFundamentos: "",
+        dataPedidos: ""
+    });
+
+    function setDataTo(data, content) {
+        setDatasEditors(prevState => ({
+            ...prevState,
+            [data]: content
+        }));
+    }
 
     const [search, setSearch] = useState('');
-    const [filtredTemplates, setFiltredTemplates] = useState(null)
+    const [filtredTemplatesBase, setFiltredTemplatesBase] = useState(null)
+    const [filtredTemplatesEspecific, setFiltredTemplatesEspecific] = useState(null)
     const [errorStatus, setErrorStatus] = useState(null);
 
-    // User
     const [user, setUser] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [templates, setTemplates] = useState([]);
+    const [drawerType, setDrawerType] = useState("");
+    const [templatesBase, setTemplatesBase] = useState([]);
+    const [templatesEspecific, setTemplatesEspecific] = useState([]);
     const [editedTemplate, setEditedTemplate] = useState({
-        title: '',
-        content: '',
+        title: "",
         rout: [],
-        keys: []
+        keys: [],
+        contents: {},
+        typeTermination: "",
+        numberOfComplaints: "",
+        typesResponsibilities: []
     });
 
     const filterCards = (filterText) => {
@@ -38,22 +55,25 @@ function Template() {
 
         const searchText = normalizeText(filterText)
 
-        const filtered = templates.filter(card => {
+        let filtered = templatesBase.filter(card => {
             const content = normalizeText(card.content)
             const title = normalizeText(card.title)
             const rout = normalizeText(card.rout)
 
-            console.log('template description:', card.content)
-            console.log('template description:', content)
-            console.log('template title:', card.title)
-            console.log('template title:', title)
-            console.log('template rout:', card.rout)
-            console.log('template rout:', rout)
+            return title.includes(searchText) || content.includes(searchText) || rout.includes(searchText);
+        });
+
+        setFiltredTemplatesBase(filtered);
+
+        filtered = templatesEspecific.filter(card => {
+            const content = normalizeText(card.content)
+            const title = normalizeText(card.title)
+            const rout = normalizeText(card.rout)
 
             return title.includes(searchText) || content.includes(searchText) || rout.includes(searchText);
         });
 
-        setFiltredTemplates(filtered);
+        setFiltredTemplatesEspecific(filtered);
     };
 
     useEffect(() => {
@@ -75,98 +95,119 @@ function Template() {
         }
 
         fetchUser();
-
-        const fetchTemplatesAndListen = () => {
-            getTemplates((templatesData) => {
-                const templates = removeObjetosVazios(templatesData)
-                setTemplates(templates);
-                console.log("Templates:", templates)
-            });
-        };
-
-        fetchTemplatesAndListen();
     }, []);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+    useEffect(() => {
+        const fetchTemplatesAndListen = (type, setTemplatesType) => {
+            getTemplates((templatesData) => {
+                console.log("fetchTemplatesAndListen:", templatesData)
+                setTemplatesType(templatesData || []);
+            }, type);
+        };
 
-        if (name.startsWith('rout.')) {
-            const routProperty = name.split('.')[1];
-            const updatedRout = [...editedTemplate.rout];
-            updatedRout[parseInt(routProperty, 10)] = value;
+        fetchTemplatesAndListen("base", setTemplatesBase);
+        fetchTemplatesAndListen("specific", setTemplatesEspecific);
+    }, [])
 
-            setEditedTemplate({
-                ...editedTemplate,
-                rout: updatedRout
-            });
+    function logBase() {
+        console.log(templatesBase)
+    }
 
-        } else if (name.startsWith('keys.')) {
-            const keyParts = name.split('.');
-            const keyIndex = parseInt(keyParts[1], 10);
-            const keyProperty = keyParts[2];
+    function logEspecific() {
+        console.log(templatesEspecific)
+    }
 
-            setEditedTemplate((prevState) => {
-                const updatedKeyhandleAddKeys = prevState.keys
-                    ? [...prevState.keys]
-                    : [];
+    const handleInputChange = (event) => {
+        const { id, value } = event.target;
 
-                if (updatedKeyhandleAddKeys[keyIndex]) {
-                    updatedKeyhandleAddKeys[keyIndex] = {
-                        ...updatedKeyhandleAddKeys[keyIndex],
-                        [keyProperty]: value
-                    };
-                }
+        setEditedTemplate(prevState => {
+            const formTemplate = { ...prevState };
 
-                return {
-                    ...prevState,
-                    keys: updatedKeyhandleAddKeys,
-                };
-            });
-        } else {
-            // Atualização do campo de título
-            setEditedTemplate((prevState) => ({
-                ...prevState,
-                title: value
-            }));
-        }
-    };
+            if (id.startsWith('rout.')) {
+                const [, index] = id.split('.'); // rout.0
+                formTemplate.rout[index] = value
 
+            } else if (id.startsWith('keys.')) {
+                const [, index, type] = id.split('.'); // keys.0.name
+                formTemplate.keys[index][type] = value
 
-    const handleAddTemplateClick = () => {
-        setDrawerOpen(true);
-        setEditedTemplate({
-            title: '',
-            content: '',
-            rout: [],
-            keys: []
+            } else if (id.startsWith('typesResponsibilities.')) {
+                const [, index] = id.split('.'); // typesResponsibilities.0
+                formTemplate.typesResponsibilities[index] = value
+            } else {
+                formTemplate[id] = value
+            }
+
+            return formTemplate;
         });
-        setDataValue("<p>Seu texto aqui</p>")
     };
 
-    const handleCardClick = (data) => {
-        setDrawerOpen(true);
+    function handleAddTemplateClick (type) {
+        setDrawerOpen(true)
+        setDrawerType(type)
+
+        setEditedTemplate({
+            title: "",
+            rout: [],
+            keys: [],
+            contents: {},
+            typeTermination: "",
+            numberOfComplaints: "",
+            typesResponsibilities: []
+        });
+        setDatasEditors({})
+    };
+
+    const handleCardClick = (data, type) => {
+        setDrawerOpen(true)
+        setDrawerType(type)
 
         setEditedTemplate((prevState) => ({
             ...prevState,
             id: data.id || null,
-            title: data.title || '',
-            content: data.content || '',
+            title: data.title || "",
             rout: data.rout || [],
             keys: data.keys || [],
+            contents: data.contents || {},
+            typeTermination: data.typeTermination || "",
+            numberOfComplaints: data.numberOfComplaints || "",
+            typesResponsibilities: data.typesResponsibilities || []
         }));
 
-        setDataValue(data.content)
+        // Definir os dados de acordo com o tipo de gaveta
+        setDatasEditors((prevState) => {
+            if (drawerType === "base") {
+                return {
+                    dataBase: data.contents.base || "",
+                    dataFatos: "",
+                    dataFundamentos: "",
+                    dataPedidos: "",
+                };
+            } else if (drawerType === "specific") {
+                return {
+                    dataBase: "",
+                    dataFatos: data.contents.fatos || "",
+                    dataFundamentos: data.contents.fundamentos || "",
+                    dataPedidos: data.contents.pedidos || "",
+                };
+            }
 
-        console.log("handleCardClick:", editedTemplate)
+            // Retornar o estado anterior se o tipo de gaveta não for reconhecido
+            return prevState;
+        });
     };
+
 
     const closeDrawer = () => {
         setDrawerOpen(false);
         setEditedTemplate({
-            title: '',
-            content: '',
+            title: "",
             rout: [],
-            keys: []
+            keys: {},
+            contents: {},
+            typeTermination: "",
+            numberOfComplaints: "",
+            typesResponsibilities: []
         });
     };
 
@@ -193,19 +234,36 @@ function Template() {
             return;
         }
 
-        if (dataValue.length === 0) {
-            setErrorStatus('Por favor, preencha o documento.');
+        if (drawerType === 'base' && (!datasEditors.dataBase)) {
+            setErrorStatus('Por favor, adicione conteúdo em todos os editores');
+            return;
+        } else if (drawerType === 'specific' && (!datasEditors.dataFatos || !datasEditors.dataFundamentos || !datasEditors.dataPedidos)) {
+            setErrorStatus('Por favor, adicione conteúdo em todos os editores');
             return;
         }
 
-        editedTemplate.content = dataValue;
+        if (drawerType === 'base' && (!editedTemplate.typeTermination)) {
+            setErrorStatus('Por favor, preencha o tipo de recisão');
+            return;
+        }
 
+        if (drawerType === 'base' && (!editedTemplate.numberOfComplaints)) {
+            setErrorStatus('Por favor, informe o número de reclamadas');
+            return;
+        }
+
+        if (drawerType === 'base' && editedTemplate.typesResponsibilities.filter(type => type === "Selecione").length > 0) {
+            setErrorStatus('Por favor, preencha os tipos de responsabilidades para cada número de reclamadas.');
+            return;
+        }
+
+        editedTemplate.contents = datasEditors
         salvarTemplate()
     };
 
     const salvarTemplate = async function () {
         try {
-            addTemplate(editedTemplate)
+            addTemplate(editedTemplate, drawerType)
             setErrorStatus(null)
             closeDrawer();
 
@@ -215,9 +273,13 @@ function Template() {
     }
 
     const handleDeleteTemplate = async () => {
-        // Handle logic for saving the edited template
-        console.log("handleDeleteTemplate:", editedTemplate)
-        await removeTemplate(editedTemplate.id)
+        await removeTemplate(editedTemplate.id, drawerType)
+        if(drawerType === "base" && templatesBase.length === 1) {
+            setTemplatesBase([])
+        }else 
+        if(drawerType === "specific" && templatesEspecific.length === 1) {
+            setTemplatesEspecific([])
+        }
         closeDrawer();
     };
 
@@ -244,7 +306,6 @@ function Template() {
     const handleAddKey = () => {
         try {
             setEditedTemplate(prevState => {
-                console.log(prevState)
                 const updatedKeyhandleAddKeys = prevState.keys
                     ? [...prevState.keys, { name: '', type: 'texto' }]
                     : [{ name: '', type: 'texto' }];
@@ -279,20 +340,30 @@ function Template() {
     };
 
     const autoGenerateKeys = () => {
-        const keys = extractKeys(dataValue);
-        console.log(keys)
+        // Array para armazenar todas as chaves
+        const allKeys = [];
+
+        // Percorre cada objeto de dados em dataValue
+        for (const dataObj of Object.values(datasEditors)) {
+            // Obtém as chaves do objeto de dados atual e adiciona ao array de todas as chaves
+            const keys = extractKeys(dataObj);
+            allKeys.push(...keys);
+        }
+
+        // Remove chaves duplicadas
+        const uniqueKeys = [...new Set(allKeys)];
 
         // Mapeia cada chave para o formato de objeto desejado
-        const keysArray = keys.map((key, index) => ({
+        const keysArray = uniqueKeys.map((key, index) => ({
             name: key,
             type: 'texto' // Se necessário, você pode ajustar o tipo conforme necessário
         }));
 
         // Atualiza o estado com o novo array de chaves
-        setEditedTemplate({
-            ...editedTemplate,
+        setEditedTemplate(prevState => ({
+            ...prevState,
             keys: keysArray
-        });
+        }));
     }
 
     const navigate = useNavigate();
@@ -324,64 +395,168 @@ function Template() {
                 <div className='content-templates'>
                     <div className='title'>
                         <h1>Templates</h1>
-                        <MdLibraryAdd className='bt-add-template' onClick={handleAddTemplateClick} />
                     </div>
 
                     <div className='search-templates'>
                         <Search setSearch={setSearch} />
                     </div>
 
-                    <div className='grd_templates'>
-                        {/* Verifica se filtredTemplates é nulo */}
-                        {filtredTemplates === null ? (
-                            // Se filtredTemplates for nulo, mostra os templates
-                            templates.map((template, index) => (
-                                <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
-                            ))
-                        ) : (
-                            // Se filtredTemplates não for nulo
-                            // Verifica se filtredTemplates não é um array vazio
-                            filtredTemplates.length > 0 ? (
-                                // Se filtredTemplates não for um array vazio, mostra filtredTemplates
-                                filtredTemplates.map((template, index) => (
-                                    <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
+                    <div className='title-base'>
+                        <h1>Base</h1>
+                        <MdLibraryAdd className='bt-add-template' onClick={() => (handleAddTemplateClick("base"))} />
+                    </div>
+
+                    <div className='grd-templates'>
+                        {filtredTemplatesBase === null ? (
+                            templatesBase && templatesBase.length > 0 ? (
+                                templatesBase.map((template, index) => (
+                                    <CardTemplate key={index} card={template} onClick={() => handleCardClick(template, "base")} />
                                 ))
                             ) : (
-                                // Se filtredTemplates for um array vazio, mostra a mensagem "Nenhum template encontrado!"
+                                <p>Nenhum template encontrado!</p>
+                            )
+                        ) : (
+                            filtredTemplatesBase.length > 0 ? (
+                                filtredTemplatesBase.map((template, index) => (
+                                    <CardTemplate key={index} card={template} onClick={() => handleCardClick(template, "base")} />
+                                ))
+                            ) : (
                                 <p>Nenhum template encontrado!</p>
                             )
                         )}
                     </div>
+
+                    <div className='title-specific'>
+                        <h1>Específicos</h1>
+                        <MdLibraryAdd className='bt-add-template' onClick={() => (handleAddTemplateClick("specific"))} />
+                    </div>
+
+                    <div className='grd-templates'>
+                        {filtredTemplatesEspecific === null ? (
+                            templatesEspecific && templatesEspecific.length > 0 ? (
+                                templatesEspecific.map((template, index) => (
+                                    <CardTemplate key={index} card={template} onClick={() => handleCardClick(template, "specific")} />
+                                ))
+                            ) : (
+                                <p>Nenhum template encontrado!</p>
+                            )
+                        ) : (
+                            filtredTemplatesEspecific.length > 0 ? (
+                                filtredTemplatesEspecific.map((template, index) => (
+                                    <CardTemplate key={index} card={template} onClick={() => handleCardClick(template, "specific")} />
+                                ))
+                            ) : (
+                                <p>Nenhum template encontrado!</p>
+                            )
+                        )}
+                    </div>
+
                 </div>
 
+                <button onClick={logBase}>Log Base</button>
+                <button onClick={logEspecific}>Log Específicos</button>
                 {drawerOpen && (
-                    <div className='back_drawer_template' onClick={closeDrawer}>
-                        <div className='drawer_template' onClick={(e) => e.stopPropagation()}>
+                    <div className='back-drawer-template'>
+                        <div className='drawer-template' onClick={(e) => e.stopPropagation()}>
+
                             <form>
-                                <h2>Edit Template</h2>
+                                <h2>Edição</h2>
+
                                 <MdDelete className='bt-template-delete' onClick={handleDeleteTemplate} />
 
-                                <div>
-                                    <label>
-                                        Titulo:
-                                        <input
-                                            type='text'
-                                            id='title'
-                                            value={editedTemplate?.title || ''}
-                                            onChange={handleInputChange}
-                                        />
-                                    </label>
-                                </div>
-                                <div>
-                                    <MyEditor data={dataValue} onDataChange={setDataValue} />
-                                </div>
-                                <div>
-                                    <label>Caminho:</label>
-                                    {editedTemplate.rout.map((rout, index) => (
-                                        <div className='rout-item' key={index}>
+                                <label htmlFor='title'>
+                                    <p>Titulo:</p>
+                                    <input
+                                        type='text'
+                                        id='title'
+                                        value={editedTemplate?.title || ''}
+                                        onChange={handleInputChange}
+                                    />
+                                </label>
+
+                                {drawerType === "base" && (
+                                    <div className='base-data'>
+                                        <div>
+                                            <p>Corpo:</p>
+                                            <MyEditor data={datasEditors.dataBase} onDataChange={(content) => { setDataTo("dataBase", content) }} />
+                                        </div>
+
+                                        <label htmlFor='typeTermination'>
+                                            <p>Tipo de recisão:</p>
+                                            <select
+                                                id='typeTermination'
+                                                value={editedTemplate?.typeTermination || ''}
+                                                onChange={handleInputChange}
+                                            >
+                                                <option value={null}>Selecione</option>
+                                                <option value='Pedido de demissão'>Pedido de demissão</option>
+                                                <option value='Demissão sem justa causa'>Demissão sem justa causa</option>
+                                                <option value='Demissão por justa causa'>Demissão por justa causa</option>
+                                            </select>
+                                        </label>
+
+                                        <label htmlFor='numberOfComplaints'>
+                                            <p>Numero de reclamadas:</p>
                                             <input
                                                 type='text'
-                                                name={`rout.${index}`}
+                                                id='numberOfComplaints'
+                                                value={editedTemplate?.numberOfComplaints || ''}
+                                                onChange={handleInputChange}
+                                            />
+                                        </label>
+
+                                        {editedTemplate.numberOfComplaints && (
+                                            <label>
+                                                <p>Tipos de responsabilidades:</p>
+                                                {Array.from({ length: editedTemplate.numberOfComplaints }, (_, index) => (
+                                                    <label key={index} htmlFor={`typesResponsibilities.${index}`}>
+                                                        <p>{index}</p>
+                                                        <select
+                                                            id={`typesResponsibilities.${index}`}
+                                                            value={editedTemplate.typesResponsibilities?.[index]}
+                                                            onChange={handleInputChange}
+                                                        >
+                                                            <option value={null}>Selecione</option>
+                                                            <option value='main'>Principal</option>
+                                                            <option value='solidarity'>Solidária</option>
+                                                            <option value='subsidiary'>Subsidiária</option>
+                                                        </select>
+                                                    </label>
+                                                ))}
+                                            </label>
+                                        )}
+
+                                    </div>
+                                )}
+
+                                {drawerType === "specific" && (
+                                    <div className='base-specific'>
+                                        <div>
+                                            <p>Fatos:</p>
+                                            <MyEditor data={datasEditors.dataFatos} onDataChange={(content) => { setDataTo("dataFatos", content) }} />
+                                        </div>
+
+
+                                        <div>
+                                            <p>Fundamentos:</p>
+                                            <MyEditor data={datasEditors.dataFundamentos} onDataChange={(content) => { setDataTo("dataFundamentos", content) }} />
+                                        </div>
+
+                                        <div>
+                                            <p>Pedidos:</p>
+                                            <MyEditor data={datasEditors.pedidos} onDataChange={(content) => { setDataTo("dataPedidos", content) }} />
+                                        </div>
+
+                                    </div>
+                                )}
+
+                                <label>
+                                    <p>Caminho:</p>
+                                    {editedTemplate.rout.map((rout, index) => (
+                                        <label htmlFor={`rout.${index}`} key={index}>
+                                            <input
+                                                type='text'
+                                                id={`rout.${index}`}
                                                 value={rout}
                                                 onChange={handleInputChange}
                                             />
@@ -391,47 +566,55 @@ function Template() {
                                             {editedTemplate.rout.length === index + 1 && (
                                                 <button className="bt-rout" onClick={() => handleRemoveRout(index)}>-</button>
                                             )}
-                                        </div>
+                                        </label>
                                     ))}
                                     {editedTemplate.rout.length === 0 && (
                                         <button className="bt-addvar" onClick={handleAddRout}>Adicionar Caminho</button>
                                     )}
-                                </div>
-                                <div>
-                                    <label>Chaves do Documento:</label>
+                                </label>
+
+                                <label>
+                                    <p>Chaves do Documento:</p>
                                     {editedTemplate.keys && editedTemplate.keys.map((key, index) => (
-                                        <div className='doc-key-item' key={index}>
-                                            <input
-                                                type='text'
-                                                name={`keys.${index}.name`}
-                                                placeholder='Chave'
-                                                value={key.name}
-                                                onChange={handleInputChange}
-                                            />
-                                            <select
-                                                name={`keys.${index}.type`}
-                                                value={key.type}
-                                                onChange={handleInputChange}
-                                            >
-                                                <option value='texto'>Texto</option>
-                                                <option value='monetário'>Monetário</option>
-                                                <option value='data'>Data</option>
-                                                <option value='inteiro'>Inteiro</option>
-                                                {/* Adicione outros tipos conforme necessário */}
-                                            </select>
+                                        <label key={index}>
+                                            <label htmlFor={`keys.${index}.name`}>
+                                                <input
+                                                    type='text'
+                                                    id={`keys.${index}.name`}
+                                                    placeholder='Chave'
+                                                    value={key.name}
+                                                    onChange={handleInputChange}
+                                                />
+                                            </label>
+
+                                            <label htmlFor={`keys.${index}.name`}>
+                                                <select
+                                                    id={`keys.${index}.type`}
+                                                    value={key.type}
+                                                    onChange={handleInputChange}
+                                                >
+                                                    <option value='text'>Texto</option>
+                                                    <option value='monetary'>Monetário</option>
+                                                    <option value='date'>Data</option>
+                                                    <option value='integer'>Inteiro</option>
+                                                    <option value='function'>Função</option>
+                                                </select>
+                                            </label>
+
                                             {editedTemplate.keys.length === index + 1 && (
                                                 <button className="bt-rout" onClick={handleAddKey}>+</button>
                                             )}
                                             {editedTemplate.keys.length === index + 1 && (
                                                 <button className="bt-rout" onClick={() => handleRemoveKey(index)}>-</button>
                                             )}
-                                        </div>
+                                        </label>
                                     ))}
+
                                     {(!editedTemplate.keys || editedTemplate.keys.length === 0) && (
                                         <button className="bt-addvar" onClick={handleAddKey}>Adicionar Chave do Documento</button>
                                     )}
                                     <button type="button" className="bt-auto-generate" onClick={autoGenerateKeys}>Auto generate</button>
-                                </div>
+                                </label>
                             </form>
 
                             <div className='template-bts-act'>
