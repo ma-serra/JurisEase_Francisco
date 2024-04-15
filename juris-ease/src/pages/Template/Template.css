@@ -31,9 +31,9 @@
     display: flex;
     justify-content: left;
     align-items: baseline;
-
     font-size: 10pt;
     margin-left: 3rem;
+    height: 40pt;
 
     .bt-add-template {
         font-size: 16pt;
@@ -96,6 +96,7 @@
 .MyEditor {
     color: black;
     background-color: #FFF;
+    margin-bottom: 10px;
 }
 
 .ck-content {
@@ -166,14 +167,12 @@
 .drawer-template div p {
     text-align: left;
     margin-bottom: 0;
+    margin-top: 5px;
 }
 
-.drawer-template div {
-    margin-bottom: 10px;
-}
-
-.rout-item {
+.drawer-template .rout-item {
     display: flex;
+    align-items: baseline;
 }
 
 .rout-item input {
@@ -183,8 +182,44 @@
     margin: 0;
 }
 
+.drawer-template .key-item {
+    margin-bottom: 10px;
+    border: 2px solid #303030;
+    padding: 5px;
+}
+
+.drawer-template .key-item div {
+    display: flex;
+    align-items: end;
+}
+
+.drawer-template .key-item label{
+    flex: 2;
+    margin-bottom: 0;
+}
+
+.drawer-template .key-item input {
+    margin-bottom: 0;
+    width: 90%;
+    padding: 1%;
+}
+
+.drawer-template .key-item select {
+    margin-bottom: 0;
+    padding: 1%;
+    width: 90%;
+}
+
+.drawer-template .key-item .bts-row{
+    flex: 1;
+    display: flex;
+    justify-content: end;
+    margin: 0;
+}
+
 .drawer-template button {
-    margin-left: 5px;
+    margin-right: 5px;
+    margin-left: 0;
     cursor: pointer;
 }
 
@@ -192,7 +227,7 @@
     margin-left: 0;
 }
 
-.drawer-template .bt-rout {
+.drawer-template .bt-row {
     height: 23px;
     border-radius: 25%;
     background-color: var();
@@ -231,40 +266,6 @@
     background-color: var(--red);
 }
 
-.doc-key-item {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.doc-key-item input {
-    width: 50%;
-    padding: 5px;
-    margin-right: 5px;
-}
-
-.doc-key-item select {
-    flex: 1;
-    padding: 5px;
-    margin: 0;
-    height: fit-content;
-    font-size: 10pt;
-}
-
-.doc-key-item button {
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-.doc-key-item button:last-child {
-    margin-left: 0;
-}
-
-.doc-key-item .bt-rout {
-    height: 23px;
-    border-radius: 25%;
-    background-color: var();
-}
-
 .file-preview {
     display: flex;
     align-items: center;
@@ -277,43 +278,49 @@
     max-height: 120px;
 }
 
+.div-scroll {
+    overflow-x: scroll;
+}
+
 .grd-templates {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5%;
-    align-items: center;
-    justify-items: center;
+    display: inline-flex;
+    gap: 10px;
+    justify-content: center;
 
     .CardTemplate {
-        width: 300px;
-        height: 400px;
-        font-size: 100px;
+        width: 140px;
+        height: 180px;
+        font-size: 75pt;
     }
+}
+
+.bt-add {
+    background-color: #f5f5f5;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 400;
+    padding: 4px 4px;
+    cursor: pointer;
+    outline: none;
+    width: 100px;
+}
+
+.bt-add:hover {
+    background-color: #e0e0e0;
+}
+
+.bt-auto-generate {
+    margin-top: 10px;
 }
 
 @media (max-width: 1000px) {
-    .grd-templates {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 
-        .CardTemplate {
-            width: 225px;
-            height: 300px;
-            font-size: 75px;
-        }
-    }
 }
 
 @media (max-width: 550px) {
-    .grd-templates {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-
-        .CardTemplate {
-            width: 150px;
-            height: 200px;
-            font-size: 50px;
-        }
-    }
 
     .bt-template-delete {
         top: 20px;
@@ -379,7 +386,7 @@
         font-size: small;
     }
 
-    .drawer-template .bt-rout {
+    .drawer-template .bt-row {
         height: 23px;
     }
 
