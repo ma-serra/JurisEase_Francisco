@@ -1,213 +1,92 @@
-.document-generator {
+/* Container principal para gerar docks */
+.GenerateDocks {
+    position: relative;
     display: flex;
-    flex-direction: row;
-    background-color: var(--gray-30);
-
-    height: 100vh;
-    color: var(--primary-dark-50);
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
 }
 
-.document-generator>div {
-    margin-right: 1%;
-}
-
-.document-generator h2 {
-    font-size: 12pt;
-    margin-bottom: 1%;
-}
-
-.content-templates {
-    flex: 1;
-    padding-top: 2vw;
-}
-
-.content-templates h2 {
-    padding-left: 2vw;
-}
-
-.content-templates .rout-path {
-    padding-left: 2vw;
-    margin-bottom: 3%;
-}
-
-.content-templates .rout-path * {
-    font-size: 8pt;
-}
-
-.content-templates .rout-path .path-span {
-    cursor: pointer;
-}
-
-.content-templates .rout-path select {
+/* Botão de cancelamento */
+.bt-cancel {
+    position: absolute;
+    top: 4.5em;
+    right: 1.5em;
     border: none;
-    background-color: transparent;
-    width: 62px;
-    text-align: left;
-    margin-left: -3px;
-    font-size: xx-small;
-    cursor: pointer;
+    width: 35px;
+    height: 23px;
 
-}
-
-.content-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    justify-items: center;
-
-    width: 100%;
-    overflow: hidden;
-
-    .CardTemplate {
-        width: 150px;
-        height: 200px;
-        font-size: 50px;
+    &:hover {
+        scale: 1.1;
+        cursor: pointer;
     }
 }
-
-.content-form {
-    flex: .8;
-    padding-top: 2vw;
-}
-
-.content-form>div {
-    margin-top: 32px;
-}
-
-.key-input {
-    width: 80%;
-    padding-left: 3%;
-    padding-right: 3%;
+.bt-cancel p {
+    margin: 0;
     font-size: 8pt;
 }
 
-.key-input input {
-    width: 100%;
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 3%;
+/* Barra de progresso */
+.progress {
+    display: flex;
+    align-items: center;
+    margin-top: 3em;
+    width: 50%;
+    max-width: 500px;
 }
 
-.content-form button {
-    margin-left: 3%;
-    background-color: var(--primary-dark-50);
-    border-radius: .5em;
+/* Estágio na barra de progresso */
+.stage {
+    font-size: 8pt;
+    width: 15px;
+    height: 15px;
+    background-color: #04051F;
     color: white;
-    font-size: 9pt;
-    width: 80%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
 }
 
-.content-preview {
+/* Linha que conecta os estágios */
+.line {
     flex: 1;
-    padding-top: 2vw;
+    border-top: 2px solid #000;
 }
 
-.SheetPreview {
-    margin-top: 32px;
-    --scale: 0.5;
+/* Botões de navegação */
+.buttons-navigation {
+    display: flex;
+    gap: 5em;
+    margin-bottom: 5em;
+}
+.buttons-navigation p {
+    margin: 0;
+    font-size: 8pt;
 }
 
-@media (max-width: 1200px) {
-    .SheetPreview {
-        --scale: 0.4;
-    }
-}
+/* Botão de avanço */
+.bt-next,
+/* Botão de retorno */
+.bt-back {
+    color: white;
+    border-radius: 10px;
+    width: 140px;
+    height: 20px;
+    border: none;
+    font-size: 8pt;
+    margin-top: 1em;
 
-@media (max-width: 955px) {
-    .SheetPreview {
-        --scale: 0.35;
-    }
-}
-
-@media (max-width: 920px) {
-    .content-form>div {
-        margin-top: 18px;
-    }
-
-    .SheetPreview {
-        margin-top: 18px;
-    }
-
-    .key-input {
-        font-size: 6pt;
-
-        input {
-            font-size: 6pt;
-        }
-    }
-
-    .content-form button {
-        font-size: 6pt;
-    }
-
-    .content-cards {
-        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-
-        .CardTemplate {
-            width: 90px;
-            height: 120px;
-            font-size: 30px;
-        }
+    &:hover {
+        scale: 1.1;
+        cursor: pointer;
     }
 }
 
-@media (max-width: 850px) {
-    .SheetPreview {
-        --scale: 0.3;
-    }
+.bt-next {
+    background-color: #04051F;
 }
 
-@media (max-width: 650px) {
-    .content-templates {
-        flex: 1.2;
-    }
-
-    .SheetPreview {
-        --scale: 0.2;
-    }
-}
-
-@media (max-width: 550px) {
-    .document-generator h2 {
-        font-size: 8pt;
-    }
-
-    .content-templates .rout-path * {
-        font-size: 6pt;
-    }
-
-    .content-cards {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-
-        .CardTemplate {
-            width: 60px;
-            height: 80px;
-            font-size: 20px;
-        }
-    }
-}
-
-@media (max-width: 420px) {
-    .content-templates {
-        flex: 1.2;
-    }
-
-    .SheetPreview {
-        --scale: 0.15
-    }
-
-    .key-input {
-        font-size: 4pt;
-
-        input {
-            font-size: 4pt;
-            padding: 2px;
-        }
-    }
-
-    .content-form button {
-        font-size: 4pt;
-    }
+.bt-back {
+    background-color: #F02525;
 }

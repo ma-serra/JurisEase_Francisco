@@ -10,6 +10,8 @@ import { isUserAuthenticated } from '../../utils/data_base/firebase/authenticati
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
 import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF, gerarDOC } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
+import Stage01 from './Forms/Stage_01/Stage_01';
+import Stage02 from './Forms/Stage_02/Stage_02';
 
 const filterTemplatesByRout = (rout, templates) => {
     let filteredTemplates = [...templates];
@@ -104,14 +106,6 @@ function GenerateDocks() {
         }));
 
         setContent(content)
-        clearInputs()
-    };
-
-    const clearInputs = () => {
-        const inputElements = document.querySelectorAll('.key-input input');
-        inputElements.forEach(input => {
-            input.value = ''; // Limpa o valor do input
-        });
     };
 
     useEffect(() => {
@@ -161,86 +155,31 @@ function GenerateDocks() {
                 breakAcess()
             )}
 
-            <div className="document-generator">
+            <button className='bt-cancel'>
+                <p>Cancelar</p>
+            </button>
 
-                <div className="content-templates">
-                    <h2>Selecione seus templates</h2>
-
-                    <div className='rout-path'>
-                        <form>
-                            <div>
-                                <span className="path-span" onClick={() => resetRout()}> {'Templates'} </span>
-                                <span> {' / '} </span>
-
-                                {rout.map((rt, index) => (
-                                    <>
-                                        <span key={index} className="path-span" onClick={() => undoRout(index)}>
-                                            {rt}
-                                        </span>
-                                        <span> {' / '} </span>
-                                    </>
-                                ))}
-
-                                <select name={`rout`} value={rout[rout.length - 1] || ''} onChange={handleChangeRout} className="select-option">
-                                    <option value="">Selecione</option>
-                                    {options.map((option, index) => (
-                                        <option key={index} value={option}>
-                                            {option}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div className='content-cards'>
-                        {filteredTemplates.map((template, index) => (
-                            <CardTemplate key={index} data={template} onClick={() => handleCardClick(template)} />
-                        ))}
-                    </div>
-                </div>
-
-                <div className='content-form'>
-                    <h2>Formulário</h2>
-                    {templateSelected &&
-                        <div>
-                            {templateSelected.keys.map((key, index) => (
-                                <div className='key-input' key={index}>
-                                    <label htmlFor="name">{key.name}</label>
-                                    <input
-                                        type='text'
-                                        name={`key.${key.name}`}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                            ))}
-                            <button onClick={handleProcessarArquivo}>Processar Arquivo</button>
-
-                            {resultado && resultado.success && (
-                                <div>
-                                    <p>Arquivo processado com sucesso. Caminho de saída: {resultado.outputFilePath}</p>
-                                    <p>Resposta da solicitação HTTP: {JSON.stringify(resultado.responseData)}</p>
-                                </div>
-                            )}
-
-                            {resultado && !resultado.success && (
-                                <p>Falha ao processar arquivo. Erro: {JSON.stringify(resultado.error)}</p>
-                            )}
-                        </div>
-                    }
-                </div>
-
-                <div className="content-preview">
-                    <h2>Pré-visualização</h2>
-                    <SheetPreview content={content} />
-                </div>
-
+            <div className='progress'>
+                <div class="stage">01</div>
+                <div class="line"></div>
+                <div class="stage">02</div>
+                <div class="line"></div>
+                <div class="stage">03</div>
+                <div class="line"></div>
+                <div class="stage">04</div>
+                <div class="line"></div>
+                <div class="stage">05</div>
             </div>
 
-            {/* Drawer inferior para progresso e navegação */}
-            <div className="bottom-drawer">
-                {/* Seção de progresso */}
+            <Stage02 />
 
+            <div className='buttons-navigation'>
+                <button className='bt-back'>
+                    <p>voltar</p>
+                </button>
+                <button className='bt-next'>
+                    <p>avançar</p>
+                </button>
             </div>
         </div>
     );

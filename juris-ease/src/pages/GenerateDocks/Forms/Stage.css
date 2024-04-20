@@ -1,0 +1,63 @@
+.form-stage {
+    width: 40%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.title-form {
+    text-align: center;
+    font-size: 18pt;
+}
+
+.form-group {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.reclamada {
+    margin-bottom: 2em;
+}
+
+.reclamada p {
+    text-align: left;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin: 0;
+}
+
+.form-group input[type='text'] {
+    height: 100%;
+    width: 100%;
+    padding: 4px;
+    border-radius: 3px;
+    font-size: 10pt;
+    margin: 0;
+}
+
+.form-group input[type='text']:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.bt-addreclamada {
+    color: white;
+    border-radius: 10px;
+    width: 100%;
+    height: 20px;
+    border: none;
+    font-size: 8pt;
+    background-color: #04051F;
+    text-align: center;
+
+    &:hover {
+        scale: 1.1;
+        cursor: pointer;
+    }
+}
