@@ -48,6 +48,35 @@
     padding: 3px;
 }
 
+.stage-pass {
+    font-size: 8pt;
+    width: 15px;
+    height: 15px;
+    background-color: #10E057;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
+
+.stage-current {
+    font-size: 8pt;
+    font-weight: bold;
+    width: 15px;
+    height: 15px;
+    background-color: #10E057;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    border: 2px solid #EBFF00;
+    scale: 1.1;
+}
+
 /* Linha que conecta os estágios */
 .line {
     flex: 1;

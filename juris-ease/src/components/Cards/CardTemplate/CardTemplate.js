@@ -3,6 +3,8 @@ import React from 'react';
 
 function CardTemplate({ card, onClick }) {
 
+    console.log(card)
+
     const handleCardClick = () => {
         onClick(card);
     };
@@ -21,6 +23,7 @@ function CardTemplate({ card, onClick }) {
 
     return (
         <div className={`CardTemplate ${card.id}`} onClick={handleCardClick}>
+            {console.log("Card:", card.title)}
             <h1>{card.title}</h1>
             <div className='template-doc' dangerouslySetInnerHTML={{ __html: disableLinks(card.contents[0]) }} />
             <p>{card.rout}</p>

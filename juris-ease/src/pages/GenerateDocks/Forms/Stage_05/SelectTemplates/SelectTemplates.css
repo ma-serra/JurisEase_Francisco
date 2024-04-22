@@ -1,0 +1,69 @@
+.SelectTemplate .title {
+    font-size: 14pt;
+    margin: 0;
+}
+
+.rout-path {
+    margin-bottom: 0.5em;
+}
+
+.rout-path * {
+    font-size: 10pt;
+}
+
+.rout-path .path-span {
+    cursor: pointer;
+}
+
+.rout-path select {
+    border: none;
+    background-color: transparent;
+    width: 75px;
+    text-align: left;
+    margin-left: -3px;
+    font-size: 8pt;
+    padding: 2px;
+    cursor: pointer;
+
+}
+
+.content-cards {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.card-template {
+    width: 90%;
+    background-color: #04051F;
+    color: white;
+    padding: 0.5em;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    cursor: pointer;
+    transform: scale(0.98); /* Corrigido 'scale' para 'transform' */
+    transition: transform 0.3s; /* Adicionada transição para suavizar a mudança de escala */
+
+    &:hover { /* Corrigido o seletor para '&:hover' */
+        transform: scale(1); /* Corrigido 'scale' para 'transform' */
+    }
+}
+
+.card-template.selected {
+    border: 2px solid #EBFF00;
+}
+
+.card-template .title{
+    font-size: 10pt;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: .6em;
+    text-align: left;
+}
+
+.card-template .rout{
+    font-size: 7pt;
+    margin: 0;
+    text-align: left;
+}

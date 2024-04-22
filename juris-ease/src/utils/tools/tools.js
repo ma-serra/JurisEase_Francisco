@@ -234,3 +234,24 @@ export function checkBlocked(user) {
         user.state = "active";
     }
 }
+
+export function compareArrays(array1, array2) {
+    // Verifica se os arrays têm o mesmo comprimento
+    if (array1.length !== array2.length) {
+        return false;
+    }
+
+    // Ordena os arrays para garantir a comparação correta
+    const sortedArray1 = array1.slice().sort();
+    const sortedArray2 = array2.slice().sort();
+
+    // Verifica se cada elemento é o mesmo nos dois arrays
+    for (let i = 0; i < sortedArray1.length; i++) {
+        if (sortedArray1[i] !== sortedArray2[i]) {
+            return false;
+        }
+    }
+
+    // Se chegou até aqui, os arrays são iguais
+    return true;
+}

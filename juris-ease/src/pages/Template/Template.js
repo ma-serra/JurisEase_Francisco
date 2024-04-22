@@ -151,7 +151,7 @@ function Template() {
                 formTemplate[type][index] = value
             } else {
                 if (id === "numberOfComplaints") {
-                    formTemplate["typesResponsibilities"][0] = "main"
+                    formTemplate["typesResponsibilities"][0] = "Principal"
                 }
 
                 formTemplate[id] = value
@@ -225,7 +225,7 @@ function Template() {
         }
 
         // Validar se há pelo menos um caminho e nenhum caminho vazio
-        if (!editedTemplate.rout || editedTemplate.rout.length === 0 || editedTemplate.rout.some(path => !path.trim())) {
+        if (drawerType === 'specific' && (!editedTemplate.rout || editedTemplate.rout.length === 0 || editedTemplate.rout.some(path => !path.trim()))) {
             setErrorStatus('Por favor, adicione pelo menos um caminho válido.');
             return;
         }
@@ -316,7 +316,7 @@ function Template() {
     const handleAddKey = () => {
         try {
             setEditedTemplate(prevState => {
-                const newKey = { id: '', type: 'texto', function: { operation: '', params: [] } }
+                const newKey = { id: '', type: 'text', function: { operation: '', params: [] } }
                 const updatedKeyhandleAddKeys = prevState.keys
                     ? [...prevState.keys, newKey]
                     : [newKey];
@@ -366,7 +366,7 @@ function Template() {
         // Mapeia cada chave para o formato de objeto desejado
         const keysArray = uniqueKeys.map((key, index) => ({
             id: key,
-            type: 'texto', // Se necessário, você pode ajustar o tipo conforme necessário
+            type: 'text', // Se necessário, você pode ajustar o tipo conforme necessário
             function: { operation: '', params: [] }
         }));
 
@@ -532,9 +532,9 @@ function Template() {
                                                             disabled={index === 0}
                                                         >
                                                             <option value=''>Selecione</option>
-                                                            {index === 0 && (<option value='main'>Principal</option>)}
-                                                            <option value='solidarity'>Solidária</option>
-                                                            <option value='subsidiary'>Subsidiária</option>
+                                                            {index === 0 && (<option value='Princiaal'>Principal</option>)}
+                                                            <option value='Solidária'>Solidária</option>
+                                                            <option value='Subsidiária'>Subsidiária</option>
                                                         </select>
                                                     </label>
                                                 ))}
@@ -561,30 +561,29 @@ function Template() {
                                             <MyEditor data={editedTemplate.contents.pedidos} onDataChange={(content) => { setDataTo("pedidos", content) }} />
                                         </div>
 
+                                        <div>
+                                            <p>Caminho:</p>
+                                            {editedTemplate.rout.map((rout, index) => (
+                                                <label key={`rout-${index}`} htmlFor={`rout.${index}`} className='rout-item'>
+                                                    <input
+                                                        type='text'
+                                                        id={`rout.${index}`}
+                                                        value={rout || ""}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                    <button className="bt-row" onClick={() => handleRemoveRout(index)}>-</button>
+                                                    {editedTemplate.rout.length === index + 1 && (
+                                                        <button className="bt-row" onClick={handleAddRout}>+</button>
+                                                    )}
+                                                </label>
+                                            ))}
+
+                                            {editedTemplate.rout.length === 0 && (
+                                                <button className="bt-add" onClick={handleAddRout}>Adicionar Caminho</button>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
-
-                                <div>
-                                    <p>Caminho:</p>
-                                    {editedTemplate.rout.map((rout, index) => (
-                                        <label key={`rout-${index}`} htmlFor={`rout.${index}`} className='rout-item'>
-                                            <input
-                                                type='text'
-                                                id={`rout.${index}`}
-                                                value={rout || ""}
-                                                onChange={handleInputChange}
-                                            />
-                                            <button className="bt-row" onClick={() => handleRemoveRout(index)}>-</button>
-                                            {editedTemplate.rout.length === index + 1 && (
-                                                <button className="bt-row" onClick={handleAddRout}>+</button>
-                                            )}
-                                        </label>
-                                    ))}
-
-                                    {editedTemplate.rout.length === 0 && (
-                                        <button className="bt-add" onClick={handleAddRout}>Adicionar Caminho</button>
-                                    )}
-                                </div>
 
                                 <div>
                                     <p>Chaves do Documento:</p>
@@ -609,8 +608,10 @@ function Template() {
                                                         value={templateKey.type}
                                                         onChange={handleInputChange}
                                                     >
-                                                        <option value=''>Selecione</option>
                                                         <option value='text'>Texto</option>
+                                                        {drawerType === 'base' && (<option value='fatos'>Fatos</option>)}
+                                                        {drawerType === 'base' && (<option value='fundamentos'>Fundamentos</option>)}
+                                                        {drawerType === 'base' && (<option value='pedidos'>Pedidos</option>)}
                                                         <option value='monetary'>Monetário</option>
                                                         <option value='date'>Data</option>
                                                         <option value='number'>Numero</option>
@@ -626,7 +627,7 @@ function Template() {
                                                             value={templateKey.function?.type}
                                                             onChange={handleInputChange}
                                                         >
-                                                            <option key={'na'} value={null}>Selecione</option>
+                                                            <option key={''} value={null}>Selecione</option>
                                                             {Object.entries(functions).map(([operation, { name }]) => (
                                                                 <option key={operation} value={operation}>{name}</option>
                                                             ))}

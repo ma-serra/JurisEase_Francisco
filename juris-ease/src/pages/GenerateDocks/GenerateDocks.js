@@ -2,111 +2,93 @@ import './GenerateDocks.css';
 import React, { useEffect, useState } from 'react';
 
 import Header from "../../components/Header/Header";
-import CardTemplate from '../../components/Cards/CardTemplate/CardTemplate';
-import SheetPreview from '../../components/SheetPreview/SheetPreview';
 
 import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
-import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
-import { removeObjetosVazios, gerarPDF, refactoreHTMLtoPDF, gerarDOC } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
+
 import Stage01 from './Forms/Stage_01/Stage_01';
 import Stage02 from './Forms/Stage_02/Stage_02';
-
-const filterTemplatesByRout = (rout, templates) => {
-    let filteredTemplates = [...templates];
-
-    rout.forEach((routSection, index) => {
-        filteredTemplates = filteredTemplates.filter((template) => template.rout[index] === routSection);
-    });
-
-    return filteredTemplates;
-};
-
-const getRoutOptions = (rout, templates) => {
-    const result = templates.map((template) => template.rout[rout.length]);
-    return result
-};
+import Stage03 from './Forms/Stage_03/Stage_03';
+import Stage04 from './Forms/Stage_04/Stage_04';
+import Stage05 from './Forms/Stage_05/Stage_05';
+import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
+import { compareArrays } from '../../utils/tools/tools';
 
 function GenerateDocks() {
     const [user, setUser] = useState(null);
-    const [templates, setTemplates] = useState([]);
-    const [filteredTemplates, setFiltredTemplates] = useState([]);
-    const [templateSelected, setTemplate] = useState(null);
-    const [rout, setRout] = useState([])
-    const [options, setOptions] = useState([])
-    const [resultado, setResultado] = useState(null);
-    const [pdfUrl, setPdfUrl] = useState(null);
-    const [form, setForm] = useState({})
-    const [content, setContent] = useState('')
+    const [form, setForm] = useState({});
+    const [templateBase, setTemplateBase] = useState({})
+    const [currentStage, setCurrentStage] = useState(1);
 
-    const handleProcessarArquivo = async () => {
-        try {
-            const data = refactoreHTMLtoPDF(content)
-            const url = await gerarDOC(data);
-            setPdfUrl(url);
-            console.log("URL do PDF:", url);
-        } catch (error) {
-            console.error('Erro ao gerar PDF:', error);
+    const handleNext = () => {
+        setCurrentStage(prevStage => prevStage < 5 ? prevStage + 1 : prevStage);
+    };
+
+    const handleBack = () => {
+        setCurrentStage(prevStage => prevStage > 1 ? prevStage - 1 : prevStage);
+    };
+
+    const renderStage = () => {
+        switch (currentStage) {
+            case 1:
+                return <Stage01 form={form} setForm={setForm} />;
+            case 2:
+                return <Stage02 form={form} setForm={setForm} />;
+            case 3:
+                return <Stage03 form={form} setForm={setForm} />;
+            case 4:
+                return <Stage04 form={form} setForm={setForm} templateBase={templateBase} />;
+            case 5:
+                return <Stage05 form={form} setForm={setForm} templateBase={templateBase} />;
+            default:
+                return null;
         }
     };
 
-    function replaceKeys(keys) {
-        let content = templateSelected.content;
+    useEffect(() => {
+        if (currentStage === 4) {
+            const fetchData = async () => {
+                try {
+                    const templates = await new Promise((resolve, reject) => {
+                        getTemplates(templates => resolve(templates), "base");
+                    });
 
-        Object.keys(keys).forEach(key => {
-            const regex = new RegExp('{{' + key + '}}', 'g');
-            content = content.replace(regex, keys[key]);
-        });
+                    templates.forEach(template => {
+                        if (matchTemplate(template)) {
+                            console.log("Template correspondente encontrado:", template);
+                            setTemplateBase(template);
+                            return; // Interrompe o loop após encontrar uma correspondência
+                        }
+                    });
 
-        return content;
-    }
+                    console.log("Nenhum template base corresponde às entradas!");
+                } catch (error) {
+                    console.error("Erro ao obter templates:", error);
+                }
+            };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-
-        if (name.startsWith('key.')) {
-            const key = name.split('.')[1]; // key.name
-            setForm({
-                ...form,
-                [key]: value
-            });
-
-            setContent(replaceKeys({ ...form, [key]: value }));
+            fetchData();
         }
-    };
+    }, [currentStage]);
 
-    const update = () => {
-        const filter = filterTemplatesByRout(rout, templates)
-        setFiltredTemplates(filter)
-        setOptions(getRoutOptions(rout, filter))
+    // Função para verificar correspondência de um template
+    function matchTemplate(template) {
+        // Verifica se o tipo de rescisão coincide
+        const typeTerminationMatch = template.typeTermination === form.tipo_recisao;
+        // Verifica se o número de reclamações coincide
+        const numberOfComplaintsMatch = template.numberOfComplaints == form.reclamadas.length;
+        // Verifica se os tipos de responsabilidade coincidem
+        const typesResponsibilitiesMatch = compareArrays(
+            form.reclamadas.map(rec => rec.tipo_responsabilidade),
+            template.typesResponsibilities
+        );
+
+        console.log(typeTerminationMatch, numberOfComplaintsMatch, typesResponsibilitiesMatch)
+        // Retorna true se todas as condições forem atendidas
+        return typeTerminationMatch && numberOfComplaintsMatch && typesResponsibilitiesMatch;
     }
 
-    const handleChangeRout = (event) => {
-        const selectedRout = event.target.value;
-        setRout((prevRout) => [...prevRout, selectedRout]);
-    };
-
-    const undoRout = (index) => {
-        setRout((prevRout) => prevRout.slice(0, index + 1));
-    };
-
-    const resetRout = (index) => {
-        setRout([]);
-    };
-
-    const handleCardClick = ({ id, title, content, rout, keys }) => {
-        setTemplate((prevState) => ({
-            ...prevState,
-            id: id || null,
-            title: title || '',
-            content: content || '',
-            rout: rout || [],
-            keys: keys || [],
-        }));
-
-        setContent(content)
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -116,20 +98,10 @@ function GenerateDocks() {
                 const userData = await getUser(isAuthenticated);
                 setUser(userData);
             }
-
-            getTemplates((templatesData) => {
-                const templates = removeObjetosVazios(templatesData);
-                setTemplates(templates);
-            }, "specific");
         };
 
         fetchData();
-    }, []); // Adicione um array de dependências vazio para garantir que o useEffect seja executado apenas uma vez
-
-    useEffect(() => {
-        update(); // Chama a função update quando templates ou rout mudarem
-
-    }, [templates, rout]); // Adicione templates e rout ao array de dependências
+    }, []);
 
     const navigate = useNavigate();
     const navigateTo = (link) => {
@@ -156,30 +128,37 @@ function GenerateDocks() {
             )}
 
             <button className='bt-cancel'>
-                <p>Cancelar</p>
+                <p>{currentStage === 5 ? "Iniciar novo documento" : "Cancelar"}</p>
             </button>
 
             <div className='progress'>
-                <div class="stage">01</div>
-                <div class="line"></div>
-                <div class="stage">02</div>
-                <div class="line"></div>
-                <div class="stage">03</div>
-                <div class="line"></div>
-                <div class="stage">04</div>
-                <div class="line"></div>
-                <div class="stage">05</div>
+                {[1, 2, 3, 4, 5].map(stageNum => (
+                    <React.Fragment key={stageNum}>
+                        <div className={`stage${stageNum === currentStage ? "-current" : (stageNum < currentStage ? "-pass" : "")}`}>{stageNum.toString().padStart(2, '0')}</div>
+                        {stageNum !== 5 && <div className="line"></div>}
+                    </React.Fragment>
+                ))}
             </div>
 
-            <Stage02 />
+            {renderStage()}
 
             <div className='buttons-navigation'>
-                <button className='bt-back'>
-                    <p>voltar</p>
-                </button>
-                <button className='bt-next'>
-                    <p>avançar</p>
-                </button>
+                {currentStage !== 1 && (
+                    <button className='bt-back' onClick={handleBack}>
+                        <p>Voltar</p>
+                    </button>
+                )}
+                {currentStage !== 5 && (
+                    <button className='bt-next' onClick={handleNext}>
+                        <p>Avançar</p>
+                    </button>
+                )}
+
+                {currentStage === 5 && (
+                    <button className='bt-next' onClick={handleNext}>
+                        <p>Gerar arquivo</p>
+                    </button>
+                )}
             </div>
         </div>
     );
