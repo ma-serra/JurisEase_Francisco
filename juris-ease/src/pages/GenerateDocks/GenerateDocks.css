@@ -1,9 +1,11 @@
 /* Container principal para gerar docks */
 .GenerateDocks {
+    background-color: #D2D2D2;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
 }
 
 /* Botão de cancelamento */
