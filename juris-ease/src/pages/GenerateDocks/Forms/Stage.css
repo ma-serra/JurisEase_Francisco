@@ -67,19 +67,17 @@
     margin-top: 1em;
     display: flex;
     flex-direction: row;
+    gap: 5em;
 }
 
 .SelectTemplate {
     flex: 2;
-    background-color: #007bff;
 }
 
 .forms-templates {
     flex: 3;
-    background-color: brown;
 }
 
 .SheetPreview {
     flex: 2;
-    background-color: coral;
 }
