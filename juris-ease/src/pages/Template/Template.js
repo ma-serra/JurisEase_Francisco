@@ -531,8 +531,8 @@ function Template() {
                                                             onChange={handleInputChange}
                                                             disabled={index === 0}
                                                         >
-                                                            <option value=''>Selecione</option>
                                                             {index === 0 && (<option value='Princiaal'>Principal</option>)}
+                                                            <option value=''>Selecione</option>
                                                             <option value='Solidária'>Solidária</option>
                                                             <option value='Subsidiária'>Subsidiária</option>
                                                         </select>

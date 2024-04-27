@@ -1,6 +1,7 @@
 import './ManagmentForms.css'
 import React, { useEffect, useState } from 'react';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { functions } from '../../../../../utils/tools/functions';
 
 function ManagmentForms({ form, setForm, templates }) {
 
@@ -25,10 +26,36 @@ function ManagmentForms({ form, setForm, templates }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm(prevForm => ({
-            ...prevForm,
-            [name]: value
-        }));
+        setForm(prevForm => {
+            const updatedForm = {
+                ...prevForm,
+                [name]: value
+            };
+
+            // Chamando verifyFuncs após atualizar o estado do formulário
+            verifyFuncs(updatedForm);
+            return updatedForm;
+        });
+    };
+
+    const verifyFuncs = (updatedForm) => {
+        let keysFuncs = currentTemplate?.keys?.filter(key => key.type === 'function');
+
+        keysFuncs?.forEach(key => {
+            const operation = key.function.operation;
+            const params = key.function.params.map(param => {
+                return updatedForm[param] || param;
+            });
+
+            let result;
+            try {
+                result = functions[operation].execute(...params);
+            } catch (e) {
+                result = ''
+            }
+
+            updatedForm[key.id] = result
+        });
     };
 
     const renderForm = () => {

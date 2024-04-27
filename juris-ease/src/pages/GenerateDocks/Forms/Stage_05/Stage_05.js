@@ -4,9 +4,8 @@ import SheetPreview from './SheetPreview/SheetPreview';
 import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
 
-function Stage05({ form, setForm, templateBase }) {
+function Stage05({ form, setForm, templateBase, content, setContent }) {
 
-    const [content, setContent] = useState('')
     const [templates, setTemplates] = useState([]);
 
     function generateContent() {
@@ -44,20 +43,11 @@ function Stage05({ form, setForm, templateBase }) {
     function replaceKeys() {
         let content = generateContent()
 
-        templates.forEach(template => {
-            template.keys.forEach((key, index) => {
-                console.log(`${key.id} - ${form[key.id]}`)
-                const regex = new RegExp(key.id, 'g');
-                content = content.replace(regex, form[key.id] || '');
-            });
+        Object.keys(form).forEach((key) => {
+            const regex = new RegExp(key, 'g');
+            content = content.replace(regex, form[key] || '');
         });
 
-        templateBase.keys.forEach((key, index) => {
-            const regex = new RegExp(key.id, 'g');
-            content = content.replace(regex, form[key.id] || '');
-        });
-
-        console.log(content)
         return content;
     }
 

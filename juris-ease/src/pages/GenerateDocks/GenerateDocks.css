@@ -87,6 +87,7 @@
 
 /* Botões de navegação */
 .buttons-navigation {
+    position: relative;
     display: flex;
     gap: 5em;
     margin-bottom: 5em;
@@ -120,4 +121,10 @@
 
 .bt-back {
     background-color: #F02525;
+}
+
+.bts-generate {
+    position: absolute;
+    top: -15px;
+    right: 0;
 }

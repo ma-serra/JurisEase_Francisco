@@ -13,13 +13,15 @@ import Stage03 from './Forms/Stage_03/Stage_03';
 import Stage04 from './Forms/Stage_04/Stage_04';
 import Stage05 from './Forms/Stage_05/Stage_05';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
-import { compareArrays } from '../../utils/tools/tools';
+import { compareArrays, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools';
 
 function GenerateDocks() {
+    const [content, setContent] = useState('')
     const [user, setUser] = useState(null);
     const [form, setForm] = useState({});
     const [templateBase, setTemplateBase] = useState({})
     const [currentStage, setCurrentStage] = useState(1);
+    const [openFormatFile, setOpenFormatFile] = useState(false)
 
     const handleNext = () => {
         setCurrentStage(prevStage => prevStage < 5 ? prevStage + 1 : prevStage);
@@ -40,7 +42,7 @@ function GenerateDocks() {
             case 4:
                 return <Stage04 form={form} setForm={setForm} templateBase={templateBase} />;
             case 5:
-                return <Stage05 form={form} setForm={setForm} templateBase={templateBase} />;
+                return <Stage05 form={form} setForm={setForm} templateBase={templateBase} content={content} setContent={setContent} />;
             default:
                 return null;
         }
@@ -75,12 +77,12 @@ function GenerateDocks() {
     // Função para verificar correspondência de um template
     function matchTemplate(template) {
         // Verifica se o tipo de rescisão coincide
-        const typeTerminationMatch = template.typeTermination === form.tipo_recisao;
+        const typeTerminationMatch = template.typeTermination === form['{{tipo_recisao}}'];
         // Verifica se o número de reclamações coincide
         const numberOfComplaintsMatch = template.numberOfComplaints == form.reclamadas.length;
         // Verifica se os tipos de responsabilidade coincidem
         const typesResponsibilitiesMatch = compareArrays(
-            form.reclamadas.map(rec => rec.tipo_responsabilidade),
+            form.reclamadas.map(rec => rec['{{tipo_responsabilidade}}']),
             template.typesResponsibilities
         );
 
@@ -96,6 +98,15 @@ function GenerateDocks() {
 
             if (isAuthenticated) {
                 const userData = await getUser(isAuthenticated);
+                setForm(prevForm => ({
+                    ...prevForm,
+                    '{{nome_usuario}}': userData.name || '',
+                    '{{email_usuario}}': userData.email || '',
+                    '{{oab_usuario}}': userData.oab || '',
+                    '{{telefone_usuario}}': userData.phoneNumber || '',
+                    '{{endereco_usuario}}': userData.address ? `${userData.address.street}, ${userData.address.number}, ${userData.address.city}, ${userData.address.state}, ${userData.address.cep}` : '',
+                    '{{tipo_usuario}}': userData.type === 'client' ? 'cliente' : 'advogado' || '',
+                }));
                 setUser(userData);
             }
         };
@@ -118,6 +129,31 @@ function GenerateDocks() {
             navigateTo('')
         }
     }
+
+    function handleProcessFile() {
+        setOpenFormatFile(!openFormatFile)
+        console.log(form)
+    }
+
+    const generatePDF = async () => {
+        try {
+            const data = refactoreHTMLtoPDF(content)
+            await gerarPDF(data);
+
+        } catch (error) {
+            console.error('Erro ao gerar PDF:', error);
+        }
+    };
+
+    const generateDocx = async () => {
+        try {
+            const data = refactoreHTMLtoPDF(content)
+            await gerarDOC(data);
+
+        } catch (error) {
+            console.error('Erro ao gerar PDF:', error);
+        }
+    };
 
     return (
         <div className="GenerateDocks">
@@ -155,10 +191,24 @@ function GenerateDocks() {
                 )}
 
                 {currentStage === 5 && (
-                    <button className='bt-next' onClick={handleNext}>
+                    <button className='bt-next' onClick={handleProcessFile}>
                         <p>Gerar arquivo</p>
                     </button>
                 )}
+
+                {openFormatFile && (
+                    <div className='bts-generate'>
+                        <button className='bt-generate' onClick={generateDocx}>
+                            <p>DOC Format</p>
+                        </button>
+
+                        <button className='bt-generate' onClick={generatePDF}>
+                            <p>PDF Format</p>
+                        </button>
+                    </div>
+
+                )}
+
             </div>
         </div>
     );

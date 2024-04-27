@@ -1,13 +1,13 @@
 // Função para adição
 function sum(a, b) {
-    // Verifica se os valores são do mesmo tipo ou se são do tipo Date
-    if ((a instanceof Date && !(b instanceof Date)) || (!(a instanceof Date) && b instanceof Date)) {
-        throw new Error("Adição aceita somente valores do mesmo tipo ou valores do tipo Date.");
+    // Verifica se algum dos valores é do tipo Date
+    if (a instanceof Date || b instanceof Date) {
+        throw new Error("A adição não é suportada para valores do tipo Date.");
     }
 
-    // Converte os valores para números caso sejam do tipo Date
-    a = (a instanceof Date) ? a.getTime() : a;
-    b = (b instanceof Date) ? b.getTime() : b;
+    // Converte os valores para números se forem strings representando números
+    a = isNaN(a) ? a : parseFloat(a);
+    b = isNaN(b) ? b : parseFloat(b);
 
     // Realiza a adição
     return a + b;
@@ -25,7 +25,8 @@ function subtract(a, b) {
     b = (b instanceof Date) ? b.getTime() : b;
 
     // Realiza a subtração
-    return a - b;
+    const result = a - b
+    return result || '0';
 }
 
 // Função para converter valores monetários para números
@@ -50,7 +51,8 @@ function multiplication(a, b) {
     }
 
     // Realiza a multiplicação
-    return a * b;
+    const result = a * b
+    return result || '0';
 }
 
 // Função para divisão
@@ -74,9 +76,10 @@ function division(a, b) {
     }
 
     if (b !== 0) {
-        return a / b;
+        const result = a / b
+        return result || '0';
     } else {
-        throw new Error("Não é possível dividir por zero!");
+        return 'impossível'
     }
 }
 
