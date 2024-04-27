@@ -106,13 +106,12 @@ export function extractKeys(texto) {
 	// Enquanto houver correspondências da expressão regular no texto, extraia as chaves
 	while ((match = regex.exec(texto)) !== null) {
 		// O grupo de captura match[1] contém o nome da chave sem os delimitadores {{ }}
-		chaves.push(match[1]);
+		chaves.push(match[0]);
 	}
 
 	// Retornar um array com as chaves extraídas
 	return chaves;
 }
-
 
 export function generateCustomID(prefix) {
 	const timestamp = new Date().getTime();

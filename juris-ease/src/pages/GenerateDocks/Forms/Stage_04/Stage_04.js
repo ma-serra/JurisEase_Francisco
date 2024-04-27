@@ -18,7 +18,7 @@ function Stage04({ form, setForm, templateBase }) {
                 if (['text', 'monetary', 'date', 'number'].includes(key.type)) {
                     return (
                         <div className='form-group' key={key.id}>
-                            <label htmlFor={key.id}>{key.id}:</label>
+                            <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
                             <input
                                 type={key.type === 'monetary' ? 'text' : key.type}
                                 id={key.id}

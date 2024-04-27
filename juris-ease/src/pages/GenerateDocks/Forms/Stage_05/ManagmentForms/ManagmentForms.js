@@ -35,7 +35,7 @@ function ManagmentForms({ form, setForm, templates }) {
         return (
             currentTemplate?.keys && currentTemplate.keys.map(key => (
                 <div className='form-group' key={key.id}>
-                    <label htmlFor={key.id}>{key.id}:</label>
+                    <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
                     <input
                         type={key.type === 'monetary' ? 'text' : key.type}
                         id={key.id}

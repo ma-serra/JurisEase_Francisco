@@ -4,10 +4,8 @@
 
 .sheet {
     background-color: white;
-    width: calc(21cm * var(--scale)); /* Largura equivalente a uma folha A4 */
-    height: calc(29.7cm * var(--scale)); /* Altura equivalente a uma folha A4 */
-    padding: calc(1.65cm * var(--scale)); /* Margem interna equivalente a uma folha A4 */ 
-    margin: 0; /* Centralizar horizontalmente */
+    margin: 0;
+    padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
 }
 

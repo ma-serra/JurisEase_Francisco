@@ -67,7 +67,7 @@
     margin-top: 1em;
     display: flex;
     flex-direction: row;
-    gap: 5em;
+    gap: 3em;
 }
 
 .SelectTemplate {

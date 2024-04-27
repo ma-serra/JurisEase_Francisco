@@ -1,4 +1,4 @@
-// import './SheetPreview.css'
+import './SheetPreview.css'
 import React from 'react';
 
 function SheetPreview({content}) {
