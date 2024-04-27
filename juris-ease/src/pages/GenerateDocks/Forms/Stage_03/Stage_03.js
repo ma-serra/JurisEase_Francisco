@@ -6,11 +6,11 @@ function Stage01({ form, setForm }) {
     useEffect(() => {
         setForm(prevForm => ({
             ...prevForm,
-            '{{data_adimisao}}': form['{{data_adimisao}}'] || '',
-            '{{data_recisao}}': form['{{data_recisao}}'] || '',
-            '{{tipo_recisao}}': form['{{tipo_recisao}}'] || '',
+            '{{data_admisao}}': form['{{data_admisao}}'] || '',
+            '{{data_rescisao}}': form['{{data_rescisao}}'] || '',
+            '{{tipo_rescisao}}': form['{{tipo_rescisao}}'] || '',
             '{{cargo}}': form['{{cargo}}'] || '',
-            '{{renumeracao}}': form['{{renumeracao}}'] || '',
+            '{{renuneracao}}': form['{{renuneracao}}'] || '',
         }));
     }, []);
 
@@ -26,16 +26,16 @@ function Stage01({ form, setForm }) {
         <form className='form-stage'>
             <h2 className='title-form'>Dados do contrato de trabalho</h2>
             <div className='form-group'>
-                <label htmlFor='{{data_adimisao}}'>Data de Admissão:</label>
-                <input type='text' id='{{data_adimisao}}' name='{{data_adimisao}}' value={form['{{data_adimisao}}'] || ''} onChange={handleChange} />
+                <label htmlFor='{{data_admisao}}'>Data de Admissão:</label>
+                <input type='text' id='{{data_admisao}}' name='{{data_admisao}}' value={form['{{data_admisao}}'] || ''} onChange={handleChange} />
             </div>
             <div className='form-group'>
-                <label htmlFor='{{data_recisao}}'>Data de Recisão:</label>
-                <input type='text' id='{{data_recisao}}' name='{{data_recisao}}' value={form['{{data_recisao}}'] || ''} onChange={handleChange} />
+                <label htmlFor='{{data_rescisao}}'>Data de Recisão:</label>
+                <input type='text' id='{{data_rescisao}}' name='{{data_rescisao}}' value={form['{{data_rescisao}}'] || ''} onChange={handleChange} />
             </div>
             <div className='form-group'>
-                <label htmlFor='{{tipo_recisao}}'>Tipo de Recisão:</label>
-                <select id={`{{tipo_recisao}}`} name={`{{tipo_recisao}}`} value={form['{{tipo_recisao}}']} onChange={handleChange}>
+                <label htmlFor='{{tipo_rescisao}}'>Tipo de Recisão:</label>
+                <select id={`{{tipo_rescisao}}`} name={`{{tipo_rescisao}}`} value={form['{{tipo_rescisao}}']} onChange={handleChange}>
                     <option value=''>Selecione</option>
                     <option value='Pedido de demissão'>Pedido de demissão</option>
                     <option value='Demissão sem justa causa'>Demissão sem justa causa</option>
@@ -47,8 +47,8 @@ function Stage01({ form, setForm }) {
                 <input type='text' id='{{cargo}}' name='{{cargo}}' value={form['{{cargo}}'] || ''} onChange={handleChange} />
             </div>
             <div className='form-group'>
-                <label htmlFor='{{renumeracao}}'>Renumeração:</label>
-                <input type='text' id='{{renumeracao}}' name='{{renumeracao}}' value={form['{{renumeracao}}'] || ''} onChange={handleChange} />
+                <label htmlFor='{{renuneracao}}'>Renumeração:</label>
+                <input type='text' id='{{renuneracao}}' name='{{renuneracao}}' value={form['{{renuneracao}}'] || ''} onChange={handleChange} />
             </div>
         </form >
     );

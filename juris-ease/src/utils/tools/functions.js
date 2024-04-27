@@ -1,32 +1,58 @@
-// Função para adição
 function sum(a, b) {
-    // Verifica se algum dos valores é do tipo Date
-    if (a instanceof Date || b instanceof Date) {
-        throw new Error("A adição não é suportada para valores do tipo Date.");
+    // Verifica se a entrada é monetária (começa com 'R$')
+    const isMonetaryA = typeof a === 'string' && a.trim().startsWith('R$');
+    const isMonetaryB = typeof b === 'string' && b.trim().startsWith('R$');
+
+    // Remove o símbolo de moeda 'R$' e quaisquer caracteres de formatação (como espaços) e substitui a vírgula por ponto, se for monetário
+    const normalize = (value) => {
+        if (typeof value === 'string' && value.trim().startsWith('R$')) {
+            return parseFloat(value.replace(/[^\d.,]/g, '').replace(',', '.'));
+        }
+        return parseFloat(value);
+    };
+
+    const numA = normalize(a);
+    const numB = normalize(b);
+
+    // Verifica se algum dos valores é um NaN após a conversão
+    if (isNaN(numA) || isNaN(numB)) {
+        throw new Error("A adição não é suportada para valores não numéricos.");
     }
 
-    // Converte os valores para números se forem strings representando números
-    a = isNaN(a) ? a : parseFloat(a);
-    b = isNaN(b) ? b : parseFloat(b);
-
     // Realiza a adição
-    return a + b;
+    const result = numA + numB;
+
+    // Retorna o resultado formatado conforme a entrada
+    return isMonetaryA || isMonetaryB ? 'R$ ' + result.toFixed(2) : result;
 }
 
 // Função para subtração
 function subtract(a, b) {
-    // Verifica se os valores são do mesmo tipo ou se são do tipo Date
-    if ((a instanceof Date && !(b instanceof Date)) || (!(a instanceof Date) && b instanceof Date)) {
-        throw new Error("Subtração aceita somente valores do mesmo tipo ou valores do tipo Date.");
+    // Verifica se a entrada é monetária (começa com 'R$')
+    const isMonetaryA = typeof a === 'string' && a.trim().startsWith('R$');
+    const isMonetaryB = typeof b === 'string' && b.trim().startsWith('R$');
+
+    // Remove o símbolo de moeda 'R$' e quaisquer caracteres de formatação (como espaços) e substitui a vírgula por ponto, se for monetário
+    const normalize = (value) => {
+        if (typeof value === 'string' && value.trim().startsWith('R$')) {
+            return parseFloat(value.replace(/[^\d.,]/g, '').replace(',', '.'));
+        }
+        return parseFloat(value);
+    };
+
+    const numA = normalize(a);
+    const numB = normalize(b);
+
+    // Verifica se algum dos valores é um NaN após a conversão
+    if (isNaN(numA) || isNaN(numB)) {
+        throw new Error("A adição não é suportada para valores não numéricos.");
     }
 
-    // Converte os valores para números caso sejam do tipo Date
-    a = (a instanceof Date) ? a.getTime() : a;
-    b = (b instanceof Date) ? b.getTime() : b;
+    // Realiza a adição
+    const result = numA - numB;
 
-    // Realiza a subtração
-    const result = a - b
-    return result || '0';
+    // Retorna o resultado formatado conforme a entrada
+    return isMonetaryA || isMonetaryB ? 'R$ ' + result.toFixed(2) : result;
 }
 
 // Função para converter valores monetários para números

@@ -77,7 +77,7 @@ function GenerateDocks() {
     // Função para verificar correspondência de um template
     function matchTemplate(template) {
         // Verifica se o tipo de rescisão coincide
-        const typeTerminationMatch = template.typeTermination === form['{{tipo_recisao}}'];
+        const typeTerminationMatch = template.typeTermination === form['{{tipo_rescisao}}'];
         // Verifica se o número de reclamações coincide
         const numberOfComplaintsMatch = template.numberOfComplaints == form.reclamadas.length;
         // Verifica se os tipos de responsabilidade coincidem

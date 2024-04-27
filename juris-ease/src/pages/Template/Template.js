@@ -2,7 +2,6 @@ import './Template.css';
 import React, { useEffect, useState } from 'react';
 
 import Header from '../../components/Header/Header';
-import CardTemplate from '../../components/Cards/CardTemplate/CardTemplate';
 import MyEditor from '../../components/MyEditor/MyEditor';
 import Search from '../../components/Search/Search';
 
@@ -422,7 +421,10 @@ function Template() {
                             {filtredTemplatesBase === null ? (
                                 templatesBase && templatesBase.length > 0 ? (
                                     templatesBase.map((template, index) => (
-                                        <CardTemplate key={`template-base-${index}`} card={template} onClick={() => handleCardClick(template, "base")} />
+                                        <div key={index} className={`card`} onClick={() => handleCardClick(template, "base")}>
+                                            <h1>{template.title}</h1>
+                                            <p>{template.rout}</p>
+                                        </div>
                                     ))
                                 ) : (
                                     <p>Nenhum template encontrado!</p>
@@ -430,7 +432,10 @@ function Template() {
                             ) : (
                                 filtredTemplatesBase.length > 0 ? (
                                     filtredTemplatesBase.map((template, index) => (
-                                        <CardTemplate key={`filtred-template-base-${index}`} card={template} onClick={() => handleCardClick(template, "base")} />
+                                        <div key={index} className={`card`} onClick={() => handleCardClick(template, "base")}>
+                                            <h1>{template.title}</h1>
+                                            <p>{template.rout}</p>
+                                        </div>
                                     ))
                                 ) : (
                                     <p>Nenhum template encontrado!</p>
@@ -450,7 +455,10 @@ function Template() {
                             {filtredTemplatesEspecific === null ? (
                                 templatesEspecific && templatesEspecific.length > 0 ? (
                                     templatesEspecific.map((template, index) => (
-                                        <CardTemplate key={`template-specific-${index}`} card={template} onClick={() => handleCardClick(template, "specific")} />
+                                        <div key={index} className={`card`} onClick={() => handleCardClick(template, "specific")}>
+                                            <h1>{template.title}</h1>
+                                            <p>{template.rout}</p>
+                                        </div>
                                     ))
                                 ) : (
                                     <p>Nenhum template encontrado!</p>
@@ -458,7 +466,10 @@ function Template() {
                             ) : (
                                 filtredTemplatesEspecific.length > 0 ? (
                                     filtredTemplatesEspecific.map((template, index) => (
-                                        <CardTemplate key={`filtred-template-specific-${index}`} card={template} onClick={() => handleCardClick(template, "specific")} />
+                                        <div key={index} className={`card`} onClick={() => handleCardClick(template, "specific")}>
+                                            <h1>{template.title}</h1>
+                                            <p>{template.rout}</p>
+                                        </div>
                                     ))
                                 ) : (
                                     <p>Nenhum template encontrado!</p>

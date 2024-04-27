@@ -68,12 +68,33 @@ function ManagmentForms({ form, setForm, templates }) {
                         id={key.id}
                         name={key.id}
                         value={form[key.id] || ''}
+                        onBlur={key.type === 'monetary' ? handleBlur : undefined}
                         onChange={handleChange}
                     />
                 </div>
             ))
         );
     };
+    
+    // Função para tratar o onBlur e formatar o valor monetário, se necessário
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        const formattedValue = formatValue(value);
+        setForm(prevForm => ({
+            ...prevForm,
+            [name]: formattedValue
+        }));
+    };
+    
+    // Função para formatar o valor monetário, se necessário
+    const formatValue = (value) => {
+        if (value && !/^R\$ \d+(\.\d{1,2})?$/.test(value)) {
+            // Adiciona o símbolo de moeda e formata o valor para duas casas decimais
+            return `R$ ${parseFloat(value).toFixed(2)}`;
+        }
+        return value || '';
+    };
+        
 
     return (
         <div className='forms-templates'>

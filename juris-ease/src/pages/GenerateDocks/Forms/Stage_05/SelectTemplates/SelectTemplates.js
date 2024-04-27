@@ -41,8 +41,14 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected }) {
     const update = () => {
         const filtered = filterTemplatesByRout(rout, templates);
         setFilteredTemplates(filtered);
-        const routOptions = filtered.map((template) => template.rout[rout.length]);
-        setOptions(routOptions);
+    
+        const routOptions = new Set();
+        filtered.forEach(template => {
+            const option = template.rout[rout.length];
+            routOptions.add(option);
+        });
+    
+        setOptions(Array.from(routOptions));
     };
 
     const handleChangeRout = (event) => {
