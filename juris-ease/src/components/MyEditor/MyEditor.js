@@ -26,10 +26,10 @@ class MyEditor extends Component {
                         this.props.onDataChange(data); // Chama a função onDataChange para atualizar o valor no componente pai
                     }}
                     onBlur={(event, editor) => {
-                        console.log('Blur.', editor);
+                        // onBlur
                     }}
                     onFocus={(event, editor) => {
-                        console.log('Focus.', editor);
+                        // onFocus
                     }}
                     parameter={this.state.parameter} // Passa o parâmetro como uma propriedade
                 />

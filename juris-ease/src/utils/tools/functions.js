@@ -112,34 +112,30 @@ function division(a, b) {
 export const functions = {
     sum: {
         name: "Soma",
-        params: [
-            { name: "fator1", type: ["monetary", "date", "number"] },
-            { name: "fator2", type: ["monetary", "date", "number"] },
-        ],
-        execute: (a, b) => sum(a, b)
+        manyParams: true,
+        minParams: 2,
+        typesPermitted: ["monetary", "number", "hours"],
+        execute: (params) => params.reduce((acc, val) => sum(acc + val), 0),
     },
     subtract: {
         name: "Subtração",
-        params: [
-            { name: "fator1", type: ["monetary", "date", "number"] },
-            { name: "fator2", type: ["monetary", "date", "number"] },
-        ],
-        execute: (a, b) => subtract(a, b)
+        manyParams: true,
+        minParams: 2,
+        typesPermitted: ["monetary", "number", "date", "hours"],
+        execute: (params) => params.reduce((acc, val) => subtract(acc + val), 0),
     },
     division: {
         name: "Divisão",
-        params: [
-            { name: "fator1", type: ["monetary", "number"] },
-            { name: "fator2", type: ["number"] },
-        ],
-        execute: (a, b) => division(a, b)
+        manyParams: true,
+        minParams: 2,
+        typesPermitted: ["monetary", "number", "hours"],
+        execute: (params) => params.reduce((acc, val) => division(acc + val), 0),
     },
     multiplication: {
         name: "Multiplicação",
-        params: [
-            { name: "fator1", type: ["monetary", "number"] },
-            { name: "fator2", type: ["number"] },
-        ],
-        execute: (a, b) => multiplication(a, b)
+        manyParams: true,
+        minParams: 2,
+        typesPermitted: ["monetary", "number", "hours"],
+        execute: (params) => params.reduce((acc, val) => multiplication(acc + val), 0),
     },
 }

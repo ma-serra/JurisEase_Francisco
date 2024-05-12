@@ -1,0 +1,14 @@
+.function-section .params-section {
+    margin-top: 8px;
+    display: flex;
+}
+
+.function-section .params-section input {
+    margin-right: 5px;
+    padding: 2px;
+}
+
+
+.function-section .bt-add-param {
+    margin-top: 5px;
+}

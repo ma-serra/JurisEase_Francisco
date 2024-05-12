@@ -1,0 +1,32 @@
+
+.MyEditor {
+    color: black;
+    background-color: #FFF;
+    margin-bottom: 10px;
+}
+
+.ck-content {
+    min-height: 250px;
+}
+
+.ck-content * {
+    color: black;
+    text-align: left;
+    font-size: 8pt;
+}
+
+.ck-content>h2 {
+    font-size: 12pt;
+}
+
+.ck-content>h3 {
+    font-size: 10pt;
+}
+
+.ck-content>h4 {
+    font-size: 8pt;
+}
+
+.ck-content>p {
+    font-size: 8pt;
+}

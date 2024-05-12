@@ -18,10 +18,21 @@ import { compareArrays, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../uti
 function GenerateDocks() {
     const [content, setContent] = useState('')
     const [user, setUser] = useState(null);
-    const [form, setForm] = useState({});
     const [templateBase, setTemplateBase] = useState({})
     const [currentStage, setCurrentStage] = useState(1);
     const [openFormatFile, setOpenFormatFile] = useState(false)
+    const dataAtual = new Date();
+
+    const [form, setForm] = useState({
+        '{{data_atual}}': dataAtual.toLocaleDateString(),
+        '{{data_atual_estenso}}': dataAtual.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+        '{{data_atual.ano}}': dataAtual.getFullYear().toString(),
+        '{{data_atual.ano_extenso}}': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric' }),
+        '{{data_atual.mes}}': (dataAtual.getMonth() + 1).toString(),
+        '{{data_atual.mes_extenso}}': dataAtual.toLocaleDateString('pt-BR', { month: 'long' }),
+        '{{data_atual.dia}}': dataAtual.getDate().toString(),
+        '{{data_atual.dia_extenso}}': dataAtual.toLocaleDateString('pt-BR', { weekday: 'long' }),
+    });
 
     const handleNext = () => {
         setCurrentStage(prevStage => prevStage < 5 ? prevStage + 1 : prevStage);
@@ -49,6 +60,19 @@ function GenerateDocks() {
     };
 
     useEffect(() => {
+        if (currentStage === 3) {
+            let reclamadas = form.reclamadas
+            reclamadas.forEach((reclamada, index) => {
+                setForm(prevForm => ({
+                    ...prevForm,
+                    [`{{reclamada.${index+1}.nome}}`]: reclamada['{{nome}}'],
+                    [`{{reclamada.${index+1}.tipo_responsabilidade}}`]: reclamada['{{tipo_responsabilidade}}'],
+                    [`{{reclamada.${index+1}.num_cpf_cnpj}}`]: reclamada['{{num_cpf_cnpj}}'],
+                    [`{{reclamada.${index+1}.endereco}}`]: reclamada['{{endereco}}'],
+                }));
+            })
+        }
+
         if (currentStage === 4) {
             const fetchData = async () => {
                 try {
@@ -71,6 +95,8 @@ function GenerateDocks() {
             };
 
             fetchData();
+
+            console.log(form)
         }
     }, [currentStage]);
 

@@ -1,0 +1,78 @@
+.back-drawer-template {
+    position: absolute;
+    background-color: var(--transparent-75);
+    top: 0;
+    right: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+.drawer-template {
+    position: absolute;
+    right: 0;
+    top: 2em;
+    max-width: 500px;
+    width: 75%;
+
+    min-height: 50em;
+    background-color: var(--primary-dark-50);
+    padding: 20px;
+
+    border: 0 solid var(--gray-30);
+    border-left-width: 2px;
+    border-bottom-width: 2px;
+    border-radius: 0 0 0 20px;
+    box-shadow: -5px 4px 6px rgba(0, 0, 0, 0.1);
+
+    color: var(--white);
+
+    .title-template {
+        margin-bottom: 20px;
+    }
+
+    .bt-delete-template {
+        cursor: pointer;
+        position: absolute;
+        top: 35px;
+        right: 20px;
+        font-size: 25pt;
+
+        &:hover {
+            color: var(--red);
+        }
+    }
+
+    .bts-actions {
+        padding-top: 10px;
+        display: flex;
+        justify-content: space-between;
+
+        
+    .bt-aplicar-template, .bt-cancelar-template {
+        background-color: var(--primary-dark-50);
+        color: var(--white, #FFF);
+        border-radius: 10px;
+        font-size: 10pt;
+        font-weight: 600;
+        padding: 5px;
+        width: 50%;
+        max-width: 200px;
+        margin: 0 5px;
+
+        white-space: nowrap;
+        transition: transform 0.2s ease-in-out;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .bt-aplicar-template {
+        background-color: var(--green);
+    }
+
+    .bt-cancelar-template {
+        background-color: var(--red);
+    }
+    }
+}

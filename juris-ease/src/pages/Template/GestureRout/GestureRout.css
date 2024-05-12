@@ -1,0 +1,12 @@
+
+.form-template .rout-item {
+    display: flex;
+    align-items: baseline;
+}
+
+.form-template .rout-item input {
+    padding: 2px;
+    font-size: 10pt;
+    margin: 0;
+    margin-right: 10px;
+}
