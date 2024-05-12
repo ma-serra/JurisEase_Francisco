@@ -1,11 +1,14 @@
 import './DrawerTemplate.css'
 import React, { useState } from 'react';
 import { MdDelete } from 'react-icons/md';
-import { removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
+import { addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import FormTemplate from '../FormTemplate/FormTemplate';
+import { validateFormTemplate } from '../validations';
 
 function DrawerTemplate({ type, data, onClose }) {
 
+    const [errors, setErrors] = useState({});
+    
     const [template, setTemplate] = useState({
         title: data.title || "",
         rout: data.rout || [],
@@ -27,7 +30,13 @@ function DrawerTemplate({ type, data, onClose }) {
     };
 
     const handleSaveTemplate = async () => {
-        console.log(template)
+        const errrosForm = validateFormTemplate(template, type)
+        setErrors(errrosForm)
+        if (Object.keys(errrosForm).length === 0){
+            console.log('Salvando')
+            await addTemplate(template, type)
+            onClose()
+        }
     };
 
     return (
@@ -35,7 +44,7 @@ function DrawerTemplate({ type, data, onClose }) {
             <div className='drawer-template'>
                 <h2 className='title-template'>Edição</h2>
                 <MdDelete className='bt-delete-template' onClick={handleDeleteTemplate} />
-                <FormTemplate type={type} template={template} setTemplate={setTemplate} />
+                <FormTemplate type={type} template={template} setTemplate={setTemplate} errors={errors}/>
                 <div className='bts-actions'>
                     <button className="bt-cancelar-template" onClick={onClose}>Cancelar</button>
                     <button className="bt-aplicar-template" onClick={handleSaveTemplate}>Aplicar</button>

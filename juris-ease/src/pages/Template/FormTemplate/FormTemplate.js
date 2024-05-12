@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import MyEditor from '../../../components/MyEditor/MyEditor';
 import GestureKeys from '../GestureKeys/GestureKeys';
 import GestureRout from '../GestureRout/GestureRout';
+import { autoGenerateKeys } from './AutoGenerateKeys'
 
-function FormTemplate({ type, template, setTemplate }) {
+function FormTemplate({ type, template, setTemplate, errors }) {
 
     const [keys, setKeys] = useState(template.keys)
     const [rout, setRout] = useState(template.rout)
@@ -45,7 +46,6 @@ function FormTemplate({ type, template, setTemplate }) {
         });
     }
 
-
     useEffect(() => {
         setTemplate(prevState => {
             return {
@@ -73,8 +73,8 @@ function FormTemplate({ type, template, setTemplate }) {
                     id='title'
                     value={template?.title || ''}
                     onChange={handleChange}
-                    className="form-template__input"
                 />
+            <p className='erro-message'>{errors.title}</p>
             </label>
 
             {type === "base" && (
@@ -82,6 +82,7 @@ function FormTemplate({ type, template, setTemplate }) {
                     <div className='field-editor'>
                         <p>Corpo:</p>
                         <MyEditor data={template.contents.base} onDataChange={(content) => { setDataTo("base", content) }} />
+                    <p className='erro-message'>{errors.contents}</p>
                     </div>
 
                     <label htmlFor='typeTermination' className="field-input">
@@ -96,6 +97,7 @@ function FormTemplate({ type, template, setTemplate }) {
                             <option value='Demissão sem justa causa'>Demissão sem justa causa</option>
                             <option value='Demissão por justa causa'>Demissão por justa causa</option>
                         </select>
+                    <p className='erro-message'>{errors.typeTermination}</p>
                     </label>
 
                     <label htmlFor='numberOfComplaints' className="field-input">
@@ -105,8 +107,8 @@ function FormTemplate({ type, template, setTemplate }) {
                             id='numberOfComplaints'
                             value={template?.numberOfComplaints || 0}
                             onChange={handleChange}
-                            className="form-template__input"
                         />
+                    <p className='erro-message'>{errors.numberOfComplaints}</p>
                     </label>
 
                     {template.numberOfComplaints && (
@@ -126,6 +128,7 @@ function FormTemplate({ type, template, setTemplate }) {
                                         <option value='Solidária'>Solidária</option>
                                         <option value='Subsidiária'>Subsidiária</option>
                                     </select>
+                                    <p className='erro-message'>{errors.typesResponsibilities}</p>
                                 </label>
                             ))}
                         </div>
@@ -138,24 +141,26 @@ function FormTemplate({ type, template, setTemplate }) {
                     <div className='field-editor'>
                         <p className='field-title'>Fatos:</p>
                         <MyEditor data={template.contents.fatos} onDataChange={(content) => { setDataTo("fatos", content) }} />
+                    <p className='erro-message'>{errors.contents}</p>
                     </div>
-
 
                     <div className='field-editor'>
                         <p className='field-title'>Fundamentos:</p>
                         <MyEditor data={template.contents.fundamentos} onDataChange={(content) => { setDataTo("fundamentos", content) }} />
+                    <p className='erro-message'>{errors.contents}</p>
                     </div>
 
                     <div className='field-editor'>
                         <p className='field-title'>Pedidos:</p>
                         <MyEditor data={template.contents.pedidos} onDataChange={(content) => { setDataTo("pedidos", content) }} />
+                    <p className='erro-message'>{errors.contents}</p>
                     </div>
 
-                    <GestureRout rout={rout} setRout={setRout}/>
+                    <GestureRout rout={rout} setRout={setRout} errors={errors.rout}/>
                 </div>
             )}
 
-            <GestureKeys keys={keys} setKeys={setKeys}/>
+            <GestureKeys keys={keys} setKeys={setKeys} errors={errors.keys} contents={template.contents}/>
         </form>
     );
 }

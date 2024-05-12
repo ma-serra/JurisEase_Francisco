@@ -30,10 +30,6 @@ function KeyForm({ keyData, index, setKeys, onRemove }) {
         });
     };
 
-    const handleRemoveKey = () => {
-        onRemove(index);
-    };
-
     useEffect(() => {
         setKeys(prevKeys => {
             const updatedKeys = [...prevKeys];
@@ -48,7 +44,7 @@ function KeyForm({ keyData, index, setKeys, onRemove }) {
 
     return (
         <div key={`key-${index}`} className='field-key'>
-            <button className="bt-remove-key" onClick={e => handleRemoveKey(e, index)}>X</button>
+            <button className="bt-remove-key" onClick={e => onRemove(e, index)}>X</button>
 
             <div className='key-info'>
 

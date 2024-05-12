@@ -1,4 +1,5 @@
 function sum(a, b) {
+    console.log(`Somando: ${a} + ${b}`)
     // Verifica se a entrada é monetária (começa com 'R$')
     const isMonetaryA = typeof a === 'string' && a.trim().startsWith('R$');
     const isMonetaryB = typeof b === 'string' && b.trim().startsWith('R$');

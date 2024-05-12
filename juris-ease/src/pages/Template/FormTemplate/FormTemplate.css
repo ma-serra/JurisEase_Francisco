@@ -1,10 +1,14 @@
-.form-template .field-editor .MyEditor{
+.form-template .field-editor {
+    margin-bottom: 15px;
+}
+
+.form-template .field-editor .MyEditor {
     color: black
 }
 
 .form-template .field-input {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .form-template .field-input p.field-title {
@@ -16,7 +20,12 @@
 .form-template .field-input select {
     width: 100%;
     padding: 1%;
-    margin-bottom: 10px;
+}
+
+.form-template .field-input .erro-message,
+.form-template .field-editor .erro-message {
+    margin-top: 2px;
+    text-align: left;
 }
 
 .form-template div p {
@@ -56,4 +65,12 @@
     padding-top: 10px;
     display: flex;
     justify-content: space-between;
+}
+
+.form-template .erro-message {
+    color: #F02525;
+    font-size: 8pt;
+    margin: 0;
+    padding: 0;
+
 }

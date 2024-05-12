@@ -6,7 +6,7 @@
 * TODO: Criar variável "data" (com nome do mês por extenso) para colocar no final da petição (se possível, que "puxe" a data automaticamente do sistema ou do computador)
 * * Variáveis criadas: {{data_atual}}, {{data_atual_estenso}}, {{data_atual.ano_extenso}}, {{data_atual.mes}}, {{data_atual.mes_extenso}}, {{data_atual.dia}}, {{data_atual.dia_extenso}}
 * TODO: Veja se dá para o programa ir salvando automaticamente os templates que estamos criando (passei um tempão produzindo um template específico e apertei no botão de menos de uma chave criada e saiu do ar. Quando voltou tinha perdido tudo)
-* * Resolvido,
+* * Resolvido com refatoração do template
 * TODO: Criar o tipo "horário" para as chaves (quando criar, fazer as funções adição e subtração calcular o resultado em minutos)
 * TODO: No tipo "função", possibilitar a inclusão de mais fatores (só tem o fator1 e o fator2) e deixar a escolha do tipo de operação entre os fatores (exemplo: fator1 operação fator2 operação fator3)
 * TODO: Caso não seja possível o item anterior, possibilitar a inclusão de mais fatores ao menos na operação soma, pois é necessário somar todos os valores de uma inicial.

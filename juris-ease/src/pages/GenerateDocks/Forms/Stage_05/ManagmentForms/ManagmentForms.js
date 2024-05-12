@@ -49,7 +49,7 @@ function ManagmentForms({ form, setForm, templates }) {
 
             let result;
             try {
-                result = functions[operation].execute(...params);
+                result = functions[operation].execute(params);
             } catch (e) {
                 result = ''
             }
@@ -60,22 +60,28 @@ function ManagmentForms({ form, setForm, templates }) {
 
     const renderForm = () => {
         return (
-            currentTemplate?.keys && currentTemplate.keys.map(key => (
-                <div className='form-group' key={key.id}>
-                    <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
-                    <input
-                        type={key.type === 'monetary' ? 'text' : key.type}
-                        id={key.id}
-                        name={key.id}
-                        value={form[key.id] || ''}
-                        onBlur={key.type === 'monetary' ? handleBlur : undefined}
-                        onChange={handleChange}
-                    />
-                </div>
-            ))
+            currentTemplate?.keys && currentTemplate.keys.map(key => {
+                if (['text', 'monetary', 'date', 'number', "hour"].includes(key.type)) {
+                    return (
+                        <div className='form-group' key={key.id}>
+                            <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
+                            <input
+                                type={key.type === 'monetary' ? 'text' : key.type}
+                                id={key.id}
+                                name={key.id}
+                                value={form[key.id] || ''}
+                                onBlur={key.type === 'monetary' ? handleBlur : undefined}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    );
+                }
+                return null;
+            })
         );
     };
-    
+
+
     // Função para tratar o onBlur e formatar o valor monetário, se necessário
     const handleBlur = (e) => {
         const { name, value } = e.target;
@@ -85,7 +91,7 @@ function ManagmentForms({ form, setForm, templates }) {
             [name]: formattedValue
         }));
     };
-    
+
     // Função para formatar o valor monetário, se necessário
     const formatValue = (value) => {
         if (value && !/^R\$ \d+(\.\d{1,2})?$/.test(value)) {
@@ -94,7 +100,7 @@ function ManagmentForms({ form, setForm, templates }) {
         }
         return value || '';
     };
-        
+
 
     return (
         <div className='forms-templates'>

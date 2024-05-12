@@ -15,7 +15,7 @@ function Stage04({ form, setForm, templateBase }) {
         <form className='form-stage'>
             <h2 className='title-form'>Dados extras</h2>
             {templateBase?.keys && templateBase.keys.map(key => {
-                if (['text', 'monetary', 'date', 'number'].includes(key.type)) {
+                if (['text', 'monetary', 'date', 'number', 'hour'].includes(key.type)) {
                     return (
                         <div className='form-group' key={key.id}>
                             <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>

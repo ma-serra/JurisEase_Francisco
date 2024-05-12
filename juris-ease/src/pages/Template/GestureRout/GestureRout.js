@@ -1,33 +1,33 @@
 import './GestureRout.css'
 import React from 'react';
 
-function GestureRout({ rout, setRout }) {
+function GestureRout({ rout, setRout, errors }) {
 
     function handleRout(e, index) {
         e.preventDefault();
         const { value } = e.target;
-    
+
         setRout(prevRout => {
             const updatedRout = [...(prevRout || [])];
             updatedRout[index] = value;
-    
+
             return updatedRout;
         });
     }
-    
+
     const handleAddRout = (e) => {
         e.preventDefault();
-    
+
         setRout(prevRout => [...prevRout, '']);
     };
-    
+
     const handleRemoveRout = (e, index) => {
         e.preventDefault();
-    
+
         setRout(prevRout => {
             const updatedRout = [...prevRout];
             updatedRout.splice(index, 1);
-    
+
             return updatedRout;
         });
     };
@@ -50,6 +50,8 @@ function GestureRout({ rout, setRout }) {
                     )}
                 </label>
             ))}
+            <p className='erro-message'>{errors}</p>
+
 
             {rout.length === 0 && (
                 <button className="bt-add" onClick={handleAddRout}>Adicionar Caminho</button>
