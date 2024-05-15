@@ -43,8 +43,12 @@ function ManagmentForms({ form, setForm, templates }) {
 
         keysFuncs?.forEach(key => {
             const operation = key.function.operation;
-            const params = key.function.params.map(param => {
-                return updatedForm[param] || param;
+            const params = []
+            key.function.params.map(param => {
+                const value = updatedForm[param]
+                if (value) {
+                    params.push(value)
+                }
             });
 
             let result;
@@ -66,11 +70,11 @@ function ManagmentForms({ form, setForm, templates }) {
                         <div className='form-group' key={key.id}>
                             <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
                             <input
-                                type={key.type === 'monetary' ? 'text' : key.type}
+                                type={key.type === 'monetary' || key.type === 'hour' ? 'text' : key.type}
                                 id={key.id}
                                 name={key.id}
                                 value={form[key.id] || ''}
-                                onBlur={key.type === 'monetary' ? handleBlur : undefined}
+                                onBlur={e => handleBlur(e, key.type)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -81,11 +85,10 @@ function ManagmentForms({ form, setForm, templates }) {
         );
     };
 
-
-    // Função para tratar o onBlur e formatar o valor monetário, se necessário
-    const handleBlur = (e) => {
+    // Função para tratar o onBlur e formatar o valor monetário ou hora, se necessário
+    const handleBlur = (e, type) => {
         const { name, value } = e.target;
-        const formattedValue = formatValue(value);
+        const formattedValue = type === 'monetary' ? formatMonetary(value) : formatHour(value);
         setForm(prevForm => ({
             ...prevForm,
             [name]: formattedValue
@@ -93,13 +96,58 @@ function ManagmentForms({ form, setForm, templates }) {
     };
 
     // Função para formatar o valor monetário, se necessário
-    const formatValue = (value) => {
-        if (value && !/^R\$ \d+(\.\d{1,2})?$/.test(value)) {
-            // Adiciona o símbolo de moeda e formata o valor para duas casas decimais
-            return `R$ ${parseFloat(value).toFixed(2)}`;
+    const formatMonetary = (value) => {
+        if (value && !/^R\$ \d+(\,\d{2})?$/.test(value)) {
+            // Remove todos os caracteres que não são dígitos ou vírgulas e converte para float
+            const numberValue = parseFloat(value.replace(/[^\d,]/g, '').replace(',', '.'));
+            if (!isNaN(numberValue)) {
+                return `R$ ${numberValue.toFixed(2).replace('.', ',')}`;
+            }
         }
         return value || '';
     };
+
+    const formatHour = (value) => {
+        // 1. deve ter tamanho minimo de 3 caracters
+        // 2. identificar se só possui numeros e somente 1 caracter ':' (o caracter ':' é opcional, porem só pode haver 1 )
+        // 3. se tiver ':' deve ter 2 numeros seguidos
+        // 4. pegar os minutos, sempre será os 2 ultimos digitos, se for maior que 60 converter em horas e minutos
+        // 5. pegar as horas, todos os outros numeros restantes e somar as horas extras
+        // 6. gerar o retorno horas:minutos
+
+        // 1
+        if (value.length < 3) {
+            return ''
+        }
+
+        // 2
+        if (!/^\d+(?::\d+)?$/.test(value)) {
+            return ''
+        }
+
+        // 3 
+        if (value.includes(':') && !/\d{2}$/.test(value.split(':')[1])) {
+            return ''
+        }
+
+        // 4
+        let minutes = value.substring(value.length - 2, value.length)
+        let extraHours = 0
+        minutes = parseInt(minutes)
+
+        // Se os minutos forem maiores que 60, converter em horas e ajustar os minutos restantes
+        if (minutes >= 60) {
+            extraHours = Math.floor(minutes / 60);
+            minutes %= 60; // Ajustar os minutos restantes
+        }
+
+        // Extrair as horas (todos os outros números)
+        let hours = parseInt(value.replace(/\D/g, '').slice(0, -2), 10) + extraHours;
+
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    };
+
+
 
 
     return (
