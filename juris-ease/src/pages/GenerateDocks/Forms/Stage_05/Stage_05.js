@@ -1,14 +1,12 @@
 import '../Stage.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SheetPreview from './SheetPreview/SheetPreview';
 import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
 import { formatDate } from '../../../../utils/tools/mask';
 import { isDate } from '../../../../utils/tools/functions';
 
-function Stage05({ form, setForm, templateBase, content, setContent }) {
-
-    const [templates, setTemplates] = useState([]);
+function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates }) {
 
     function generateContent() {
         // Inicializa variáveis para armazenar os conteúdos concatenados

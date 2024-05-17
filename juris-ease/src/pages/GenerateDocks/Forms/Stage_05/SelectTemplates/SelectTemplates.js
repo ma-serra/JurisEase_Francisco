@@ -30,16 +30,22 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected }) {
     };
 
     const handleCardClick = (template) => {
-        const isTemplateSelected = templatesSelected.includes(template);
+        const isTemplateSelected = verifyIncludes(templatesSelected, template)
+
         if (isTemplateSelected) {
-            setTemplatesSelected(prevTemplatesSelected => prevTemplatesSelected.filter(item => item !== template));
+            setTemplatesSelected(prevTemplatesSelected => prevTemplatesSelected.filter(item => item.id !== template.id));
         } else {
             setTemplatesSelected(prevTemplatesSelected => [...prevTemplatesSelected, template]);
         }
     };
 
+    function verifyIncludes(array, element) {
+        return !!array.filter(e => e.id === element.id).length
+    }
+
     const update = () => {
-        const filtered = filterTemplatesByRout(rout, templates);
+
+        const filtered = rout.length ? filterTemplatesByRout(rout, templates) : templates
         setFilteredTemplates(filtered);
     
         const routOptions = new Set();
@@ -91,7 +97,7 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected }) {
 
             <div className='content-cards'>
                 {filteredTemplates.map((template, index) => (
-                    <div key={index} className={`card-template ${templatesSelected.includes(template) ? "selected" : ""}`} onClick={() => {handleCardClick(template)}}>
+                    <div key={index} className={`card-template ${verifyIncludes(templatesSelected, template) ? "selected" : ""}`} onClick={() => {handleCardClick(template)}}>
                         <h1 className='title'>{template.title}</h1>
                         <p className='rout'>{template.rout}</p>
                     </div>

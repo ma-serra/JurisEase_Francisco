@@ -19,6 +19,7 @@ function GenerateDocks() {
     const [content, setContent] = useState('')
     const [user, setUser] = useState(null);
     const [templateBase, setTemplateBase] = useState({})
+    const [templatesSelected, setTemplatesSelected] = useState([]);
     const [currentStage, setCurrentStage] = useState(1);
     const [openFormatFile, setOpenFormatFile] = useState(false)
     const dataAtual = new Date();
@@ -39,6 +40,7 @@ function GenerateDocks() {
     };
 
     const handleBack = () => {
+        setOpenFormatFile(false)
         setCurrentStage(prevStage => prevStage > 1 ? prevStage - 1 : prevStage);
     };
 
@@ -53,7 +55,11 @@ function GenerateDocks() {
             case 4:
                 return <Stage04 form={form} setForm={setForm} templateBase={templateBase} />;
             case 5:
-                return <Stage05 form={form} setForm={setForm} templateBase={templateBase} content={content} setContent={setContent} />;
+                return <Stage05
+                    form={form} setForm={setForm}
+                    templateBase={templateBase} content={content} setContent={setContent}
+                    templates={templatesSelected} setTemplates={setTemplatesSelected}
+                />;
             default:
                 return null;
         }
@@ -65,10 +71,10 @@ function GenerateDocks() {
             reclamadas.forEach((reclamada, index) => {
                 setForm(prevForm => ({
                     ...prevForm,
-                    [`{{reclamada.${index+1}.nome}}`]: reclamada['{{nome}}'],
-                    [`{{reclamada.${index+1}.tipo_responsabilidade}}`]: reclamada['{{tipo_responsabilidade}}'],
-                    [`{{reclamada.${index+1}.num_cpf_cnpj}}`]: reclamada['{{num_cpf_cnpj}}'],
-                    [`{{reclamada.${index+1}.endereco}}`]: reclamada['{{endereco}}'],
+                    [`{{reclamada.${index + 1}.nome}}`]: reclamada['{{nome}}'],
+                    [`{{reclamada.${index + 1}.tipo_responsabilidade}}`]: reclamada['{{tipo_responsabilidade}}'],
+                    [`{{reclamada.${index + 1}.num_cpf_cnpj}}`]: reclamada['{{num_cpf_cnpj}}'],
+                    [`{{reclamada.${index + 1}.endereco}}`]: reclamada['{{endereco}}'],
                 }));
             })
         }
@@ -156,6 +162,7 @@ function GenerateDocks() {
     }
 
     const generatePDF = async () => {
+        setOpenFormatFile(false)
         try {
             const data = refactoreHTMLtoPDF(content)
             await gerarPDF(data);
@@ -166,6 +173,7 @@ function GenerateDocks() {
     };
 
     const generateDocx = async () => {
+        setOpenFormatFile(false)
         try {
             const data = refactoreHTMLtoPDF(content)
             await gerarDOC(data);
