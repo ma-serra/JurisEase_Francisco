@@ -1,5 +1,5 @@
 import './GestureParams.css'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { functions } from '../../../utils/tools/functions'
 
 function GestureParams({ id, operation, params, setParams }) {
@@ -35,28 +35,30 @@ function GestureParams({ id, operation, params, setParams }) {
 
     const renderParams = () => {
         const manyParams = functions[operation]?.manyParams || false
-        const paramList = manyParams ? params : functions[operation]?.params;
-        console.log(`ParamList: ${manyParams} - ${paramList}`)
 
-        return paramList.map((param, paramIndex) => (
+        return params.map((param, paramIndex) => (
             <div key={`key-${id}-paramFunc-${paramIndex}`} className='params-section'>
                 <input
                     type='text'
-                    placeholder={param.name || `Parâmetro ${paramIndex + 1}`}
+                    placeholder={`Parâmetro ${paramIndex + 1}`}
                     value={param || ""}
                     onChange={e => handleParamFunction(e, paramIndex)}
                 />
-                <button className='bt-remove-param' onClick={e => handleRemoveParam(e, paramIndex)}>-</button>
+                {manyParams && (
+                    <button className='bt-remove-param' onClick={e => handleRemoveParam(e, paramIndex)}>-</button>
+                )}
             </div>
         ));
     };
 
     return (
         <div className='function-section'>
-            {functions[operation]?.manyParams && (
+            {functions[operation] && (
                 <>
                     {renderParams()}
-                    <button className='bt-add-param' onClick={handleAddParam}>Adicionar Parâmetro</button>
+                    {functions[operation].manyParams && (
+                        <button className='bt-add-param' onClick={handleAddParam}>Adicionar Parâmetro</button>
+                    )}
                 </>
             )}
         </div>

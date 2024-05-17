@@ -182,6 +182,23 @@ function processElements(elements, operation) {
     return convertTo(result, type);
 }
 
+const getDifferenceInDays = (date1, date2) => {
+    if (!isDate(date1) || !isDate(date2)) return ''
+
+    // Converte as datas em objetos Date
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    // Calcula a diferença em milissegundos
+    const diffInMs = d2 - d1;
+
+    // Converte a diferença de milissegundos para dias
+    const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
+
+    // Retorna a diferença em dias
+    return diffInDays;
+};
+
 export const functions = {
     sum: {
         name: "Soma",
@@ -210,5 +227,12 @@ export const functions = {
         minParams: 2,
         typesPermitted: ["monetary", "number", "hours"],
         execute: (params) => multiplication(params),
+    },
+    dateDifference: {
+        name: "Diferença entre datas",
+        manyParams: false,
+        minParams: 2,
+        typesPermitted: ["date"],
+        execute: (params) => getDifferenceInDays(params[0], params[1]),
     },
 }

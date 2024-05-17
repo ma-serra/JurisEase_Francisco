@@ -18,17 +18,33 @@ function KeyForm({ keyData, index, setKeys, onRemove }) {
 
     const handleOperation = (e) => {
         const { name, value } = e.target;
-
+        const manyParams = functions[value]?.manyParams || false;
+    
         setKeys(prevKeys => {
             const updatedKeys = [...prevKeys];
             const keyToUpdate = { ...(updatedKeys[index] || {}) };
             const updatedFunction = { ...(keyToUpdate.function || {}) };
+    
             updatedFunction[name] = value;
+    
+            if (!manyParams) {
+                updatedFunction.params = Array.from({ length: functions[value]?.minParams }, () => "");
+            } else {
+                if (!updatedFunction.params) {
+                    updatedFunction.params = [];
+                }
+            }
+    
             keyToUpdate.function = updatedFunction;
             updatedKeys[index] = keyToUpdate;
             return updatedKeys;
         });
+    
+        if (!manyParams) {
+            setParams(Array.from({ length: functions[value]?.minParams }, () => ""));
+        }
     };
+    
 
     useEffect(() => {
         setKeys(prevKeys => {

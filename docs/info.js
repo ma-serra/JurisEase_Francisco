@@ -21,14 +21,15 @@
 * TODO: No preview e nos documentos gerados, as datas aparecem invertidas (ano/mês/dia)
 * * Corrigido
 * TODO: Função subtração de datas não está calculando corretamente (quando corrigir, colocar o resultado em número de dias)
-* * Essa função é fora parte, terá uma função exclusiva para esse fim
-* ! Criar função para calcular dias entre datas
+* * Implementada nova função: Diferença entre datas
 * TODO: Na geração de documentos, os campos definidos como funções estão aparecendo para o usuário (aparece com o resultado 0), mas não deveriam aparecer, já que deveriam apenas calcular.
 * * Funcionamento padrão para testes
 * TODO: Vários campos definidos como funções não realizaram o cálculo. Observei que as caixas "operação" estão apagando as opções que escolhemos.
 * * Corrigido
 * TODO: Na geração do documento em word, as palavras acentuadas estão saindo com erros
+* ! Falta corrigir
 * TODO: Na geração do documento em PDF, as palavras estão sendo cortadas na divisão de páginas
+* ! Falta corrigir
 * TODO: Após chegar à última etapa da geração, quando uso o botão voltar, as caixas Doc Format e PDF Format continuam na tela
 * TODO: Após chegar à última etapa da geração, quando uso o botão voltar, os templates específicos desaparecem do principal, tendo que ser inserido novamente. Porém, os dados que haviam sido preenchidos, permaneceram nos campos do template específico.
 * TODO: Botão iniciar novo documento ainda sem funcionar

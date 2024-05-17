@@ -2,7 +2,7 @@ import './ManagmentForms.css'
 import React, { useEffect, useState } from 'react';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { functions } from '../../../../../utils/tools/functions';
-import { formatDate, formatHour, formatMonetary } from '../../../../../utils/tools/mask';
+import { formatHour, formatMonetary } from '../../../../../utils/tools/mask';
 
 function ManagmentForms({ form, setForm, templates }) {
 
