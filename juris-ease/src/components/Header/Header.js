@@ -5,32 +5,26 @@ import { logout } from '../../utils/data_base/firebase/authentication'
 import { IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
-function Header({ openAuth, user, openUserManagement }) {
-    const [isLoginOpen, setLoginOpen] = useState(false);
-    const [isUserInfoOpen, setUserInfoOpen] = useState(false);
+import AuthPage from '../Popups/AuthPage/AuthPage'
+import UserManagement from '../Popups/UserManagement/UserManagement'
 
-    const openClientAuth = () => {
-        openAuth('client'); // Especifica que o cadastro é de um cliente
-        setLoginOpen(false);
+function Header({ user }) {
+    const [openLoginOptions, setOpenLoginOptions] = useState(false);  // Menu com as opções de login
+    const [openLoginAuth, setOpenLoginAuth] = useState(false)  // Abrir popupLogin
+    const [loginType, setLoginType] = useState()  // tipo de login
+
+    const [openMenu, setOpenMenu] = useState(false);
+    const [openUserManagement, setOpenUserManagement] = useState(false);
+    
+    const toggleOpenLoginOptions = () => {
+        setOpenLoginOptions(!openLoginOptions);
     };
 
-    const openLawyerAuth = () => {
-        openAuth('lawyer'); // Especifica que o cadastro é de um advogado
-        setLoginOpen(false);
-    };
-
-    const toggleLogin = () => {
-        setLoginOpen(!isLoginOpen);
-    };
-
-    const toggleUserInfo = () => {
-        if (!!openAuth) {
-            setUserInfoOpen(!isUserInfoOpen);
-        }
+    const toggleOpenMenu = () => {
+        setOpenMenu(!openMenu);
     };
 
     const navigate = useNavigate();
-
     const navigateTo = (link) => {
         navigate(`/${link}`);
     };
@@ -49,25 +43,29 @@ function Header({ openAuth, user, openUserManagement }) {
 
             {!user && (
                 <div className="right-container">
-                    <button className="bt-login" onClick={toggleLogin}>
+                    <button className="bt-login" onClick={toggleOpenLoginOptions}>
                         Login <IoIosArrowDown />
                     </button>
 
-                    {isLoginOpen && (
+                    {openLoginOptions && (
                         <div className="drop-down">
-                            <p onClick={openClientAuth} >Cliente</p>
-                            <p onClick={openLawyerAuth} >Advogado</p>
+                            <p onClick={() => {setOpenLoginAuth(true); setLoginType('client')}} >Cliente</p>
+                            <p onClick={() => {setOpenLoginAuth(true); setLoginType('lawyer')}} >Advogado</p>
                         </div>
                     )}
                 </div>
             )}
 
-            {!!user && (
+            {openLoginAuth && (
+                <AuthPage onClose={() => setOpenLoginAuth(false)} auth={loginType} />
+            )}
+
+            {user && (
                 <div className="right-container">
-                    <p className='user-name' onClick={toggleUserInfo}>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
-                    {isUserInfoOpen && (
+                    <p className='user-name' onClick={toggleOpenMenu}>{user.name.length > 10 ? `${user.name.substring(0, 15)}` : user.name} </p>
+                    {openMenu && (
                         <div className="drop-down">
-                            <p onClick={() => { toggleUserInfo(); openUserManagement() }}>Gerenciar Conta</p>
+                            <p onClick={() => { toggleOpenMenu(); setOpenUserManagement(true) }}>Gerenciar Conta</p>
                             {user.permissions.document_generation && (
                                 <p onClick={() => { navigateTo('generate-docks') }}>Gerador de Documentos</p>
                             )}
@@ -81,6 +79,10 @@ function Header({ openAuth, user, openUserManagement }) {
                         </div>
                     )}
                 </div>
+            )}
+
+            {openUserManagement && (
+                <UserManagement onClose={() => setOpenUserManagement(false)} user={user} />
             )}
         </header>
     );

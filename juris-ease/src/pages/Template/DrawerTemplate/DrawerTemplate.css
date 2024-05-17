@@ -49,6 +49,7 @@
 
         
     .bt-aplicar-template, .bt-cancelar-template {
+        cursor: pointer;
         background-color: var(--primary-dark-50);
         color: var(--white, #FFF);
         border-radius: 10px;

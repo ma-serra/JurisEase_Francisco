@@ -224,5 +224,10 @@
 }
 
 .bt-cancel {
+    position: static;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 200px;
     background-color: var(--red);
+    height: 100%;
 }

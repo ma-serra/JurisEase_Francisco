@@ -5,7 +5,7 @@ import { translateName, validarOAB } from '../../../utils/tools/tools'
 import { updateUser } from '../../../utils/data_base/firebase/dao/userDAO'
 import { recoverPassword, logout, verifyPassword } from '../../../utils/data_base/firebase/authentication'
 
-function UserManagement({ close, user }) {
+function UserManagement({ onClose, user }) {
 
     const initialFormData = {
         name: user.name,
@@ -40,10 +40,6 @@ function UserManagement({ close, user }) {
         } else {
             setFormData({ ...formData, [name]: value });
         }
-    };
-
-    const closePage = () => {
-        close();
     };
 
     function toggleAddressSubfields() {
@@ -88,10 +84,6 @@ function UserManagement({ close, user }) {
         }
     }
 
-    function cancelChanges() {
-        closePage()
-    }
-
     function updateUserWithFormData(user, formData) {
         const updatedUser = { ...user };
 
@@ -116,7 +108,7 @@ function UserManagement({ close, user }) {
     }
 
     return (
-        <div className={`content-user-page`} onClick={(closePage)}>
+        <div className={`content-user-page`} onClick={onClose}>
             <div className="user-page" onClick={(e) => e.stopPropagation()}>
                 <h1>Gerenciar Conta</h1>
                 <form>
@@ -258,7 +250,7 @@ function UserManagement({ close, user }) {
                 <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
                 {error && <p className="msg-error">{error}</p>}
                 <div className='bts-options'>
-                    <button onClick={cancelChanges}>Cancelar</button>
+                    <button onClick={onClose}>Cancelar</button>
                     <button onClick={applyChanges}>Aplicar</button>
                 </div>
 

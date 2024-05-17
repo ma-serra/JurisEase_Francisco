@@ -35,9 +35,13 @@
 * TODO: Após chegar à última etapa da geração, quando uso o botão voltar, os templates específicos desaparecem do principal, tendo que ser inserido novamente. Porém, os dados que haviam sido preenchidos, permaneceram nos campos do template específico.
 * * Corrigido
 * TODO: Botão iniciar novo documento ainda sem funcionar
+* * Implementado
 * TODO: Quando estou nas etapas da geração de documentos, não consigo clicar no nome do usuário para utilizar as opções. Preciso clicar em jurisease, o que faz voltar para a tela principal, reabilitando as opções do usuário
+* * Implementado
 * TODO: Quando usei um campo do template principal (remuneração) no template específico, não puxou a informação.
+* ? Falta analisar
 * TODO: Quando criei uma chave sem usar o auto generate, não funcionou (não apareceu o campo para eu prencher quando adicionei o emplate específico no principal)
+* * Corrigido
 **/
 
 Variáveis

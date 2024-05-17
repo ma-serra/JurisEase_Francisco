@@ -14,6 +14,7 @@ import Stage04 from './Forms/Stage_04/Stage_04';
 import Stage05 from './Forms/Stage_05/Stage_05';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
 import { compareArrays, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools';
+import AlertDialog from '../../components/Popups/AlertDialog/AlertDialog';
 
 function GenerateDocks() {
     const [content, setContent] = useState('')
@@ -23,6 +24,33 @@ function GenerateDocks() {
     const [currentStage, setCurrentStage] = useState(1);
     const [openFormatFile, setOpenFormatFile] = useState(false)
     const dataAtual = new Date();
+
+    const resetGeration = () => {
+        setContent('');
+        setTemplateBase({});
+        setTemplatesSelected([]);
+        setCurrentStage(1);
+    };
+
+    const handleResetGeration = () => {
+        AlertDialog.show(
+            'Tem certeza de que deseja resetar a geração?',
+            resetGeration,
+            () => console.log('canceled')
+        );
+    };
+
+    const cancelGeration = () => {
+        navigateTo('');
+    };
+
+    const handleCancelGeration = () => {
+        AlertDialog.show(
+            'Tem certeza de que deseja cancelar a geração?',
+            cancelGeration,
+            () => console.log('canceled')
+        );
+    };
 
     const [form, setForm] = useState({
         '{{data_atual}}': dataAtual.toLocaleDateString(),
@@ -191,7 +219,7 @@ function GenerateDocks() {
                 breakAcess()
             )}
 
-            <button className='bt-cancel'>
+            <button className='bt-cancel' onClick={currentStage === 5 ? handleResetGeration : handleCancelGeration}>
                 <p>{currentStage === 5 ? "Iniciar novo documento" : "Cancelar"}</p>
             </button>
 

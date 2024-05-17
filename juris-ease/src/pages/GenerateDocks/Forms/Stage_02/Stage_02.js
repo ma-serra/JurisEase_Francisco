@@ -53,7 +53,7 @@ function Stage02({ form, setForm }) {
 
             {(form.reclamadas || []).map((reclamada, index) => (
                 <div className='reclamada' key={index}>
-                    <p>{`Reclamada 0${index+1}`}</p>
+                    <p className='title'>{`Reclamada 0${index+1}`}</p>
                     <div className='form-group'>
                         <label htmlFor={`{{nome}}.${index}`}>Razão Social / Nome:</label>
                         <input type='text' id={`{{nome}}.${index}`} name={`{{nome}}.${index}`} value={reclamada['{{nome}}'] || ''} onChange={e => handleChange(e, index)} />

@@ -1,17 +1,21 @@
 .content-user-page {
-    position: fixed;
+    position: absolute;
     top: 0;
-    z-index: 100;
+    left: 0;
+    z-index: 101;
     width: 100%;
-    height: 100%;
+    height: 250vh;
     background-color: var(--primary-dark-transparent);
 }
 
 .user-page {
+    color: black;
     overflow: scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 11 */
-    
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 11 */
+
     position: fixed;
     z-index: 101;
     width: 90%;
@@ -33,8 +37,9 @@
 }
 
 .user-page::-webkit-scrollbar {
-    display: none; /* Safari e Chrome */
-  }
+    display: none;
+    /* Safari e Chrome */
+}
 
 .user-page form {
     width: 90%;
@@ -46,11 +51,7 @@
     margin-bottom: 20px;
 }
 
-.mobile .user-page h1 {
-    margin-top: 80%;
-}
-
-.form-group {
+.user-page .form-group {
     margin: 10px 0;
     display: flex;
     flex-direction: row;
@@ -58,7 +59,7 @@
     align-items: center;
 }
 
-.form-group label {
+.user-page .form-group label {
     flex: 1;
     display: block;
     font-weight: bold;
@@ -67,7 +68,7 @@
     padding-right: 1em;
 }
 
-.form-group input {
+.user-page .form-group input {
     flex: 3;
     height: 5px;
     padding: 10px;
@@ -76,31 +77,31 @@
     border-radius: 5px;
 }
 
-.form-group select {
+.user-page .form-group select {
     flex: 3;
     height: 30px;
     border: 1px solid var(--gray-30);
     border-radius: 5px;
 }
 
-.form-group input[type="checkbox"] {
+.user-page .form-group input[type="checkbox"] {
     flex: 1;
     margin-right: 5px;
     height: 15px;
 }
 
 
-.address-title {
+.user-page .address-title {
     cursor: pointer;
     padding-bottom: .5em;
 }
 
-.arrow-down {
+.user-page .arrow-down {
     width: 15px;
     height: 12px;
 }
 
-.form-group.address {
+.user-page .form-group.address {
     margin-left: 5%;
     display: flex;
     flex-direction: column;
@@ -110,7 +111,7 @@
     width: 90%;
 }
 
-.address-subfields {
+.user-page .address-subfields {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -121,7 +122,7 @@
     margin-bottom: 1em;
 }
 
-.subfield {
+.user-page .subfield {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -130,7 +131,7 @@
     width: 100%;
 }
 
-.subfield label {
+.user-page .subfield label {
     flex: 1;
     display: block;
     font-weight: bold;
@@ -139,7 +140,7 @@
     padding-right: 1em;
 }
 
-.subfield input {
+.user-page .subfield input {
     flex: 3;
     margin-right: 5px;
     height: 5px;
@@ -150,15 +151,7 @@
     max-width: 90%;
 }
 
-.mobile .user-page .msg-error {
-    font-size: x-small;
-}
-
-.desktop .user-page .msg-error {
-    font-size: small;
-}
-
-.forgot-password {
+.user-page .forgot-password {
     color: var(--red);
     max-width: 90%;
     font-size: x-small;
@@ -166,17 +159,17 @@
     margin-bottom: 5%;
 }
 
-.bts-options {
+.user-page .bts-options {
     padding-bottom: 30%;
 }
 
-.bts-options {
+.user-page .bts-options {
     display: flex;
     justify-content: space-between;
     width: 90%;
-  }
-  
-  .bts-options button {
+}
+
+.user-page .bts-options button {
     flex: 1;
     padding: 10px;
     background-color: var(--blue);
@@ -186,13 +179,12 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-right: 10px;
-  }
-  
-  .bts-options button:last-child {
+}
+
+.user-page .bts-options button:last-child {
     margin-right: 0;
-  }
-  
-  .bts-options button:hover {
+}
+
+.user-page .bts-options button:hover {
     background-color: var(--blue);
-  }
-  
+}

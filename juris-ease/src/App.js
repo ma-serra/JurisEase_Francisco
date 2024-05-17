@@ -5,6 +5,7 @@ function App() {
 
   return (
     <div className={`App`}>
+      <div id="alert-dialog-container"></div>
       <AppRoutes />
     </div>
   );

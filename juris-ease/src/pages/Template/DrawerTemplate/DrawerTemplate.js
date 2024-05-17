@@ -4,6 +4,7 @@ import { MdDelete } from 'react-icons/md';
 import { addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import FormTemplate from '../FormTemplate/FormTemplate';
 import { validateFormTemplate } from '../validations';
+import AlertDialog from '../../../components/Popups/AlertDialog/AlertDialog';
 
 function DrawerTemplate({ type, data, onClose }) {
 
@@ -24,7 +25,15 @@ function DrawerTemplate({ type, data, onClose }) {
         typesResponsibilities: data.typesResponsibilities || ['Principal'],
     });
 
-    const handleDeleteTemplate = async () => {
+    const handleDeleteTemplate = () => {
+        AlertDialog.show(
+            'Tem certeza de que deseja deletar esse template?',
+            deleteTemplate,
+            () => console.log('canceled')
+        );
+    };
+
+    const deleteTemplate = async () => {
         await removeTemplate(data.id, type);
         onClose();
     };

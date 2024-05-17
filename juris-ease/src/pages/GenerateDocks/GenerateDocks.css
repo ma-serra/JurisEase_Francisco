@@ -9,12 +9,11 @@
 }
 
 /* Botão de cancelamento */
-.bt-cancel {
+.GenerateDocks .bt-cancel {
     position: absolute;
     top: 4.5em;
     right: 1.5em;
     border: none;
-    width: 35px;
     height: 23px;
 
     &:hover {
@@ -22,13 +21,13 @@
         cursor: pointer;
     }
 }
-.bt-cancel p {
+.GenerateDocks .bt-cancel p {
     margin: 0;
     font-size: 8pt;
 }
 
 /* Barra de progresso */
-.progress {
+.GenerateDocks .progress {
     display: flex;
     align-items: center;
     margin-top: 3em;
@@ -37,7 +36,7 @@
 }
 
 /* Estágio na barra de progresso */
-.stage {
+.GenerateDocks .stage {
     font-size: 8pt;
     width: 15px;
     height: 15px;
@@ -50,7 +49,7 @@
     padding: 3px;
 }
 
-.stage-pass {
+.GenerateDocks .stage-pass {
     font-size: 8pt;
     width: 15px;
     height: 15px;
@@ -63,7 +62,7 @@
     padding: 3px;
 }
 
-.stage-current {
+.GenerateDocks .stage-current {
     font-size: 8pt;
     font-weight: bold;
     width: 15px;
@@ -80,27 +79,27 @@
 }
 
 /* Linha que conecta os estágios */
-.line {
+.GenerateDocks .line {
     flex: 1;
     border-top: 2px solid #000;
 }
 
 /* Botões de navegação */
-.buttons-navigation {
+.GenerateDocks .buttons-navigation {
     position: relative;
     display: flex;
     gap: 5em;
     margin-bottom: 5em;
 }
-.buttons-navigation p {
+.GenerateDocks .buttons-navigation p {
     margin: 0;
     font-size: 8pt;
 }
 
 /* Botão de avanço */
-.bt-next,
+.GenerateDocks .bt-next,
 /* Botão de retorno */
-.bt-back {
+.GenerateDocks .bt-back {
     color: white;
     border-radius: 10px;
     width: 140px;
@@ -115,15 +114,15 @@
     }
 }
 
-.bt-next {
+.GenerateDocks .bt-next {
     background-color: #04051F;
 }
 
-.bt-back {
+.GenerateDocks .bt-back {
     background-color: #F02525;
 }
 
-.bts-generate {
+.GenerateDocks .bts-generate {
     position: absolute;
     top: -15px;
     right: 0;

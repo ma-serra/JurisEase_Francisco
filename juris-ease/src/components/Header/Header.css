@@ -16,6 +16,7 @@
 
 .left-container,
 .right-container {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,6 +59,7 @@
 }
 
 .drop-down {
+  min-width: 180px;
   position: absolute;
   top: calc(100% + 5px);
   /* Adjusted to ensure the dropdown is below the header */

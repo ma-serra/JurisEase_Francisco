@@ -5,7 +5,7 @@ import { signIn, register, recoverPassword } from '../../../utils/data_base/fire
 import { addUser } from '../../../utils/data_base/firebase/dao/userDAO'
 import { validarOAB } from '../../../utils/tools/tools'
 
-function AuthPage({ device, toogleAuth, auth }) {
+function AuthPage({ onClose, auth }) {
   const initialFormData = {
     name: '',
     email: '',
@@ -28,7 +28,7 @@ function AuthPage({ device, toogleAuth, auth }) {
       } else {
         console.log(data.user)
         setError(null)
-        closeAuth()
+        onClose()
         window.location.reload();
       }
 
@@ -61,7 +61,7 @@ function AuthPage({ device, toogleAuth, auth }) {
 
           addUser(data.user)
           setError(null)
-          closeAuth()
+          onClose()
           window.location.reload();
         }
 
@@ -83,10 +83,6 @@ function AuthPage({ device, toogleAuth, auth }) {
     setFormData(initialFormData);
   };
 
-  const closeAuth = () => {
-    toogleAuth('none');
-  };
-
   async function forgotPassword() {
     const email = formData.email
 
@@ -105,7 +101,7 @@ function AuthPage({ device, toogleAuth, auth }) {
   }
 
   return (
-    <div className={`content-auth ${device}`} onClick={(closeAuth)}>
+    <div className={`content-auth`} onClick={onClose}>
       <div className="auth-page" onClick={(e) => e.stopPropagation()}>
         <h1>{isLogin ? 'Login' : 'Cadastro'}</h1>
         <form>
