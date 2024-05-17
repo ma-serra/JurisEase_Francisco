@@ -82,21 +82,17 @@ function GenerateDocks() {
 
                     templates.forEach(template => {
                         if (matchTemplate(template)) {
-                            console.log("Template correspondente encontrado:", template);
                             setTemplateBase(template);
                             return; // Interrompe o loop após encontrar uma correspondência
                         }
                     });
 
-                    console.log("Nenhum template base corresponde às entradas!");
                 } catch (error) {
                     console.error("Erro ao obter templates:", error);
                 }
             };
 
             fetchData();
-
-            console.log(form)
         }
     }, [currentStage]);
 
@@ -112,7 +108,6 @@ function GenerateDocks() {
             template.typesResponsibilities
         );
 
-        console.log(typeTerminationMatch, numberOfComplaintsMatch, typesResponsibilitiesMatch)
         // Retorna true se todas as condições forem atendidas
         return typeTerminationMatch && numberOfComplaintsMatch && typesResponsibilitiesMatch;
     }
@@ -158,7 +153,6 @@ function GenerateDocks() {
 
     function handleProcessFile() {
         setOpenFormatFile(!openFormatFile)
-        console.log(form)
     }
 
     const generatePDF = async () => {

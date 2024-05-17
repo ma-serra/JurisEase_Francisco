@@ -1,7 +1,9 @@
-// TODO: Função para determinar o tipo de um parametro
-const isMonetary = (value) => typeof value === 'string' && value.trim().startsWith('R$');
-const isHour = (value) => typeof value === 'string' && /^\d{1,2}:\d{2}$/.test(value);
-const isNumber = (value) => typeof value === 'string' && !isNaN(value) && !value.includes(':');
+import { formatHour, formatMonetary } from "./mask";
+
+export const isMonetary = (value) => typeof value === 'string' && value.trim().startsWith('R$');
+export const isHour = (value) => typeof value === 'string' && /^\d{1,}:\d{2}$/.test(value);
+export const isNumber = (value) => !isNaN(parseFloat(value.replace('.', '').replace(',', '.'))) && !isMonetary(value) && !isHour(value);
+export const isDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value);
 
 function determineType(element) {
     if (isMonetary(element)) {
@@ -18,7 +20,15 @@ function determineType(element) {
     }
 }
 
-// TODO: Função para determinar se todos os parametros são iguais
+function parseNumber(value) {
+    return parseFloat(value.replace(/\./g, '').replace(',', '.'));
+}
+
+function hourToNumber(hour) {
+    const [hours, minutes] = hour.split(':').map(Number);
+    return hours + minutes / 60;
+}
+
 function allSameType(elements) {
     if (elements.length === 0) return 'empty';
 
@@ -33,132 +43,143 @@ function allSameType(elements) {
     return firstType;
 }
 
-function sum(elements) {
+function sum(elements, operation = 'sum') {
     const type = allSameType(elements);
-    console.log(type)
     if (type === 'error' || type === 'empty') {
         throw new Error("Elements are not of the same type or list is empty");
     }
 
     switch (type) {
         case 'number':
-            return sumNumbers(elements);
+            return sumNumbers(elements, operation);
         case 'monetary':
-            return sumMonetary(elements);
+            return sumMonetary(elements, operation);
         case 'hour':
-            return sumHours(elements);
+            return sumHours(elements, operation);
         default:
             throw new Error("Unsupported element type");
     }
 }
 
-function sumNumbers(elements) {
-    return elements.reduce((acc, val) => acc + parseFloat(val), 0);
-}
-
-function sumMonetary(elements) {
-    const normalizeMonetary = (value) => parseFloat(value.replace(/[^\d.,]/g, '').replace(',', '.'));
-    const sum = elements.reduce((acc, val) => acc + normalizeMonetary(val), 0);
-    return 'R$ ' + sum.toFixed(2).replace('.', ',');
-}
-
-function sumHours(elements) {
-    const parseHours = (time) => {
-        const [hours, minutes] = time.split(':').map(Number);
-        return hours * 60 + minutes;
-    };
-
-    const formatHours = (totalMinutes) => {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-    };
-
-    const totalMinutes = elements.reduce((acc, val) => acc + parseHours(val), 0);
-    return formatHours(totalMinutes);
-}
-
-// Função para subtração
-function subtract(a, b) {
-    // Verifica se a entrada é monetária (começa com 'R$')
-    const isMonetaryA = typeof a === 'string' && a.trim().startsWith('R$');
-    const isMonetaryB = typeof b === 'string' && b.trim().startsWith('R$');
-
-    // Remove o símbolo de moeda 'R$' e quaisquer caracteres de formatação (como espaços) e substitui a vírgula por ponto, se for monetário
-    const normalize = (value) => {
-        if (typeof value === 'string' && value.trim().startsWith('R$')) {
-            return parseFloat(value.replace(/[^\d.,]/g, '').replace(',', '.'));
-        }
-        return parseFloat(value);
-    };
-
-    const numA = normalize(a);
-    const numB = normalize(b);
-
-    // Verifica se algum dos valores é um NaN após a conversão
-    if (isNaN(numA) || isNaN(numB)) {
-        throw new Error("A adição não é suportada para valores não numéricos.");
-    }
-
-    // Realiza a adição
-    const result = numA - numB;
-
-    // Retorna o resultado formatado conforme a entrada
-    return isMonetaryA || isMonetaryB ? 'R$ ' + result.toFixed(2) : result;
-}
-
-// Função para converter valores monetários para números
-function parseCurrency(value) {
-    return parseFloat(value.replace(/[^\d.,-]/g, '').replace(',', '.'));
-}
-
-// Função para multiplicação
-function multiplication(a, b) {
-    // Verifica se os valores são do tipo Date
-    if (a instanceof Date || b instanceof Date) {
-        throw new Error("Multiplicação não aceita valores do tipo Date.");
-    }
-
-    // Se a for monetário, converte para número antes de multiplicar
-    if (typeof a === 'string' && a.startsWith("R$")) {
-        a = parseCurrency(a);
-    }
-    // Se b for monetário, converte para número antes de multiplicar
-    if (typeof b === 'string' && b.startsWith("R$")) {
-        b = parseCurrency(b);
-    }
-
-    // Realiza a multiplicação
-    const result = a * b
-    return result || '0';
-}
-
-// Função para divisão
-function division(a, b) {
-    // Verifica se os valores são do tipo Date
-    if (a instanceof Date || b instanceof Date) {
-        throw new Error("Divisão não aceita valores do tipo Date.");
-    }
-
-    // Realiza a divisão
-    if (typeof a === 'string') {
-        a = parseCurrency(a);
-    }
-    if (typeof b === 'string') {
-        b = parseCurrency(b);
-    }
-
-    // Verifica se os valores são números
-    if (typeof a !== 'number' || typeof b !== 'number' || isNaN(a) || isNaN(b)) {
-        throw new Error("Divisão aceita somente valores numéricos.");
-    }
-
-    if (b !== 0) {
-        const result = a / b
-        return result || '0';
+function sumNumbers(elements, operation) {
+    let result;
+    if (operation === 'subtract') {
+        result = elements.slice(1).reduce((acc, val) => acc - parseNumber(val), parseNumber(elements[0]));
     } else {
-        return 'impossível'
+        result = elements.reduce((acc, val) => acc + parseNumber(val), 0);
     }
+    return parseFloat(result.toFixed(2)).toString().replace('.', ',');
+}
+
+function sumMonetary(elements, operation) {
+    if (operation === 'subtract') {
+        const initial = parseNumber(elements[0].replace(/[^\d.,]/g, ''));
+        const total = elements.slice(1).reduce((acc, val) => {
+            const normalizedValue = parseNumber(val.replace(/[^\d.,]/g, ''));
+            return acc - normalizedValue;
+        }, initial);
+        return `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+    const total = elements.reduce((acc, val) => {
+        const normalizedValue = parseNumber(val.replace(/[^\d.,]/g, ''));
+        return acc + normalizedValue;
+    }, 0);
+    return `R$ ${total.toFixed(2).replace('.', ',')}`;
+}
+
+function sumHours(elements, operation) {
+    if (operation === 'subtract') {
+        const [initialHours, initialMinutes] = elements[0].split(':').map(Number);
+        let totalMinutes = initialHours * 60 + initialMinutes;
+        totalMinutes = elements.slice(1).reduce((acc, val) => {
+            const [hours, minutes] = val.split(':').map(Number);
+            const totalMinutesForValue = hours * 60 + minutes;
+            return acc - totalMinutesForValue;
+        }, totalMinutes);
+
+        const hours = Math.floor(Math.abs(totalMinutes) / 60);
+        const minutes = Math.abs(totalMinutes) % 60;
+        const sign = totalMinutes < 0 ? '-' : '';
+        return `${sign}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    }
+
+    let totalMinutes = elements.reduce((acc, val) => {
+        const [hours, minutes] = val.split(':').map(Number);
+        const totalMinutesForValue = hours * 60 + minutes;
+        return acc + totalMinutesForValue;
+    }, 0);
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function multiplication(elements) {
+    return processElements(elements, 'multiplication');
+}
+
+function division(elements) {
+    if (elements.length < 2) {
+        throw new Error('São necessários pelo menos dois valores para a divisão.');
+    }
+    return processElements(elements, 'division');
+}
+
+function convertTo(result, type) {
+    switch (type) {
+        case 'number':
+            return parseFloat(result.toFixed(2));
+
+        case 'monetary':
+            return `R$ ${parseFloat(result.toFixed(2)).toString().replace('.', ',')}`;
+
+        case 'hour':
+            const totalMinutes = result * 60;
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = Math.round(totalMinutes % 60);
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
+        default:
+            throw new Error('Tipo de resultado desconhecido.');
+    }
+}
+
+function processElements(elements, operation) {
+    let numNumbers = 0;
+    let numMonetaries = 0;
+    let numHours = 0;
+    let result = operation === 'multiplication' ? 1 : undefined;
+
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        let parsedValue;
+
+        if (isNumber(element)) {
+            numNumbers++;
+            parsedValue = parseNumber(element);
+        } else if (isMonetary(element)) {
+            numMonetaries++;
+            parsedValue = parseNumber(element.replace(/[^\d.,]/g, ''));
+        } else if (isHour(element)) {
+            numHours++;
+            parsedValue = hourToNumber(element);
+        } else {
+            throw new Error('Parâmetro inválido: deve ser um número, valor monetário (ex: "R$ 12,00") ou hora (ex: "12:30").');
+        }
+
+        if (numMonetaries > 1) throw new Error('Não pode ter mais de 1 valor monetário.');
+        if (numHours > 1) throw new Error('Não pode ter mais de 1 valor de hora.');
+
+        if (operation === 'multiplication') {
+            result *= parsedValue;
+        } else if (operation === 'division') {
+            if (parsedValue === 0) return 'impossível';
+            result = (result === undefined) ? parsedValue : result / parsedValue;
+        }
+    }
+
+    const type = numMonetaries === 1 ? 'monetary' : numHours === 1 ? "hour" : "number";
+    return convertTo(result, type);
 }
 
 export const functions = {
@@ -167,27 +188,27 @@ export const functions = {
         manyParams: true,
         minParams: 2,
         typesPermitted: ["monetary", "number", "hours"],
-        execute: (params) => sum(params),
+        execute: (params) => sum(params, "sum"),
     },
     subtract: {
         name: "Subtração",
         manyParams: true,
         minParams: 2,
-        typesPermitted: ["monetary", "number", "date", "hours"],
-        execute: (params) => params.reduce((acc, val) => subtract(acc + val), 0),
+        typesPermitted: ["monetary", "number", "hours"],
+        execute: (params) => sum(params, "subtract"),
     },
     division: {
         name: "Divisão",
         manyParams: true,
         minParams: 2,
         typesPermitted: ["monetary", "number", "hours"],
-        execute: (params) => params.reduce((acc, val) => division(acc + val), 0),
+        execute: (params) => division(params),
     },
     multiplication: {
         name: "Multiplicação",
         manyParams: true,
         minParams: 2,
         typesPermitted: ["monetary", "number", "hours"],
-        execute: (params) => params.reduce((acc, val) => multiplication(acc + val), 0),
+        execute: (params) => multiplication(params),
     },
 }

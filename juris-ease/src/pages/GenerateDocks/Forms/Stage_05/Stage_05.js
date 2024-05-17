@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import SheetPreview from './SheetPreview/SheetPreview';
 import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
+import { formatDate } from '../../../../utils/tools/mask';
+import { isDate } from '../../../../utils/tools/functions';
 
 function Stage05({ form, setForm, templateBase, content, setContent }) {
 
@@ -45,7 +47,12 @@ function Stage05({ form, setForm, templateBase, content, setContent }) {
 
         Object.keys(form).forEach((key) => {
             const regex = new RegExp(key, 'g');
-            content = content.replace(regex, form[key] || '');
+            const value = form[key]
+            if (isDate(value)) {
+                content = content.replace(regex, formatDate(value) || '');
+            } else {
+                content = content.replace(regex, value || '');
+            }
         });
 
         return content;
