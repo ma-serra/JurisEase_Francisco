@@ -7,9 +7,9 @@
 * TODO: Na geração do documento em PDF, as palavras estão sendo cortadas na divisão de páginas
 * ! Falta corrigir
 * TODO: Os campos (data de admissão, data de rescisão e  remuneração) da etapa 3 ainda não estão funcionando, pois, mesmo sendo preenchidos, ainda aparecem na etapa 4 para serem preenchidos (talvez os nomes das chaves que utilizei no template base sejam diferentes dos nomes das chaves da etapa 3, por isso aparecem na etapa 4. Me confirme, por favor, o nome dessas chaves da etapa 3 e veja porque os campos das datas de admissão e rescisão desta etapa não possuem o calendário igual os campos que aparecem na etapa 4).
-* ? Falta analisar
+* * Corrigido 
 * TODO: Corrigir, por favor, o nome da chave "data_atual_estenso" para "data_atual_extenso" e retirar o dia da semana dessa chave (hoje pareceu: "sábado, 18 de maio de 2024", mas preciso que apareça só "18 de maio de 2024")
-* ? Falta analisar
+* * Corrigido
 * TODO: Criar uma chave para puxar automaticamente a cidade do usuário (no formato Cidade/UF) do mesmo jeito que foi feito para puxar os dados do usuário (nome_usuário, oab_usuario e endereco_usuario). Obs.: se isso der trabalho, deixa para a segunda versão, pois eu não lembro de ter falado pra vc antes.
 * ? Falta analisar
 * TODO: Alterar os nomes das opções de tipo de rescisão (etapa 3): de "Pedido de demissão" para "a pedido", de "Demissão sem justa causa" para "sem justa causa" e de "Demissão por justa causa" para "por justa causa". Faltou um tipo de rescisão, que não me atentei na primeira varredura, mas eu tinha falado antes (acrescentar o tipo "por término do prazo contratual")
@@ -31,8 +31,13 @@ Informações do Usuario:
 {{email_usuario}}
 {{oab_usuario}}
 {{telefone_usuario}}
-{{endereco_usuario}}
 {{tipo_usuario}}
+{{cep_usuario}}
+{{estado_usuario}}
+{{cidade_usuario}}
+{{logradouro_usuario}}
+{{numero_casa_usuario}}
+{{endereco_usuario}}
 
 Stage 01:
 {{nome_autor}}

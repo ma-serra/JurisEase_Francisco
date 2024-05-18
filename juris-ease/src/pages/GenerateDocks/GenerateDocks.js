@@ -54,7 +54,7 @@ function GenerateDocks() {
 
     const [form, setForm] = useState({
         '{{data_atual}}': dataAtual.toLocaleDateString(),
-        '{{data_atual_estenso}}': dataAtual.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+        '{{data_atual_extenso}}': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' }),
         '{{data_atual.ano}}': dataAtual.getFullYear().toString(),
         '{{data_atual.ano_extenso}}': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric' }),
         '{{data_atual.mes}}': (dataAtual.getMonth() + 1).toString(),
@@ -168,10 +168,15 @@ function GenerateDocks() {
                     ...prevForm,
                     '{{nome_usuario}}': userData.name || '',
                     '{{email_usuario}}': userData.email || '',
+                    '{{tipo_usuario}}': userData.type === 'client' ? 'cliente' : 'advogado' || '',
                     '{{oab_usuario}}': userData.oab || '',
                     '{{telefone_usuario}}': userData.phoneNumber || '',
+                    '{{cep_usuario}}': userData.address.cep || '',
+                    '{{estado_usuario}}': userData.address.state || '',
+                    '{{cidade_usuario}}': userData.address.city || '',
+                    '{{logradouro_usuario}}': userData.address.state || '',
+                    '{{numero_casa_usuario}}': userData.address.street || '',
                     '{{endereco_usuario}}': userData.address ? `${userData.address.street}, ${userData.address.number}, ${userData.address.city}, ${userData.address.state}, ${userData.address.cep}` : '',
-                    '{{tipo_usuario}}': userData.type === 'client' ? 'cliente' : 'advogado' || '',
                 }));
                 setUser(userData);
             }

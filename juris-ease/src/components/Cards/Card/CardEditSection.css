@@ -43,7 +43,7 @@
     }
 }
 
-.card-edit-image {
+.CardEditSection .card-edit-image {
     background-color: var(--white);
 
     height: 35%;
@@ -51,7 +51,7 @@
     width: 100%;
 }
 
-.card-edit-content {
+.CardEditSection .card-edit-content {
     max-height: calc(60% - 1em - 20px);
     margin: 2.5%;
     overflow: hidden;
@@ -62,26 +62,26 @@
     align-items: center;
 }
 
-.card-edit-content input,
-.card-edit-content textarea {
+.CardEditSection .card-edit-content input,
+.CardEditSection .card-edit-content textarea {
     width: 100%;
     padding: 2px;
     box-sizing: border-box;
 }
 
-.card-edit-content textarea {
+.CardEditSection .card-edit-content textarea {
     min-height: 50px;
 }
 
-.bts-actions {
+.CardEditSection .bts-actions {
     display: flex;
     justify-content: space-around;
 
     margin: 0 5px;
 }
 
-.bt-add,
-.bt-delete {
+.CardEditSection .bt-add,
+.CardEditSection .bt-delete {
     background-color: var(--primary-dark-50);
     color: var(--white, #FFF);
     border-radius: 10px;
@@ -101,11 +101,11 @@
     }
 }
 
-.bt-delete {
+.CardEditSection .bt-delete {
     background-color: var(--red);
 }
 
-.bt-close {
+.CardEditSection .bt-close {
     z-index: 1;
     position: absolute;
     top: 5px;

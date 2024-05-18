@@ -42,6 +42,18 @@
         }
     }
 
+    .bt-info {
+        cursor: pointer;
+        position: absolute;
+        top: 35px;
+        right: 60px;
+        font-size: 25pt;
+
+        &:hover {
+            color: #EBFF00;
+        }
+    }
+
     .bts-actions {
         padding-top: 10px;
         display: flex;

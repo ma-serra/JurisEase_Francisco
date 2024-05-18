@@ -1,16 +1,21 @@
+import './AlertDialog.css';
 import React, { useState } from 'react';
+
 import { createPortal } from 'react-dom';
 import { createRoot } from 'react-dom/client';
-import './AlertDialog.css';
+import { IoIosCloseCircle } from "react-icons/io";
+
 
 const AlertDialog = ({ message, onConfirm, onCancel }) => {
     return createPortal(
-        <div className="alert-dialog-overlay">
-            <div className="alert-dialog">
+        <div className="alert-dialog-overlay" onClick={hide}>
+            <div className="alert-dialog" onClick={e => {e.stopPropagation()}}>
+                <IoIosCloseCircle className="bt-close" onClick={hide}>Cancelar</IoIosCloseCircle>
                 <div className="alert-dialog-message" dangerouslySetInnerHTML={{ __html: message }} />
                 <div className="alert-dialog-buttons">
-                    <button className="confirm" onClick={onConfirm}>Confirmar</button>
-                    <button className="cancel" onClick={onCancel}>Cancelar</button>
+                    {console.log(onConfirm)}
+                    {onConfirm && (<button className="confirm" onClick={onConfirm}>Confirmar</button>)}
+                    {onCancel && (<button className="cancel" onClick={onCancel}>Cancelar</button>)}
                 </div>
             </div>
         </div>,
@@ -21,12 +26,12 @@ const AlertDialog = ({ message, onConfirm, onCancel }) => {
 let root;
 
 AlertDialog.show = (message, onConfirm, onCancel) => {
-    const handleConfirm = () => {
+    const handleConfirm = !onConfirm ? undefined : () => {
         onConfirm();
         hide();
     };
 
-    const handleCancel = () => {
+    const handleCancel = !onCancel ? undefined : () => {
         onCancel();
         hide();
     };

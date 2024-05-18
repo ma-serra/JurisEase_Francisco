@@ -1,15 +1,17 @@
 import './DrawerTemplate.css'
 import React, { useState } from 'react';
 import { MdDelete } from 'react-icons/md';
+import { GoInfo } from "react-icons/go";
 import { addTemplate, removeTemplate } from '../../../utils/data_base/firebase/dao/templateDAO';
 import FormTemplate from '../FormTemplate/FormTemplate';
 import { validateFormTemplate } from '../validations';
 import AlertDialog from '../../../components/Popups/AlertDialog/AlertDialog';
+import { generateInfoKeysHtml } from '../../../utils/tools/infos';
 
 function DrawerTemplate({ type, data, onClose }) {
 
     const [errors, setErrors] = useState({});
-    
+
     const [template, setTemplate] = useState({
         title: data.title || "",
         rout: data.rout || [],
@@ -33,6 +35,12 @@ function DrawerTemplate({ type, data, onClose }) {
         );
     };
 
+    const handleInfo = () => {
+        AlertDialog.show(
+            generateInfoKeysHtml()
+        );
+    };
+
     const deleteTemplate = async () => {
         await removeTemplate(data.id, type);
         onClose();
@@ -41,7 +49,7 @@ function DrawerTemplate({ type, data, onClose }) {
     const handleSaveTemplate = async () => {
         const errrosForm = validateFormTemplate(template, type)
         setErrors(errrosForm)
-        if (Object.keys(errrosForm).length === 0){
+        if (Object.keys(errrosForm).length === 0) {
             console.log('Salvando')
             await addTemplate(template, type)
             onClose()
@@ -53,7 +61,8 @@ function DrawerTemplate({ type, data, onClose }) {
             <div className='drawer-template'>
                 <h2 className='title-template'>Edição</h2>
                 <MdDelete className='bt-delete-template' onClick={handleDeleteTemplate} />
-                <FormTemplate type={type} template={template} setTemplate={setTemplate} errors={errors}/>
+                <GoInfo className='bt-info' onClick={handleInfo} />
+                <FormTemplate type={type} template={template} setTemplate={setTemplate} errors={errors} />
                 <div className='bts-actions'>
                     <button className="bt-cancelar-template" onClick={onClose}>Cancelar</button>
                     <button className="bt-aplicar-template" onClick={handleSaveTemplate}>Aplicar</button>
