@@ -1,5 +1,5 @@
 import '../Stage.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 function Stage01({ form, setForm }) {
 
@@ -10,7 +10,7 @@ function Stage01({ form, setForm }) {
             '{{data_rescisao}}': form['{{data_rescisao}}'] || '',
             '{{tipo_rescisao}}': form['{{tipo_rescisao}}'] || '',
             '{{cargo}}': form['{{cargo}}'] || '',
-            '{{renuneracao}}': form['{{renuneracao}}'] || '',
+            '{{remuneracao}}': form['{{remuneracao}}'] || '',
         }));
     }, []);
 
@@ -47,8 +47,8 @@ function Stage01({ form, setForm }) {
                 <input type='text' id='{{cargo}}' name='{{cargo}}' value={form['{{cargo}}'] || ''} onChange={handleChange} />
             </div>
             <div className='form-group'>
-                <label htmlFor='{{renuneracao}}'>Renumeração:</label>
-                <input type='text' id='{{renuneracao}}' name='{{renuneracao}}' value={form['{{renuneracao}}'] || ''} onChange={handleChange} />
+                <label htmlFor='{{remuneracao}}'>Renumeração:</label>
+                <input type='text' id='{{remuneracao}}' name='{{remuneracao}}' value={form['{{remuneracao}}'] || ''} onChange={handleChange} />
             </div>
         </form >
     );

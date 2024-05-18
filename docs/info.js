@@ -1,6 +1,6 @@
 /**
 * TODO: Necessidade de criar chave (variável) para cidade e uf da vara do trabalho (talvez fique melhor deixar fixa na etapa 4)
-* ? Etapa 4 são dados automáticos dos templates base, escolha outra etapa, melhor
+* * Implementado
 * TODO: Formatação do texto precisa ser corrigida (1. não tem como colocar o espaço do início de parágrafo, 2. não dá pra centralizar ou justificar o texto, 3. não dá pra recuar o parágrafo inteiro numa citação ou transcrição)
 * ! Necessário criar o próprio componente de edição de texto para esse fim
 * ! Implementar centralizar e justificar texto para padrão
@@ -39,8 +39,12 @@
 * TODO: Quando estou nas etapas da geração de documentos, não consigo clicar no nome do usuário para utilizar as opções. Preciso clicar em jurisease, o que faz voltar para a tela principal, reabilitando as opções do usuário
 * * Implementado
 * TODO: Quando usei um campo do template principal (remuneração) no template específico, não puxou a informação.
-* ? Falta analisar
+* * Corrigido - {{remuneracao}}
 * TODO: Quando criei uma chave sem usar o auto generate, não funcionou (não apareceu o campo para eu prencher quando adicionei o emplate específico no principal)
+* * Corrigido
+* TODO: Validação de template base na etapa 4
+* * Corrigido
+* TODO: Execução das funções na etapa 4
 * * Corrigido
 **/
 
@@ -84,7 +88,11 @@ Stage 03:
 {{data_rescisao}}
 {{tipo_rescisao}}
 {{cargo}}
-{{renuneracao}}
+{{remuneracao}}
+
+Stage 04:
+{{cidade_vara_trabalho}}
+{{uf_vara_trabalho}}
 
 
 Melhorias:

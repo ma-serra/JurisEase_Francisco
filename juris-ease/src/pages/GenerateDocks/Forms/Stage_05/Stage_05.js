@@ -64,7 +64,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
         <div className='content-stage5'>
             <SelectTemplates templatesSelected={templates} setTemplatesSelected={setTemplates} />
 
-            <ManagmentForms form={form} setForm={setForm} templates={templates} />
+            <ManagmentForms form={form} setForm={setForm} templates={templates} templateBase={templateBase} />
 
             <SheetPreview content={content} />
         </div>

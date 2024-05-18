@@ -109,26 +109,39 @@ function GenerateDocks() {
 
         if (currentStage === 4) {
             const fetchData = async () => {
-                try {
-                    const templates = await new Promise((resolve, reject) => {
-                        getTemplates(templates => resolve(templates), "base");
-                    });
+                const templates = await new Promise((resolve, reject) => {
+                    getTemplates(templates => resolve(templates), "base");
+                });
 
-                    templates.forEach(template => {
-                        if (matchTemplate(template)) {
-                            setTemplateBase(template);
-                            return; // Interrompe o loop após encontrar uma correspondência
-                        }
-                    });
+                const templateFind = templates.filter(template => matchTemplate(template))[0];
 
-                } catch (error) {
-                    console.error("Erro ao obter templates:", error);
+                console.log("Template Localizado:", templateFind)
+                if (!templateFind?.id) {
+                    console.log("show")
+                    showAlertTemplateNotFound()
                 }
+
+                setTemplateBase(templateFind)
             };
 
             fetchData();
         }
     }, [currentStage]);
+
+    function showAlertTemplateNotFound() {
+        const tipoRescisao = form['{{tipo_rescisao}}'];
+        const numeroReclamadas = form.reclamadas.length;
+        const tiposReclamadas = form.reclamadas.map(rec => rec['{{tipo_responsabilidade}}']).join(', ');
+
+        AlertDialog.show(
+            `Nenhum template foi encontrado, para a configuração fornecida: <br />` +
+            `Tipo de rescisão: ${tipoRescisao} <br />` +
+            `Número de reclamadas: ${numeroReclamadas} <br />` +
+            `Tipos: ${tiposReclamadas}`,
+            () => setCurrentStage(2),
+            () => setCurrentStage(2)
+        );
+    }
 
     // Função para verificar correspondência de um template
     function matchTemplate(template) {

@@ -7,7 +7,7 @@ const AlertDialog = ({ message, onConfirm, onCancel }) => {
     return createPortal(
         <div className="alert-dialog-overlay">
             <div className="alert-dialog">
-                <p>{message}</p>
+                <div className="alert-dialog-message" dangerouslySetInnerHTML={{ __html: message }} />
                 <div className="alert-dialog-buttons">
                     <button className="confirm" onClick={onConfirm}>Confirmar</button>
                     <button className="cancel" onClick={onCancel}>Cancelar</button>
