@@ -7,7 +7,7 @@ function Stage04({ form, setForm, templateBase }) {
     useEffect(() => {
         setForm(prevForm => ({
             ...prevForm,
-            '{{cidade_uf_vara_trabalho}}': form['{{cidade_vara_trabalho}}'] || '',
+            '{{cidade_uf_vara_trabalho}}': form['{{cidade_uf_vara_trabalho}}'] || '',
         }));
     }, []);
 

@@ -115,9 +115,7 @@ function GenerateDocks() {
 
                 const templateFind = templates.filter(template => matchTemplate(template))[0];
 
-                console.log("Template Localizado:", templateFind)
                 if (!templateFind?.id) {
-                    console.log("show")
                     showAlertTemplateNotFound()
                 }
 
