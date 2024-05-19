@@ -20,18 +20,16 @@ function Stage04({ form, setForm, templateBase }) {
     };
 
     return (
-        <>
-            <form className='form-stage'>
-                <h2 className='title-form'>Vara do Trabalho (competência)</h2>
-                <div className='form-group'>
-                    <label htmlFor='{{cidade_uf_vara_trabalho}}'>Cidade/UF</label>
-                    <input type='text' id='{{cidade_uf_vara_trabalho}}' name='{{cidade_uf_vara_trabalho}}' value={form['{{cidade_uf_vara_trabalho}}'] || ''} onChange={handleChange} />
-                </div>
+        <div className='form-stage'>
+            <h2 className='title-form'>Vara do Trabalho (competência)</h2>
+            <div className='form-group'>
+                <label htmlFor='{{cidade_uf_vara_trabalho}}'>Cidade/UF</label>
+                <input type='text' id='{{cidade_uf_vara_trabalho}}' name='{{cidade_uf_vara_trabalho}}' value={form['{{cidade_uf_vara_trabalho}}'] || ''} onChange={handleChange} />
+            </div>
 
-                <h2 className='title-form'>Dados extras</h2>
-                <TemplateForm templates={[templateBase]} templateForm={templateBase} form={form} setForm={setForm} />
-            </form>
-        </>
+            <h2 className='title-form'>Dados extras</h2>
+            <TemplateForm templates={[templateBase]} templateForm={templateBase} form={form} setForm={setForm} />
+        </div>
     );
 }
 

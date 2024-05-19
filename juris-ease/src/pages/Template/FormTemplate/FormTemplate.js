@@ -93,9 +93,10 @@ function FormTemplate({ type, template, setTemplate, errors }) {
                             onChange={handleChange}
                         >
                             <option value=''>Selecione</option>
-                            <option value='Pedido de demissão'>Pedido de demissão</option>
-                            <option value='Demissão sem justa causa'>Demissão sem justa causa</option>
-                            <option value='Demissão por justa causa'>Demissão por justa causa</option>
+                            <option value='a pedido'>a pedido</option>
+                            <option value='sem justa causa'>sem justa causa</option>
+                            <option value='por justa causa'>por justa causa</option>
+                            <option value='por término do prazo contratual'>por término do prazo contratual</option>
                         </select>
                     <p className='erro-message'>{errors.typeTermination}</p>
                     </label>
