@@ -1,3 +1,4 @@
+import { formatHour, formatMonetary } from '../../../../utils/tools/mask';
 import '../Stage.css'
 import React, { useEffect } from 'react';
 
@@ -21,25 +22,47 @@ function Stage01({ form, setForm }) {
             [name]: value
         }));
     };
+    // Função para tratar o onBlur e formatar o valor monetário ou hora, se necessário
+    const handleBlur = (e, type) => {
+
+
+        const { name, value } = e.target;
+        let formattedValue;
+        if (type === 'monetary') {
+            formattedValue = formatMonetary(value)
+        } else if (type === 'hour') {
+            formattedValue = formatHour(value)
+        }
+
+        setForm(prevForm => {
+            const updatedForm = {
+                ...prevForm,
+                [name]: formattedValue
+            };
+
+            return updatedForm;
+        });
+    };
 
     return (
         <form className='form-stage'>
             <h2 className='title-form'>Dados do contrato de trabalho</h2>
             <div className='form-group'>
                 <label htmlFor='{{data_admisao}}'>Data de Admissão:</label>
-                <input type='text' id='{{data_admisao}}' name='{{data_admisao}}' value={form['{{data_admisao}}'] || ''} onChange={handleChange} />
+                <input type='date' id='{{data_admisao}}' name='{{data_admisao}}' value={form['{{data_admisao}}'] || ''} onChange={handleChange} />
             </div>
             <div className='form-group'>
                 <label htmlFor='{{data_rescisao}}'>Data de Recisão:</label>
-                <input type='text' id='{{data_rescisao}}' name='{{data_rescisao}}' value={form['{{data_rescisao}}'] || ''} onChange={handleChange} />
+                <input type='date' id='{{data_rescisao}}' name='{{data_rescisao}}' value={form['{{data_rescisao}}'] || ''} onChange={handleChange} />
             </div>
             <div className='form-group'>
                 <label htmlFor='{{tipo_rescisao}}'>Tipo de Recisão:</label>
                 <select id={`{{tipo_rescisao}}`} name={`{{tipo_rescisao}}`} value={form['{{tipo_rescisao}}']} onChange={handleChange}>
                     <option value=''>Selecione</option>
-                    <option value='Pedido de demissão'>Pedido de demissão</option>
-                    <option value='Demissão sem justa causa'>Demissão sem justa causa</option>
-                    <option value='Demissão por justa causa'>Demissão por justa causa</option>
+                    <option value='a pedido'>a pedido</option>
+                    <option value='sem justa causa'>sem justa causa</option>
+                    <option value='por justa causa'>por justa causa</option>
+                    <option value='por término do prazo contratual'>por término do prazo contratual</option>
                 </select>
             </div>
             <div className='form-group'>
@@ -48,7 +71,7 @@ function Stage01({ form, setForm }) {
             </div>
             <div className='form-group'>
                 <label htmlFor='{{remuneracao}}'>Renumeração:</label>
-                <input type='text' id='{{remuneracao}}' name='{{remuneracao}}' value={form['{{remuneracao}}'] || ''} onChange={handleChange} />
+                <input type='text' id='{{remuneracao}}' name='{{remuneracao}}' value={form['{{remuneracao}}'] || ''} onChange={handleChange} onBlur={e => handleBlur(e, "monetary")}/>
             </div>
         </form >
     );
