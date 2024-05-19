@@ -11,8 +11,14 @@
 * TODO: Corrigir, por favor, o nome da chave "data_atual_estenso" para "data_atual_extenso" e retirar o dia da semana dessa chave (hoje pareceu: "sábado, 18 de maio de 2024", mas preciso que apareça só "18 de maio de 2024")
 * * Corrigido
 * TODO: Criar uma chave para puxar automaticamente a cidade do usuário (no formato Cidade/UF) do mesmo jeito que foi feito para puxar os dados do usuário (nome_usuário, oab_usuario e endereco_usuario). Obs.: se isso der trabalho, deixa para a segunda versão, pois eu não lembro de ter falado pra vc antes.
-* ? Falta analisar
+* * Implementado
 * TODO: Alterar os nomes das opções de tipo de rescisão (etapa 3): de "Pedido de demissão" para "a pedido", de "Demissão sem justa causa" para "sem justa causa" e de "Demissão por justa causa" para "por justa causa". Faltou um tipo de rescisão, que não me atentei na primeira varredura, mas eu tinha falado antes (acrescentar o tipo "por término do prazo contratual")
+* ? Falta analisar
+* TODO: Bug no calculo entre horas
+* * Corrigido
+* TODO: Campos de datas, horas e monetários da etapa 1,2,3
+* * Corrigido
+* TODO: Remover reclamadas
 * ? Falta analisar
 **/
 
@@ -68,7 +74,9 @@ Stage 04:
 
 Melhorias:
 Geral:
-1. Testes Unitários
+1. Mascara de cpf, cnpj, cpf/cnpj, rg, cep, telefone
+2. Lista de Estados e Municipios
+3. 
 
 Template:
 1. Adicionar ordenação: Permitir que os usuários ordenem os templates por diferentes critérios, como título, data de criação, etc., pode tornar a navegação mais conveniente.

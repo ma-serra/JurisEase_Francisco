@@ -1,6 +1,6 @@
 import { formatHour, formatMonetary } from "./mask";
 
-export const isMonetary = (value) => typeof value === 'string' && value.trim().startsWith('R$');
+export const isMonetary = (value) => typeof value === 'string' && value?.trim().startsWith('R$');
 export const isHour = (value) => typeof value === 'string' && /^\d{1,}:\d{2}$/.test(value);
 export const isNumber = (value) => !isNaN(parseFloat(value.replace('.', '').replace(',', '.'))) && !isMonetary(value) && !isHour(value);
 export const isDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value);

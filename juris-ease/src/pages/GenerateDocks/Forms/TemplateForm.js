@@ -27,7 +27,7 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
                 const params = []
                 key.function.params.map(param => {
                     let value = param.startsWith('{{') ? updatedForm[param] : param
-                    if (value?.trim()) params.push(value?.trim())
+                    if (value) params.push(value)
                 });
 
                 let result;
