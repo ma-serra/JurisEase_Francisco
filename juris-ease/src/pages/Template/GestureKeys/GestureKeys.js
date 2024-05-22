@@ -3,7 +3,7 @@ import React from 'react';
 import KeyForm from './KeyForm';
 import { autoGenerateKeys } from '../FormTemplate/AutoGenerateKeys';
 
-function GestureKeys({ keys, setKeys, errors, contents }) {
+function GestureKeys({ templateType, keys, setKeys, errors, contents }) {
 
     const handleAddKey = (e) => {
         e.preventDefault();
@@ -36,7 +36,7 @@ function GestureKeys({ keys, setKeys, errors, contents }) {
             <p className='field-title'>Chaves do Documento:</p>
 
             {keys.map((key, index) => (
-                <KeyForm key={index} keyData={key} index={index} setKeys={setKeys} onRemove={e => handleRemoveKey(e, index)}/>
+                <KeyForm templateType={templateType} key={index} keyData={key} index={index} setKeys={setKeys} onRemove={e => handleRemoveKey(e, index)}/>
             ))}
             <p className='erro-message'>{errors}</p>
 

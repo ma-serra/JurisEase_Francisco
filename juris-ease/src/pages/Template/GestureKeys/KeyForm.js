@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { functions } from '../../../utils/tools/functions'
 import GestureParams from '../GestureParams/GestureParams';
 
-function KeyForm({ keyData, index, setKeys, onRemove }) {
+function KeyForm({ templateType, keyData, index, setKeys, onRemove }) {
 
     const [params, setParams] = useState(keyData.function?.params || [])
 
@@ -85,9 +85,9 @@ function KeyForm({ keyData, index, setKeys, onRemove }) {
                         onChange={e => { handleKey(e, index) }}
                     >
                         <option value='text'>Texto</option>
-                        {keyData.type === 'base' && (<option value='fatos'>Fatos</option>)}
-                        {keyData.type === 'base' && (<option value='fundamentos'>Fundamentos</option>)}
-                        {keyData.type === 'base' && (<option value='pedidos'>Pedidos</option>)}
+                        {templateType === 'base' && (<option value='fatos'>Fatos</option>)}
+                        {templateType === 'base' && (<option value='fundamentos'>Fundamentos</option>)}
+                        {templateType === 'base' && (<option value='pedidos'>Pedidos</option>)}
                         <option value='monetary'>Monetário</option>
                         <option value='date'>Data</option>
                         <option value='hour'>Hora</option>

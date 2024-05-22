@@ -161,7 +161,7 @@ function FormTemplate({ type, template, setTemplate, errors }) {
                 </div>
             )}
 
-            <GestureKeys keys={keys} setKeys={setKeys} errors={errors.keys} contents={template.contents}/>
+            <GestureKeys templateType={type} keys={keys} setKeys={setKeys} errors={errors.keys} contents={template.contents}/>
         </form>
     );
 }
