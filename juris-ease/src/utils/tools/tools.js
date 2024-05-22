@@ -57,11 +57,11 @@ export async function gerarPDF(htmlString) {
 }
 
 export function refactoreHTMLtoPDF(htmlString) {
-	console.log(htmlString)
 	htmlString = htmlString.replace("<p>", '<p class="avoid-break">')
 	htmlString = htmlString.replace("<h1>", '<h1 class="avoid-break">')
 	htmlString = htmlString.replace("<h2>", '<h2 class="avoid-break">')
 	htmlString = htmlString.replace("<h3>", '<h3 class="avoid-break">')
+	
 	// Adiciona as classes de estilo ao texto HTML
 	const novoHTML = `
 	<meta charset="UTF-8">

@@ -8,12 +8,11 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 const AlertDialog = ({ message, onConfirm, onCancel }) => {
     return createPortal(
-        <div className="alert-dialog-overlay" onClick={hide}>
+        <div className="alert-dialog-overlay" onClick={onCancel || hide}>
             <div className="alert-dialog" onClick={e => {e.stopPropagation()}}>
-                <IoIosCloseCircle className="bt-close" onClick={hide}>Cancelar</IoIosCloseCircle>
+                <IoIosCloseCircle className="bt-close" onClick={onCancel || hide}>Cancelar</IoIosCloseCircle>
                 <div className="alert-dialog-message" dangerouslySetInnerHTML={{ __html: message }} />
                 <div className="alert-dialog-buttons">
-                    {console.log(onConfirm)}
                     {onConfirm && (<button className="confirm" onClick={onConfirm}>Confirmar</button>)}
                     {onCancel && (<button className="cancel" onClick={onCancel}>Cancelar</button>)}
                 </div>
