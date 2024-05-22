@@ -2,7 +2,7 @@ import './SelectTemplates.css'
 import React, { useEffect, useState } from 'react';
 import { getTemplates } from '../../../../../utils/data_base/firebase/dao/templateDAO';
 
-function SelectTemplates({ templatesSelected, setTemplatesSelected }) {
+function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange}) {
     const [templates, setTemplates] = useState([]);
     const [filteredTemplates, setFilteredTemplates] = useState([]);
     const [rout, setRout] = useState([]);
@@ -37,6 +37,8 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected }) {
         } else {
             setTemplatesSelected(prevTemplatesSelected => [...prevTemplatesSelected, template]);
         }
+
+        onChange()
     };
 
     function verifyIncludes(array, element) {

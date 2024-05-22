@@ -36,8 +36,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
     }, [templateBase]);
 
     useEffect(() => {
-        let content = generateContent()
-        setContent(content)
+        replaceKeys()
     }, [templates, templateBase.contents.base]);
 
     function replaceKeys() {
@@ -53,16 +52,16 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
             }
         });
 
-        return content;
+        setContent(content)
     }
 
     useEffect(() => {
-        setContent(replaceKeys());
+        replaceKeys()
     }, [form]);
 
     return (
         <div className='content-stage5'>
-            <SelectTemplates templatesSelected={templates} setTemplatesSelected={setTemplates} />
+            <SelectTemplates templatesSelected={templates} setTemplatesSelected={setTemplates} onChange={replaceKeys}/>
 
             <ManagmentForms form={form} setForm={setForm} templates={templates} templateBase={templateBase} />
 
