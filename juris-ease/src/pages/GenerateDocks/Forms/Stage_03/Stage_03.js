@@ -24,8 +24,6 @@ function Stage01({ form, setForm }) {
     };
     // Função para tratar o onBlur e formatar o valor monetário ou hora, se necessário
     const handleBlur = (e, type) => {
-
-
         const { name, value } = e.target;
         let formattedValue;
         if (type === 'monetary') {

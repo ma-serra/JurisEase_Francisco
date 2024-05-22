@@ -19,6 +19,19 @@
 
 .GenerateDocks .reclamada {
     margin-bottom: 2em;
+    position: relative;
+}
+
+.GenerateDocks .reclamada .bt-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+
+    &:hover {
+        color: #f02525;
+        scale: 1.25;
+    }
 }
 
 .GenerateDocks .reclamada .title {
