@@ -2,7 +2,7 @@ import { formatHour, formatMonetary } from "./mask";
 
 export const isMonetary = (value) => typeof value === 'string' && value?.trim().startsWith('R$');
 export const isHour = (value) => typeof value === 'string' && /^\d{1,}:\d{2}$/.test(value);
-export const isNumber = (value) => !isNaN(parseFloat(value.replace('.', '').replace(',', '.'))) && !isMonetary(value) && !isHour(value);
+export const isNumber = (value) => !isNaN(parseFloat(value.replace('.', '').replace(',', '.')));
 export const isDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value);
 
 function determineType(element) {
@@ -150,21 +150,26 @@ function processElements(elements, operation) {
     let numHours = 0;
     let result = operation === 'multiplication' ? 1 : undefined;
 
-    for (let i = 0; i < elements.length; i++) {
-        const element = elements[i];
+    console.log(`${operation} - ${elements}`) 
+    elements.map(element => {
+        console.log(`${element}`)
         let parsedValue;
 
         if (isNumber(element)) {
             numNumbers++;
             parsedValue = parseNumber(element);
+            console.log(`${element} -> ${parsedValue}`)
         } else if (isMonetary(element)) {
             numMonetaries++;
             parsedValue = parseNumber(element.replace(/[^\d.,]/g, ''));
+            console.log(`${element} -> ${parsedValue}`)
         } else if (isHour(element)) {
             numHours++;
             parsedValue = hourToNumber(element);
+            console.log(`${element} -> ${parsedValue}`)
         } else {
-            throw new Error('Parâmetro inválido: deve ser um número, valor monetário (ex: "R$ 12,00") ou hora (ex: "12:30").');
+            console.log(`${element} -> Parâmetro inválido`)
+            // throw new Error('Parâmetro inválido: deve ser um número, valor monetário (ex: "R$ 12,00") ou hora (ex: "12:30").');
         }
 
         if (numMonetaries > 1) throw new Error('Não pode ter mais de 1 valor monetário.');
@@ -176,7 +181,7 @@ function processElements(elements, operation) {
             if (parsedValue === 0) return 'impossível';
             result = (result === undefined) ? parsedValue : result / parsedValue;
         }
-    }
+    })
 
     const type = numMonetaries === 1 ? 'monetary' : numHours === 1 ? "hour" : "number";
     return convertTo(result, type);
@@ -193,10 +198,10 @@ const getDifferenceInDays = (date1, date2) => {
     const diffInMs = d2 - d1;
 
     // Converte a diferença de milissegundos para dias
-    const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
+    const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24)).toString();
 
     // Retorna a diferença em dias
-    return diffInDays;
+    return diffInDays || "0";
 };
 
 export const functions = {
