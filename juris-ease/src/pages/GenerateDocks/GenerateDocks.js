@@ -136,8 +136,8 @@ function GenerateDocks() {
             `Tipo de rescisão: ${tipoRescisao} <br />` +
             `Número de reclamadas: ${numeroReclamadas} <br />` +
             `Tipos: ${tiposReclamadas}`,
-            () => setCurrentStage(2),
-            () => setCurrentStage(2)
+            () => setCurrentStage(3),
+            () => setCurrentStage(3)
         );
     }
 
