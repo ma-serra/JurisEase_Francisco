@@ -1,4 +1,5 @@
 import html2pdf from 'html2pdf.js';
+
 const htmlDocx = require('html-docx-js/dist/html-docx');
 const { Blob } = require('blob-polyfill');
 const { format, isAfter } = require('date-fns');
@@ -24,56 +25,56 @@ export async function gerarDOC(htmlString) {
 	});
 }
 
-export function normalizeText(text) {
-	if (text === undefined || text === null) {
-		return '';
-	}
-
-	if (Array.isArray(text)) {
-		// Mapeia cada elemento do array para seu equivalente normalizado
-		const normalizedArray = text.map(element => normalizeElement(element));
-		// Une os elementos normalizados em uma única string separada por espaços
-		return normalizedArray.join(' ');
-	}
-
-	// Se não for um array, trata como uma única string e normaliza
-	return normalizeElement(text);
-}
-
-function normalizeElement(element) {
-	return element
-		.toLowerCase() // Converter para minúsculas
-		.normalize("NFD") // Normalizar caracteres (remover acentos)
-		.replace(/[\u0300-\u036f]/g, ""); // Remover diacríticos
-}
-
 export async function gerarPDF(htmlString) {
-	return new Promise((resolve, reject) => {
-		var opt = {
-			margin: 0.5,
-			filename: 'saida.pdf',
-			image: { type: 'jpeg', quality: 0.98 },
-			html2canvas: { scale: 1 },
-			jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-		};
+	// Adiciona CSS para evitar quebra de parágrafos
+	const novoHTML = `
+    <style>
+        .page-break {
+            page-break-before: always;
+        }
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+        p {
+            page-break-inside: avoid;
+            margin-bottom: 15px; /* Ajuste o espaçamento conforme necessário */
+        }
+    </style>
+    <div>
+      ${htmlString}
+    </div>
+  `;
 
-		html2pdf()
-			.from(htmlString)
-			.set(opt)
-			.toPdf()
-			.save('saida.pdf')
-	});
+	const opt = {
+		margin: [0.5, 0.5, 0.5, 0.5], // Ajuste as margens conforme necessário
+		filename: 'saida.pdf',
+		image: { type: 'jpeg', quality: 0.98 },
+		html2canvas: { scale: 2, useCORS: true },
+		jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+	};
+
+	html2pdf().from(novoHTML).set(opt).toPdf().save('saida.pdf');
 }
 
 export function refactoreHTMLtoPDF(htmlString) {
+	console.log(htmlString)
+	htmlString = htmlString.replace("<p>", '<p class="avoid-break">')
+	htmlString = htmlString.replace("<h1>", '<h1 class="avoid-break">')
+	htmlString = htmlString.replace("<h2>", '<h2 class="avoid-break">')
+	htmlString = htmlString.replace("<h3>", '<h3 class="avoid-break">')
 	// Adiciona as classes de estilo ao texto HTML
 	const novoHTML = `
+	<meta charset="UTF-8">
     <style>
       .content * {
         text-align: left;
         color: black;
         font-size: 12pt; /* Tamanho da fonte */
         line-height: 0.5cm; /* Espaçamento entre linhas */
+      }
+
+	  .content p {
+        text-align: justify;
       }
 
       .content h1 {
@@ -95,6 +96,29 @@ export function refactoreHTMLtoPDF(htmlString) {
   `;
 
 	return novoHTML;
+}
+
+export function normalizeText(text) {
+	if (text === undefined || text === null) {
+		return '';
+	}
+
+	if (Array.isArray(text)) {
+		// Mapeia cada elemento do array para seu equivalente normalizado
+		const normalizedArray = text.map(element => normalizeElement(element));
+		// Une os elementos normalizados em uma única string separada por espaços
+		return normalizedArray.join(' ');
+	}
+
+	// Se não for um array, trata como uma única string e normaliza
+	return normalizeElement(text);
+}
+
+function normalizeElement(element) {
+	return element
+		.toLowerCase() // Converter para minúsculas
+		.normalize("NFD") // Normalizar caracteres (remover acentos)
+		.replace(/[\u0300-\u036f]/g, ""); // Remover diacríticos
 }
 
 export function extractKeys(texto) {
@@ -224,33 +248,33 @@ export function translateName(key) {
 }
 
 export function checkBlocked(user) {
-    const dateNow = new Date();
-    const expirationDate = new Date(user.expirationDate);
+	const dateNow = new Date();
+	const expirationDate = new Date(user.expirationDate);
 
-    if (!expirationDate || isAfter(dateNow, expirationDate)) {
-        user.state = "blocked";
-    } else {
-        user.state = "active";
-    }
+	if (!expirationDate || isAfter(dateNow, expirationDate)) {
+		user.state = "blocked";
+	} else {
+		user.state = "active";
+	}
 }
 
 export function compareArrays(array1, array2) {
-    // Verifica se os arrays têm o mesmo comprimento
-    if (array1.length !== array2.length) {
-        return false;
-    }
+	// Verifica se os arrays têm o mesmo comprimento
+	if (array1.length !== array2.length) {
+		return false;
+	}
 
-    // Ordena os arrays para garantir a comparação correta
-    const sortedArray1 = array1.slice().sort();
-    const sortedArray2 = array2.slice().sort();
+	// Ordena os arrays para garantir a comparação correta
+	const sortedArray1 = array1.slice().sort();
+	const sortedArray2 = array2.slice().sort();
 
-    // Verifica se cada elemento é o mesmo nos dois arrays
-    for (let i = 0; i < sortedArray1.length; i++) {
-        if (sortedArray1[i] !== sortedArray2[i]) {
-            return false;
-        }
-    }
+	// Verifica se cada elemento é o mesmo nos dois arrays
+	for (let i = 0; i < sortedArray1.length; i++) {
+		if (sortedArray1[i] !== sortedArray2[i]) {
+			return false;
+		}
+	}
 
-    // Se chegou até aqui, os arrays são iguais
-    return true;
+	// Se chegou até aqui, os arrays são iguais
+	return true;
 }

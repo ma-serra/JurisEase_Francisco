@@ -3,7 +3,7 @@ Melhorias:
 Geral:
 1. Mascara de cpf, cnpj, cpf/cnpj, rg, cep, telefone
 2. Lista de Estados e Municipios
-3. Loading ao buscar usuário, templates, gerar documentos
+3. Loading ao buscar usuário, templates, Manchetes ou Serviços, gerar documentos, gerenciar usuario
 
 Template:
 1. Adicionar ordenação: Permitir que os usuários ordenem os templates por diferentes critérios, como título, data de criação, etc., pode tornar a navegação mais conveniente.

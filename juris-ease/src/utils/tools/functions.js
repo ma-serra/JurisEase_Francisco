@@ -152,24 +152,22 @@ function processElements(elements, operation) {
 
     console.log(`${operation} - ${elements}`) 
     elements.map(element => {
-        console.log(`${element}`)
         let parsedValue;
 
         if (isNumber(element)) {
             numNumbers++;
             parsedValue = parseNumber(element);
-            console.log(`${element} -> ${parsedValue}`)
+
         } else if (isMonetary(element)) {
             numMonetaries++;
             parsedValue = parseNumber(element.replace(/[^\d.,]/g, ''));
-            console.log(`${element} -> ${parsedValue}`)
+
         } else if (isHour(element)) {
             numHours++;
             parsedValue = hourToNumber(element);
-            console.log(`${element} -> ${parsedValue}`)
+
         } else {
-            console.log(`${element} -> Parâmetro inválido`)
-            // throw new Error('Parâmetro inválido: deve ser um número, valor monetário (ex: "R$ 12,00") ou hora (ex: "12:30").');
+            throw new Error('Parâmetro inválido: deve ser um número, valor monetário (ex: "R$ 12,00") ou hora (ex: "12:30").');
         }
 
         if (numMonetaries > 1) throw new Error('Não pode ter mais de 1 valor monetário.');

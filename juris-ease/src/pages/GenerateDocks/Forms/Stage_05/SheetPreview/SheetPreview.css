@@ -18,10 +18,15 @@
     margin-bottom: calc(0.5cm * var(--scale));
 }
 
-.sheet .content {
+.sheet .content p {
+    text-align: justify;
+}
+
+.sheet .content p {
     height: 100%;
     overflow: hidden;
 }
+
 
 .sheet .content h2 {
     font-size: calc(18pt * var(--scale)); /* Tamanho da fonte para h2 */
