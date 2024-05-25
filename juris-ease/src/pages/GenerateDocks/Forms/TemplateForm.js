@@ -4,7 +4,7 @@ import { formatHour, formatMonetary } from "../../../utils/tools/mask";
 
 function TemplateForm({ templates, templateForm, form, setForm }) {
 
-    const handleChange = (e) => {
+    const handleChange = (e) => {        
         const { name, value } = e.target;
         setForm(prevForm => {
             const updatedForm = {
@@ -72,7 +72,7 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
         templateForm?.keys?.map(key => {
             if (['text', 'monetary', 'date', 'number', "hour"].includes(key.type)) {
                 return (
-                    <form className='form-group' key={key.id}>
+                    <div className='form-group' key={key.id}>
                         <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
                         <input
                             type={key.type === 'monetary' || key.type === 'hour' ? 'text' : key.type}
@@ -82,7 +82,7 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
                             onBlur={e => handleBlur(e, key.type)}
                             onChange={handleChange}
                         />
-                    </form>
+                    </div>
                 );
             }
             return null;

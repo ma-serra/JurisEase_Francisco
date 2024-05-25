@@ -2,7 +2,7 @@ import { formatHour, formatMonetary } from "./mask";
 
 export const isMonetary = (value) => typeof value === 'string' && value?.trim().startsWith('R$');
 export const isHour = (value) => typeof value === 'string' && /^\d{1,}:\d{2}$/.test(value);
-export const isNumber = (value) => !isNaN(parseFloat(value.replace('.', '').replace(',', '.')));
+export const isNumber = (value) => !isNaN(value) || !isNaN(parseFloat(value.replace('.', '').replace(',', '.')));
 export const isDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value);
 
 function determineType(element) {
@@ -21,7 +21,11 @@ function determineType(element) {
 }
 
 function parseNumber(value) {
-    return parseFloat(value.replace(/\./g, '').replace(',', '.'));
+    if (isNaN(value)) {
+        return parseFloat(value.replace(/\./g, '').replace(',', '.'));
+    }
+    
+    return value
 }
 
 function hourToNumber(hour) {
@@ -196,7 +200,7 @@ const getDifferenceInDays = (date1, date2) => {
     const diffInMs = d2 - d1;
 
     // Converte a diferença de milissegundos para dias
-    const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24)).toString();
+    const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
 
     // Retorna a diferença em dias
     return diffInDays || "0";
