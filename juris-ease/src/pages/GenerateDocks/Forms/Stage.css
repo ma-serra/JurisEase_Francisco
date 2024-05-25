@@ -1,5 +1,6 @@
 .GenerateDocks .form-stage {
-    width: 40%;
+    min-width: 290px;
+    width: 50%;
     max-width: 450px;
     margin: 0 auto;
 }
@@ -7,14 +8,6 @@
 .GenerateDocks .title-form {
     text-align: center;
     font-size: 18pt;
-}
-
-.GenerateDocks .form-group {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
 }
 
 .GenerateDocks .reclamada {
@@ -40,8 +33,15 @@
     font-weight: bold;
 }
 
+.GenerateDocks .form-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+}
+
 .GenerateDocks .form-group label {
-    flex: 1;
     display: block;
     font-weight: bold;
     font-size: 10pt;
@@ -50,7 +50,6 @@
 }
 
 .GenerateDocks .form-group select {
-    flex: 3;
     height: 30px;
     border: 1px solid var(--gray-30);
     border-radius: 5px;
@@ -58,9 +57,8 @@
 }
 
 .GenerateDocks .form-group input {
-    flex: 3;
     height: 100%;
-    width: 100%;
+    width: calc(100% - 8px);
     padding: 4px;
     border-radius: 3px;
     font-size: 10pt;
@@ -91,21 +89,35 @@
 }
 
 .GenerateDocks .content-stage5 {
-    width: 98%;
+    width: 94%;
     margin-top: 1em;
     display: flex;
     flex-direction: row;
     gap: 3em;
+    overflow-x: scroll;
+}
+
+/* Adicionando uma media query para aumentar a fonte em telas grandes */
+@media screen and (min-width: 768px) {
+    .GenerateDocks .content-stage5 {
+        overflow-x: unset;
+    }
+}
+
+.GenerateDocks .forms-templates .title{
+    font-size: 12pt;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .GenerateDocks .SelectTemplate {
-    flex: 2;
 }
 
 .GenerateDocks .forms-templates {
-    flex: 3;
+    max-width: 265px;
 }
 
 .GenerateDocks .SheetPreview {
-    flex: 2;
+    min-width: 300px;
+    max-width: 498px;
 }

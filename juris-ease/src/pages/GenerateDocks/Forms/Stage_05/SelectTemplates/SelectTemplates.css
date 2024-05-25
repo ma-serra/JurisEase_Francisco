@@ -35,6 +35,7 @@
 }
 
 .card-template {
+    overflow: hidden;
     width: 90%;
     background-color: #04051F;
     color: white;

@@ -30,7 +30,7 @@ function ManagmentForms({ form, setForm, templates, templateBase }) {
                 <button className='next-form' onClick={handleBack}>
                     <SlArrowLeft />
                 </button>
-                <h2 className='title'>{currentTemplate.title}</h2>
+                <h2 className='title'>{currentTemplate.title || "Selecione um template"}</h2>
                 <button className='prev-form' onClick={handleNext}>
                     <SlArrowRight />
                 </button>

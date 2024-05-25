@@ -8,6 +8,7 @@
 }
 
 .drawer-template {
+    z-index: 100;
     position: absolute;
     right: 0;
     top: 2em;

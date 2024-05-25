@@ -236,7 +236,7 @@ function GenerateDocks() {
             )}
 
             <button className='bt-cancel' onClick={currentStage === 5 ? handleResetGeration : handleCancelGeration}>
-                <p>{currentStage === 5 ? "Iniciar novo documento" : "Cancelar"}</p>
+                <p>{currentStage === 5 ? "Iniciar novo" : "Cancelar"}</p>
             </button>
 
             <div className='progress'>

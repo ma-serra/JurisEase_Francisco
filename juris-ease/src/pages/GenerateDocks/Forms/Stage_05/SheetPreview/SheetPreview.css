@@ -1,11 +1,18 @@
 :root {
-    --scale: 0.5;
+    --scale: 0.36;
+}
+
+/* Adicionando uma media query para aumentar a fonte em telas grandes */
+@media screen and (min-width: 768px) {
+    :root{
+        --scale: 0.66;
+    }
 }
 
 .sheet {
     background-color: white;
     margin: 0;
-    padding: 10px;
+    padding: 1.5em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
 }
 
@@ -13,7 +20,7 @@
     text-align: left;
     color: black;
     font-size: calc(12pt * var(--scale)); /* Tamanho da fonte */
-     margin: 0;
+    margin: 0;
     margin-top: calc(0.5cm * var(--scale));
     margin-bottom: calc(0.5cm * var(--scale));
 }

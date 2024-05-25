@@ -59,7 +59,8 @@
 }
 
 .grd-templates {
-    width: 100%;
+    padding-left: 2em;
+    padding-right: 2em;
     display: inline-flex;
     gap: 10px;
     justify-content: center;
