@@ -2,8 +2,25 @@ import { formatHour, formatMonetary } from "./mask";
 
 export const isMonetary = (value) => typeof value === 'string' && value?.trim().startsWith('R$');
 export const isHour = (value) => typeof value === 'string' && /^\d{1,}:\d{2}$/.test(value);
-export const isNumber = (value) => !isNaN(value) || !isNaN(parseFloat(value.replace('.', '').replace(',', '.')));
 export const isDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value);
+export const isNumber = (value) => {
+    if (typeof value === 'number') return true;
+    if (typeof value !== 'string') return false;
+
+    // Remover espaços em branco no início e no final
+    const trimmedValue = value.trim();
+
+    // Substituir vírgulas por pontos
+    const normalizedValue = trimmedValue.replace(',', '.');
+
+    // Verificar se o valor normalizado é um número
+    const isNum = !isNaN(normalizedValue) && !isNaN(parseFloat(normalizedValue));
+
+    // Verificação adicional para formatos numéricos válidos
+    const isValidFormat = /^-?\d+(\.\d+)?$/.test(normalizedValue);
+
+    return isNum && isValidFormat;
+};
 
 function determineType(element) {
     if (isMonetary(element)) {
@@ -11,6 +28,9 @@ function determineType(element) {
 
     } else if (isHour(element)) {
         return 'hour';
+
+    } else if (isDate(element)) {
+        return 'date';
 
     } else if (isNumber(element)) {
         return 'number';
@@ -22,7 +42,6 @@ function determineType(element) {
 
 function parseNumber(value) {
     if (isNaN(value)) {
-        console.log("isNAN")
         return parseFloat(value.replace(/\./g, '').replace(',', '.'));
     }
     
@@ -155,7 +174,6 @@ function processElements(elements, operation) {
     let numHours = 0;
     let result = operation === 'multiplication' ? 1 : undefined;
 
-    console.log(`${operation} - ${elements}`) 
     elements.map(element => {
         let parsedValue;
 

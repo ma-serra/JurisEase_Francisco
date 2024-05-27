@@ -38,7 +38,7 @@ function GestureParams({ id, operation, params, setParams }) {
         const manyParams = functions[operation]?.manyParams || false
         const minParams = functions[operation]?.minParams
 
-        return params.map((param, paramIndex) => (
+        return params?.map((param, paramIndex) => (
             <div key={`key-${id}-paramFunc-${paramIndex}`} className='params-section'>
                 <select
                     name='type'

@@ -20,35 +20,36 @@ function KeyForm({ templateType, keyData, index, setKeys, onRemove }) {
         const { name, value } = e.target;
         const manyParams = functions[value]?.manyParams || false;
         const minParams = functions[value]?.minParams;
+        let updatedParams = value === 'Selecione' ? [] : params || []
+
+        if (!manyParams) {
+            updatedParams = functions[value]?.params.map((p, i) => {
+                const existingParam = params[i] || {};
+                return {
+                    name: p.name,
+                    type: existingParam.type || 'key',
+                    value: existingParam.value || ''
+                };
+            });
+
+        } else {
+            while (updatedParams.length < minParams) {
+                updatedParams.push({ value: '', type: 'key' })
+            }
+        }
 
         setKeys(prevKeys => {
             const updatedKeys = [...prevKeys];
             const keyToUpdate = { ...(updatedKeys[index] || {}) };
             const updatedFunction = { ...(keyToUpdate.function || {}) };
-
             updatedFunction[name] = value;
-
-            if (!manyParams) {
-                updatedFunction.params = Array.from({ length: minParams }, () => "");
-            } else {
-                if (!updatedFunction.params) {
-                    updatedFunction.params = [];
-                }
-            }
-
+            updatedFunction.params = updatedParams
             keyToUpdate.function = updatedFunction;
             updatedKeys[index] = keyToUpdate;
             return updatedKeys;
         });
 
-        if (!manyParams) {
-            setParams(functions[value]?.params);
-        } else {
-            console.log(`min: ${minParams} - length: ${params.length}`)
-            if (minParams > params.length) {
-                setParams(Array.from({ length: functions[value]?.minParams }, () => { return { value: '', type: 'key' } }));
-            }
-        }
+        setParams(updatedParams);
     };
 
 
