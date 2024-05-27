@@ -102,13 +102,13 @@ function sumMonetary(elements, operation) {
             const normalizedValue = parseNumber(val.replace(/[^\d.,]/g, ''));
             return acc - normalizedValue;
         }, initial);
-        return `R$ ${total.toFixed(2).replace('.', ',')}`;
+        return `R$ ${total.replace('.', ',')}`;
     }
     const total = elements.reduce((acc, val) => {
         const normalizedValue = parseNumber(val.replace(/[^\d.,]/g, ''));
         return acc + normalizedValue;
     }, 0);
-    return `R$ ${total.toFixed(2).replace('.', ',')}`;
+    return `R$ ${total.replace('.', ',')}`;
 }
 
 function sumHours(elements, operation) {
@@ -152,10 +152,10 @@ function division(elements) {
 function convertTo(result, type) {
     switch (type) {
         case 'number':
-            return parseFloat(result.toFixed(2));
+            return parseFloat(result).toString().replace('.', ',');
 
         case 'monetary':
-            return `R$ ${parseFloat(result.toFixed(2)).toString().replace('.', ',')}`;
+            return `R$ ${parseFloat(result).toString().replace('.', ',')}`;
 
         case 'hour':
             const totalMinutes = result * 60;

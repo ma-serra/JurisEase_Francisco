@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import SheetPreview from './SheetPreview/SheetPreview';
 import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
-import { formatDate } from '../../../../utils/tools/mask';
+import { formatDate, formatNumbersWithTwoDecimals } from '../../../../utils/tools/mask';
 import { isDate } from '../../../../utils/tools/functions';
 
 function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates }) {
@@ -44,7 +44,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
 
         Object.keys(form).forEach((key) => {
             const regex = new RegExp(`{{${key}}}`, 'g');
-            const value = form[key]
+            const value = formatNumbersWithTwoDecimals(form[key])
             if (isDate(value)) {
                 content = content.replace(regex, formatDate(value) || '');
             } else {

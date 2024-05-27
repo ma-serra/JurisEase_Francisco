@@ -1,11 +1,45 @@
+export function formatNumbersWithTwoDecimals(input) {
+    if (typeof input !== 'string') {
+        console.log(`formatNumbersWithTwoDecimals - ${typeof input} - ${input}`)
+        return input 
 
-// Função para formatar o valor monetário, se necessário
+    } else if (typeof input === 'number') {
+        return input
+    }
+    // Expressão regular para encontrar números com casas decimais
+    const numberRegex = /(\d+,\d+)/g;
+
+    // Função de callback para formatar números
+    const formatNumber = (match) => {
+        // Substituir ',' por '.' para converter em número
+        const number = parseFloat(match.replace(',', '.'));
+
+        // Limitar a duas casas decimais e substituir '.' por ',' novamente
+        const formattedNumber = number.toFixed(2).replace('.', ',');
+
+        return formattedNumber;
+    };
+
+    // Retornar a string com os números formatados
+    return input.replace(numberRegex, formatNumber);
+}
+
 export const formatMonetary = (value) => {
-    if (value && !/^R\$ \d+(\,\d{2})?$/.test(value)) {
-        // Remove todos os caracteres que não são dígitos ou vírgulas e converte para float
-        const numberValue = parseFloat(value.replace(/[^\d,]/g, '').replace(',', '.'));
+    if (value && !/^R\$ \d+(\,\d+)?$/.test(value)) {
+        // Remove todos os caracteres que não são dígitos ou vírgulas
+        const sanitizedValue = value.replace(/[^\d,]/g, '').replace(',', '.');
+
+        // Tenta converter para número de ponto flutuante
+        const numberValue = parseFloat(sanitizedValue);
+
         if (!isNaN(numberValue)) {
-            return `R$ ${numberValue.toFixed(2).replace('.', ',')}`;
+            // Converte de volta para string e mantém todas as casas decimais
+            const formattedNumber = numberValue.toLocaleString('pt-BR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 20
+            }).replace('.', ',');
+
+            return `R$ ${formattedNumber}`;
         }
     }
     return value || '';
