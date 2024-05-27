@@ -16,7 +16,7 @@ export function generateInfoKeysHtml() {
             <div class="section">
                 <h2>Data do Sistema:</h2>
                 <p>Data Atual: {{data_atual}}</p>
-                <p>Data Atual por Extenso: {{data_atual_estenso}}</p>
+                <p>Data Atual por Extenso: {{data_atual_extenso}}</p>
                 <p>Ano: {{data_atual.ano_extenso}}</p>
                 <p>Mês: {{data_atual.mes}}</p>
                 <p>Mês por Extenso: {{data_atual.mes_extenso}}</p>

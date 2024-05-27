@@ -22,10 +22,11 @@ function determineType(element) {
 
 function parseNumber(value) {
     if (isNaN(value)) {
+        console.log("isNAN")
         return parseFloat(value.replace(/\./g, '').replace(',', '.'));
     }
     
-    return value
+    return parseFloat(value)
 }
 
 function hourToNumber(hour) {
@@ -72,7 +73,7 @@ function sumNumbers(elements, operation) {
     } else {
         result = elements.reduce((acc, val) => acc + parseNumber(val), 0);
     }
-    return parseFloat(result.toFixed(2)).toString().replace('.', ',');
+    return result.toString().replace('.', ',');
 }
 
 function sumMonetary(elements, operation) {
@@ -239,6 +240,7 @@ export const functions = {
         name: "Diferença entre datas",
         manyParams: false,
         minParams: 2,
+        params: [{name: "data inicial"}, {name: "data final"}],
         typesPermitted: ["date"],
         execute: (params) => getDifferenceInDays(params[0], params[1]),
     },

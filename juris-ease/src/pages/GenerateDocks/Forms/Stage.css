@@ -111,13 +111,19 @@
 }
 
 .GenerateDocks .SelectTemplate {
+    flex: 1;
 }
 
 .GenerateDocks .forms-templates {
-    max-width: 265px;
+    flex: 1;
 }
 
 .GenerateDocks .SheetPreview {
+    flex: 1;
+}
+
+.GenerateDocks .SheetPreview .sheet {
     min-width: 300px;
     max-width: 498px;
+    min-height: 420px;
 }

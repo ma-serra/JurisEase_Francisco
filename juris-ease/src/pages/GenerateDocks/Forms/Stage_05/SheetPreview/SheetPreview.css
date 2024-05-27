@@ -1,11 +1,11 @@
 :root {
-    --scale: 0.36;
+    --scale: 0.401;
 }
 
 /* Adicionando uma media query para aumentar a fonte em telas grandes */
 @media screen and (min-width: 768px) {
     :root{
-        --scale: 0.66;
+        --scale: 0.475;
     }
 }
 
@@ -33,7 +33,6 @@
     height: 100%;
     overflow: hidden;
 }
-
 
 .sheet .content h2 {
     font-size: calc(18pt * var(--scale)); /* Tamanho da fonte para h2 */

@@ -1,12 +1,25 @@
 /*
 Melhorias:
 Geral:
-1. Mascara de cpf, cnpj, cpf/cnpj, rg, cep, telefone
-2. Lista de Estados e Municipios
-3. Loading ao buscar usuário, templates, Manchetes ou Serviços, gerar documentos, gerenciar usuario
+Mascara de cpf, cnpj, cpf/cnpj, rg, cep, telefone
+Buscar dados automaticamente de cep, cpf, cnpj
+Lista de Estados e Municipios
+Loading ao buscar usuário, templates, Manchetes ou Serviços, gerar documentos, gerenciar usuario
+Melhorar design
+Editor de texto próprio e personalizado
+Adicionar funções para cálculos específicos
+
+Home:
+Melhorar cards de serviços e manchetes
+Adicionar feedback de atualizações
 
 Template:
-1. Adicionar ordenação: Permitir que os usuários ordenem os templates por diferentes critérios, como título, data de criação, etc., pode tornar a navegação mais conveniente.
-2. Melhorar a validação de acesso: Além de verificar se o usuário tem permissão para acessar a página, você também pode considerar outras formas de proteger o acesso aos templates, como autenticação de dois fatores ou restrições baseadas em função.
-3. Adicionar feedback de carregamento: Se houver uma carga significativa de dados ao buscar ou carregar os templates, considere adicionar indicadores visuais para informar aos usuários que a operação está em andamento.
+Adicionar feedback de atualizações
+Ao preenchimento da identificação da chave ou parâmetros das funções, dar opções de chaves existentes não usadas
+
+Gerador de documentos:
+Guardar dados de reclamante, reclamada
+
+Gerenciador de usuários:
+Lupa de pesquisa e filtros
 */

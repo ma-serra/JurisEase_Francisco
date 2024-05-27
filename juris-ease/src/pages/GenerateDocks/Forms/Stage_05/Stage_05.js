@@ -43,7 +43,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
         let content = generateContent()
 
         Object.keys(form).forEach((key) => {
-            const regex = new RegExp(key, 'g');
+            const regex = new RegExp(`{{${key}}}`, 'g');
             const value = form[key]
             if (isDate(value)) {
                 content = content.replace(regex, formatDate(value) || '');

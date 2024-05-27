@@ -6,8 +6,14 @@
 .function-section .params-section input {
     margin-right: 5px;
     padding: 2px;
+    flex: 2;
 }
 
+.function-section .params-section select {
+    margin-right: 5px;
+    padding: 2px;
+    flex: 1;
+}
 
 .function-section .bt-add-param {
     margin-top: 5px;

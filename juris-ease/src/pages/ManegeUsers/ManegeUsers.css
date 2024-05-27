@@ -3,7 +3,6 @@
 }
 
 .content-manegment {
-
     margin: 5%;
     display: flex;
     flex-direction: column;
@@ -82,7 +81,7 @@
 
 .user-row p,
 .table-header p {
-    font-size: 12px;
+    font-size: 10pt;
     margin: 0;
     text-align: center;
     overflow: hidden;
@@ -92,6 +91,29 @@
     font-size: 15px;
     margin-top: 5px;
 }
+
+
+/* Adicionando uma media query para telas pequenas */
+@media screen and (max-width: 768px) {
+    .user-row {
+        height: 22px;
+    }
+
+    .user-row p,
+    .table-header p {
+        font-size: 8pt;
+        overflow: hidden;
+        text-wrap: nowrap;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .icon-pencil {
+        font-size: 10px;
+        margin-top: 3px;
+    }
+}
+
 
 .user-row:hover {
     scale: 1.01;
@@ -141,6 +163,7 @@
     right: 0;
     background-color: var(--primary-dark-90);
     width: 50%;
+    min-width: 320px;
     max-width: 800px;
     padding: 2.5%;
     padding-top: 4em;
@@ -155,26 +178,28 @@
     margin-bottom: 0.5%;
     display: flex;
     align-items: center;
+    font-size: 10pt;
 }
 
 .drawer-user-managment label p {
     flex: 1;
     font-weight: bold;
-    /* Deixar o texto em negrito */
     text-align: left;
     margin: 0;
+    font-size: 10pt;
 }
 
 /* Estilos para os inputs e selects */
 .drawer-user-managment input,
 .drawer-user-managment select {
     flex: 3;
-    padding: 8px;
+    padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: transparent;
     color: white;
     height: 100%;
+    font-size: 10pt;
 }
 
 .drawer-user-managment select {

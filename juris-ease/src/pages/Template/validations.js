@@ -27,7 +27,7 @@ export function validateFormTemplate(form, type) {
     }
 
     if (type === 'base' && (!form.typeTermination)) {
-        erros.typeTermination = 'Por favor, preencha o tipo de recisão'
+        erros.typeTermination = 'Por favor, preencha o tipo de rescisão'
     }
 
     if (type === 'base' && (!form.numberOfComplaints)) {

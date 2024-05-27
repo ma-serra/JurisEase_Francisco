@@ -1,26 +1,26 @@
-import { extractKeys } from '../../../utils/tools/tools'
+import { extractKeys } from '../../../utils/tools/tools';
 
 export function autoGenerateKeys(currentKeys, contents) {
-    const allKeys = [];
+    const keysFound = [];
 
     for (const content of Object.values(contents)) {
         const keys = extractKeys(content);
-        allKeys.push(...keys);
+        keysFound.push(...keys);
     }
 
-    const uniqueKeys = [...new Set(allKeys)];
+    const uniqueKeys = [...new Set(keysFound)];
+
+    // Cria uma nova cópia de currentKeys
+    const newKeys = [...currentKeys];
 
     // Mapeia cada chave para o formato de objeto desejado, mantendo as configurações das chaves existentes
-    const keysArray = uniqueKeys.map((key, index) => {
+    uniqueKeys.forEach(key => {
         const existingKey = currentKeys.find(k => k.id === key);
-
-        return {
-            id: key,
-            type: existingKey ? existingKey.type : 'text',
-            function: existingKey ? existingKey.function : { operation: '', params: [] }
-        };
+        if (!existingKey) {
+            newKeys.push({ id: key, type: 'text' });
+        }
     });
 
     // Retorna as novas chaves geradas
-    return keysArray;
+    return newKeys;
 }

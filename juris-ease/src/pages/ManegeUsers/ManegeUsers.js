@@ -184,7 +184,7 @@ function ManegeUsers() {
                                     <div className={`user-row ${user.state === 'active' ? 'active' : 'inactive'}`} key={user.uid} onClick={() => handleEdit(user.uid)}>
                                         <p>{user.name}</p>
                                         <p>{user.email}</p>
-                                        <p>{user.type}</p>
+                                        <p>{user.type === 'client' ? 'cliente' : 'advogado'}</p>
                                         <p>{user.state === 'active' ? 'ativo' : 'bloqueado'}</p>
                                         <p>
                                             <FaPencilAlt className="icon-pencil" />

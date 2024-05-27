@@ -4,7 +4,7 @@ import { formatHour, formatMonetary } from "../../../utils/tools/mask";
 
 function TemplateForm({ templates, templateForm, form, setForm }) {
 
-    const handleChange = (e) => {        
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setForm(prevForm => {
             const updatedForm = {
@@ -18,28 +18,63 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
         });
     };
 
+    const extractParamValues = (param, updatedForm) => {
+        const values = [];
+    
+        if (param.type === 'value') {
+            values.push(param.value);
+
+        } else if (param.type === 'key') {
+            const value = updatedForm[param.value];
+            if (value) {
+                values.push(value);
+            }
+
+        } else if (param.type === 'contains') {
+            const keys = Object.keys(updatedForm).filter(k => k.includes(param.value));
+            keys.forEach(k => {
+                values.push(updatedForm[k]);
+            });
+
+        } else if (param.type === 'start with') {
+            const keys = Object.keys(updatedForm).filter(k => k.startsWith(param.value));
+            keys.forEach(k => {
+                values.push(updatedForm[k]);
+            });
+            
+        } else if (param.type === 'end with') {
+            const keys = Object.keys(updatedForm).filter(k => k.endsWith(param.value));
+            keys.forEach(k => {
+                values.push(updatedForm[k]);
+            });
+        }
+    
+        return values;
+    };
+    
     const verifyFuncs = (updatedForm) => {
-        templates.map(template => {
-            let keysFuncs = template?.keys?.filter(key => key.type === 'function');
-
-            keysFuncs?.forEach(key => {
-                const operation = key.function.operation;
-                const params = []
-                key.function.params.map(param => {
-                    let value = param.startsWith('{{') ? updatedForm[param] : param
-                    if (value) params.push(value)
+        templates.forEach(template => {
+            const keysFuncs = template?.keys?.filter(key => key.type === 'function') || [];
+    
+            keysFuncs.forEach(key => {
+                const { operation, params: paramList } = key.function;
+                const params = [];
+    
+                paramList.forEach(param => {
+                    const paramValues = extractParamValues(param, updatedForm);
+                    params.push(...paramValues);
                 });
-
+    
                 let result;
                 try {
                     result = functions[operation].execute(params);
                 } catch (e) {
-                    result = ''
+                    result = '';
                 }
-
-                updatedForm[key.id] = result
+    
+                updatedForm[key.id] = result;
             });
-        })
+        });
     };
 
     // Função para tratar o onBlur e formatar o valor monetário ou hora, se necessário
@@ -73,7 +108,7 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
             if (['text', 'monetary', 'date', 'number', "hour"].includes(key.type)) {
                 return (
                     <div className='form-group' key={key.id}>
-                        <label htmlFor={key.id}>{key.id.replace(/[{}]/g, '')}:</label>
+                        <label htmlFor={key.id}>{key.id}:</label>
                         <input
                             type={key.type === 'monetary' || key.type === 'hour' ? 'text' : key.type}
                             id={key.id}

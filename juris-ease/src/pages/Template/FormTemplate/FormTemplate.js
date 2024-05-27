@@ -86,7 +86,7 @@ function FormTemplate({ type, template, setTemplate, errors }) {
                     </div>
 
                     <label htmlFor='typeTermination' className="field-input">
-                        <p className='field-title'>Tipo de recisão:</p>
+                        <p className='field-title'>Tipo de rescisão:</p>
                         <select
                             id='typeTermination'
                             value={template?.typeTermination}

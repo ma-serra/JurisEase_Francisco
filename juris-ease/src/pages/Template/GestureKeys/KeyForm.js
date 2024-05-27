@@ -19,32 +19,38 @@ function KeyForm({ templateType, keyData, index, setKeys, onRemove }) {
     const handleOperation = (e) => {
         const { name, value } = e.target;
         const manyParams = functions[value]?.manyParams || false;
-    
+        const minParams = functions[value]?.minParams;
+
         setKeys(prevKeys => {
             const updatedKeys = [...prevKeys];
             const keyToUpdate = { ...(updatedKeys[index] || {}) };
             const updatedFunction = { ...(keyToUpdate.function || {}) };
-    
+
             updatedFunction[name] = value;
-    
+
             if (!manyParams) {
-                updatedFunction.params = Array.from({ length: functions[value]?.minParams }, () => "");
+                updatedFunction.params = Array.from({ length: minParams }, () => "");
             } else {
                 if (!updatedFunction.params) {
                     updatedFunction.params = [];
                 }
             }
-    
+
             keyToUpdate.function = updatedFunction;
             updatedKeys[index] = keyToUpdate;
             return updatedKeys;
         });
-    
+
         if (!manyParams) {
-            setParams(Array.from({ length: functions[value]?.minParams }, () => ""));
+            setParams(functions[value]?.params);
+        } else {
+            console.log(`min: ${minParams} - length: ${params.length}`)
+            if (minParams > params.length) {
+                setParams(Array.from({ length: functions[value]?.minParams }, () => { return { value: '', type: 'key' } }));
+            }
         }
     };
-    
+
 
     useEffect(() => {
         setKeys(prevKeys => {
@@ -115,7 +121,7 @@ function KeyForm({ templateType, keyData, index, setKeys, onRemove }) {
             </div>
 
             {keyData.type === "function" && (
-                <GestureParams id={index} operation={keyData.function?.operation} params={params} setParams={setParams}/>
+                <GestureParams id={index} operation={keyData.function?.operation} params={params} setParams={setParams} />
             )}
         </div>
     )

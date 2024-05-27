@@ -53,14 +53,14 @@ function GenerateDocks() {
     };
 
     const [form, setForm] = useState({
-        '{{data_atual}}': dataAtual.toLocaleDateString(),
-        '{{data_atual_extenso}}': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' }),
-        '{{data_atual.ano}}': dataAtual.getFullYear().toString(),
-        '{{data_atual.ano_extenso}}': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric' }),
-        '{{data_atual.mes}}': (dataAtual.getMonth() + 1).toString(),
-        '{{data_atual.mes_extenso}}': dataAtual.toLocaleDateString('pt-BR', { month: 'long' }),
-        '{{data_atual.dia}}': dataAtual.getDate().toString(),
-        '{{data_atual.dia_extenso}}': dataAtual.toLocaleDateString('pt-BR', { weekday: 'long' }),
+        'data_atual': dataAtual.toLocaleDateString(),
+        'data_atual_extenso': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' }),
+        'data_atual.ano': dataAtual.getFullYear().toString(),
+        'data_atual.ano_extenso': dataAtual.toLocaleDateString('pt-BR', { year: 'numeric' }),
+        'data_atual.mes': (dataAtual.getMonth() + 1).toString(),
+        'data_atual.mes_extenso': dataAtual.toLocaleDateString('pt-BR', { month: 'long' }),
+        'data_atual.dia': dataAtual.getDate().toString(),
+        'data_atual.dia_extenso': dataAtual.toLocaleDateString('pt-BR', { weekday: 'long' }),
     });
 
     const handleNext = () => {
@@ -99,10 +99,10 @@ function GenerateDocks() {
             reclamadas.forEach((reclamada, index) => {
                 setForm(prevForm => ({
                     ...prevForm,
-                    [`{{reclamada.${index + 1}.nome}}`]: reclamada['{{nome}}'],
-                    [`{{reclamada.${index + 1}.tipo_responsabilidade}}`]: reclamada['{{tipo_responsabilidade}}'],
-                    [`{{reclamada.${index + 1}.num_cpf_cnpj}}`]: reclamada['{{num_cpf_cnpj}}'],
-                    [`{{reclamada.${index + 1}.endereco}}`]: reclamada['{{endereco}}'],
+                    [`reclamada.${index + 1}.nome`]: reclamada['nome'],
+                    [`reclamada.${index + 1}.tipo_responsabilidade`]: reclamada['tipo_responsabilidade'],
+                    [`reclamada.${index + 1}.num_cpf_cnpj`]: reclamada['num_cpf_cnpj'],
+                    [`reclamada.${index + 1}.endereco`]: reclamada['endereco'],
                 }));
             })
         }
@@ -127,9 +127,9 @@ function GenerateDocks() {
     }, [currentStage]);
 
     function showAlertTemplateNotFound() {
-        const tipoRescisao = form['{{tipo_rescisao}}'];
+        const tipoRescisao = form['tipo_rescisao'];
         const numeroReclamadas = form.reclamadas.length;
-        const tiposReclamadas = form.reclamadas.map(rec => rec['{{tipo_responsabilidade}}']).join(', ');
+        const tiposReclamadas = form.reclamadas.map(rec => rec['tipo_responsabilidade']).join(', ');
 
         AlertDialog.show(
             `Nenhum template foi encontrado, para a configuração fornecida: <br />` +
@@ -144,12 +144,12 @@ function GenerateDocks() {
     // Função para verificar correspondência de um template
     function matchTemplate(template) {
         // Verifica se o tipo de rescisão coincide
-        const typeTerminationMatch = template.typeTermination === form['{{tipo_rescisao}}'];
+        const typeTerminationMatch = template.typeTermination === form['tipo_rescisao'];
         // Verifica se o número de reclamações coincide
         const numberOfComplaintsMatch = template.numberOfComplaints == form.reclamadas.length;
         // Verifica se os tipos de responsabilidade coincidem
         const typesResponsibilitiesMatch = compareArrays(
-            form.reclamadas.map(rec => rec['{{tipo_responsabilidade}}']),
+            form.reclamadas.map(rec => rec['tipo_responsabilidade']),
             template.typesResponsibilities
         );
 
@@ -166,17 +166,17 @@ function GenerateDocks() {
                 const userData = await getUser(isAuthenticated);
                 setForm(prevForm => ({
                     ...prevForm,
-                    '{{nome_usuario}}': userData.name || '',
-                    '{{email_usuario}}': userData.email || '',
-                    '{{tipo_usuario}}': userData.type === 'client' ? 'cliente' : 'advogado' || '',
-                    '{{oab_usuario}}': userData.oab || '',
-                    '{{telefone_usuario}}': userData.phoneNumber || '',
-                    '{{cep_usuario}}': userData.address.cep || '',
-                    '{{estado_usuario}}': userData.address.state || '',
-                    '{{cidade_usuario}}': userData.address.city || '',
-                    '{{logradouro_usuario}}': userData.address.state || '',
-                    '{{numero_casa_usuario}}': userData.address.street || '',
-                    '{{endereco_usuario}}': userData.address ? `${userData.address.street}, ${userData.address.number}, ${userData.address.city}, ${userData.address.state}, ${userData.address.cep}` : '',
+                    'nome_usuario': userData.name || '',
+                    'email_usuario': userData.email || '',
+                    'tipo_usuario': userData.type === 'client' ? 'cliente' : 'advogado' || '',
+                    'oab_usuario': userData.oab || '',
+                    'telefone_usuario': userData.phoneNumber || '',
+                    'cep_usuario': userData.address.cep || '',
+                    'estado_usuario': userData.address.state || '',
+                    'cidade_usuario': userData.address.city || '',
+                    'logradouro_usuario': userData.address.state || '',
+                    'numero_casa_usuario': userData.address.street || '',
+                    'endereco_usuario': userData.address ? `${userData.address.street}, ${userData.address.number}, ${userData.address.city}, ${userData.address.state}, ${userData.address.cep}` : '',
                 }));
                 setUser(userData);
             }
