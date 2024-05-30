@@ -1,8 +1,14 @@
+import { isMonetary } from "./functions";
+
 export function formatNumbersWithTwoDecimals(input) {
     if (typeof input !== 'string') {
         return input 
 
     } else if (typeof input === 'number') {
+        return input
+    }
+
+    if (isMonetary(input)) {
         return input
     }
     // Expressão regular para encontrar números com casas decimais
