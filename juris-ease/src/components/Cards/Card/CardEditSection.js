@@ -53,11 +53,9 @@ function CardEditSection({ onAddCard, onRemoveCard, onUpdateCard, cardInEdition,
         if (cardData.image && cardData.title && cardData.description && cardData.link) {
             if (!isEmptyObject(cardInEdition)) {
                 // Se há um card em edição, atualize-o
-                console.log('uppdate')
                 onUpdateCard(cardData);
             } else {
                 // Caso contrário, adicione um novo card
-                console.log('add')
                 onAddCard(cardData);
             }
 

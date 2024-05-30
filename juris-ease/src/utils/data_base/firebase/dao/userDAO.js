@@ -31,25 +31,18 @@ export const addUser = async (userData) => {
   const user = createUserByData(userData)
   const userRef = await getRef(`users/${userData.uid}`);
 
-  console.log('addUser:', user)
-
   set(userRef, user)
-    .then(() => {
-      console.log('Usuario adicionado com sucesso.');
-    })
+    .then()
     .catch((error) => {
       console.error('Erro ao adicionar usuario: ', error);
     });
 }
 
 export const removeUser = async (userUID) => {
-  console.log('removeUser:', userUID)
 
   const userRef = await getRef(`users/${userUID}`);
   remove(userRef)
-    .then(() => {
-      console.log('Serviço removido com sucesso.');
-    })
+    .then()
     .catch((error) => {
       console.error('Erro ao remover serviço: ', error);
     });
@@ -77,11 +70,8 @@ export const updateUser = async (user) => {
   user.updatedAt = getCurrentFormattedDate();
   const userRef = await getRef(`users/${user.uid}`);
 
-  console.log('updateUser:', user)
-
   try {
     update(userRef, user);
-    console.log("Usuario atualizado com sucesso.");
 
   } catch (error) {
     console.error("Erro ao atualizar o usuario:", error);

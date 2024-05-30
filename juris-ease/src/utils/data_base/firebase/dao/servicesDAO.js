@@ -14,26 +14,18 @@ export const addService = async (serviceData) => {
     const service = createServiceByData(serviceData)
     const serviceRef = await getRef(`services/${serviceID}`);
   
-    console.log('serviceData.createdAt: ', serviceData.createdAt)
-    console.log('addService:', service)
-  
     set(serviceRef, service)
-      .then(() => {
-        console.log('Serviço adicionado com sucesso.');
-      })
+      .then()
       .catch((error) => {
         console.error('Erro ao adicionar serviço: ', error);
       });
   }
   
   export const removeService = async (serviceId) => {
-    console.log('removeService:', serviceId)
   
     const serviceRef = await getRef(`services/${serviceId}`);
     remove(serviceRef)
-      .then(() => {
-        console.log('Serviço removido com sucesso.');
-      })
+      .then()
       .catch((error) => {
         console.error('Erro ao remover serviço: ', error);
       });
@@ -68,15 +60,11 @@ export const addService = async (serviceData) => {
   }
   
   export const updateService = async (serviceData) => {
-    console.log('updateService')
     serviceData.updatedAt = getCurrentFormattedDate();
-    console.log("service: ", serviceData)
-  
     const serviceRef = await getRef(`services/${serviceData.id}`);
   
     try {
       update(serviceRef, serviceData);
-      console.log("Serviço atualizado com sucesso.");
     } catch (error) {
       console.error("Erro ao atualizar o serviço:", error);
     }

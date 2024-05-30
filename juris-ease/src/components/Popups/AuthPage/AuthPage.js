@@ -26,7 +26,6 @@ function AuthPage({ onClose, auth }) {
         setError(data.error)
 
       } else {
-        console.log(data.user)
         setError(null)
         onClose()
         window.location.reload();
@@ -54,9 +53,22 @@ function AuthPage({ onClose, auth }) {
           setError(data.error)
 
         } else {
+          // Verifica se data.user existe, se não, cria um objeto vazio
+          if (!data.user) {
+            data.user = {};
+          }
+
+          // Define os atributos name, type e oab
           data.user.name = formData.name;
           data.user.type = auth;
           data.user.oab = formData.oab;
+
+          // Verifica se data.user.permissions existe, se não, cria um objeto vazio
+          if (!data.user.permissions) {
+            data.user.permissions = {};
+          }
+
+          // Define o atributo acessAdmin dentro de permissions
           data.user.permissions.acessAdmin = false;
 
           addUser(data.user)

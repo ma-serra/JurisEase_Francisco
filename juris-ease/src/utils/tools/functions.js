@@ -68,6 +68,7 @@ function allSameType(elements) {
 }
 
 function sum(elements, operation = 'sum') {
+    
     const type = allSameType(elements);
     if (type === 'error' || type === 'empty') {
         throw new Error("Elements are not of the same type or list is empty");
@@ -102,13 +103,16 @@ function sumMonetary(elements, operation) {
             const normalizedValue = parseNumber(val.replace(/[^\d.,]/g, ''));
             return acc - normalizedValue;
         }, initial);
-        return `R$ ${total.replace('.', ',')}`;
+        
+        return formatMonetary(total.toString().replace('.', ','))
     }
+
     const total = elements.reduce((acc, val) => {
         const normalizedValue = parseNumber(val.replace(/[^\d.,]/g, ''));
         return acc + normalizedValue;
     }, 0);
-    return `R$ ${total.replace('.', ',')}`;
+
+    return formatMonetary(total.toString().replace('.', ','))
 }
 
 function sumHours(elements, operation) {
@@ -155,7 +159,7 @@ function convertTo(result, type) {
             return parseFloat(result).toString().replace('.', ',');
 
         case 'monetary':
-            return `R$ ${parseFloat(result).toString().replace('.', ',')}`;
+            return formatMonetary(parseFloat(result).toString().replace('.', ','))
 
         case 'hour':
             const totalMinutes = result * 60;

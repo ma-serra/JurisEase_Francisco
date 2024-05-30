@@ -8,12 +8,11 @@ import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
 import { MdLibraryAdd } from 'react-icons/md';
-import { normalizeText } from '../../utils/tools/tools'
+import { expireAccess, normalizeText } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
 import DrawerTemplate from './DrawerTemplate/DrawerTemplate';
 
 function Template() {
-    const navigate = useNavigate();
     const [user, setUser] = useState(null);
 
     const [templatesBase, setTemplatesBase] = useState([]);
@@ -51,6 +50,11 @@ function Template() {
         });
     };
 
+    const navigate = useNavigate();
+    const navigateTo = (link) => {
+        navigate(`/${link}`);
+    };
+
     function handleAddTemplateClick(type) {
         setIsDrawerOpen(true);
         setDrawerType(type)
@@ -63,25 +67,28 @@ function Template() {
         setDrawerData(data)
     };
 
-    const breakAcess = () => {
-        if (!user) {
-            return;
-        }
-
-        if (!user.permissions.templates) {
-            alert('O usuário não tem permissão de acesso a essa página!');
-            navigate('');
-        }
-    };
-
     useEffect(() => {
         filterCards(search.trim());
     }, [search]);
 
     useEffect(() => {
-        if (user) {
-            breakAcess();
-        }
+        if (!user) return;
+
+        const checkAccess = () => {
+            if (!user.permissions?.templates) {
+                alert('Usuario não tem permissão de acesso a essa página!');
+                navigateTo('');
+                return;
+            }
+
+            if (expireAccess(user.expirationDate)) {
+                alert('Seu acesso expirou, por favor renove seu acesso!');
+                navigateTo('');
+                return;
+            }
+        };
+
+        checkAccess();
     }, [user]);
 
     useEffect(() => {
@@ -115,8 +122,6 @@ function Template() {
     return (
         <div className={`Template`}>
             <Header user={user} />
-
-            {user && (breakAcess())}
 
             {isDrawerOpen && (
                 <DrawerTemplate type={drawerType} data={drawerData} onClose={() => setIsDrawerOpen(false)} />

@@ -1,6 +1,5 @@
 export function formatNumbersWithTwoDecimals(input) {
     if (typeof input !== 'string') {
-        console.log(`formatNumbersWithTwoDecimals - ${typeof input} - ${input}`)
         return input 
 
     } else if (typeof input === 'number') {
@@ -27,19 +26,19 @@ export function formatNumbersWithTwoDecimals(input) {
 export const formatMonetary = (value) => {
     if (value && !/^R\$ \d+(\,\d+)?$/.test(value)) {
         // Remove todos os caracteres que não são dígitos ou vírgulas
-        const sanitizedValue = value.replace(/[^\d,]/g, '').replace(',', '.');
+        const sanitizedValue = value.replace(/[^\d,]/g, '');
 
-        // Tenta converter para número de ponto flutuante
-        const numberValue = parseFloat(sanitizedValue);
+        // Substitui a vírgula pelo ponto para criar um número de ponto flutuante válido
+        const numberValue = parseFloat(sanitizedValue.replace(',', '.'));
 
         if (!isNaN(numberValue)) {
-            // Converte de volta para string e mantém todas as casas decimais
+            // Converte de volta para string no formato monetário correto
             const formattedNumber = numberValue.toLocaleString('pt-BR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 20
-            }).replace('.', ',');
+                style: 'currency',
+                currency: 'BRL'
+            });
 
-            return `R$ ${formattedNumber}`;
+            return formattedNumber;
         }
     }
     return value || '';

@@ -1,47 +1,69 @@
 :root {
-    --scale: 0.401;
+    --scale: 0.75;
 }
 
-/* Adicionando uma media query para aumentar a fonte em telas grandes */
-@media screen and (min-width: 768px) {
+/* Adicionando uma media query para telas pequenas */
+@media screen and (max-width: 768px) {
     :root{
-        --scale: 0.475;
+        --scale: 0.46;
     }
 }
 
+/* // wid  lef - rig - top      
+// PDF  612 - 72 - 73 - 76
+// Word 610 - 72 - 74 - 76
+// App  612 - 73 - 74 - 77 */
+
 .sheet {
+    width: calc(216mm * var(--scale));
+    min-height: calc(297mm * var(--scale));
     background-color: white;
     margin: 0;
-    padding: 1.5em;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
+    padding-top: calc(21mm * var(--scale));
+    padding-left: calc(25mm * var(--scale));
+    padding-right: calc(25mm * var(--scale));
+    box-shadow: 0 0 1mm rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
+    box-sizing: border-box;
 }
 
 .sheet .content * {
     text-align: left;
     color: black;
-    font-size: calc(12pt * var(--scale)); /* Tamanho da fonte */
     margin: 0;
-    margin-top: calc(0.5cm * var(--scale));
-    margin-bottom: calc(0.5cm * var(--scale));
+    margin-top: calc(0.5cm * var(--scale)); /* Margem superior fixa */
+    margin-bottom: calc(0.5cm * var(--scale)); /* Margem inferior fixa */
+    font-size: calc(4.933mm * var(--scale));
+    text-align: justify;
+    word-break: break-word;
 }
 
 .sheet .content p {
     text-align: justify;
+    margin: 0; /* Remove as margens internas padrão dos parágrafos */
+    font-size: calc(4.933mm * var(--scale));
 }
 
-.sheet .content p {
-    height: 100%;
-    overflow: hidden;
+.sheet .content h1 {
+    font-size: calc(8.467mm * var(--scale));   /* Tamanho fixo da fonte para h1 (24pt) */
+    text-align: justify;
 }
 
 .sheet .content h2 {
-    font-size: calc(18pt * var(--scale)); /* Tamanho da fonte para h2 */
+    font-size: calc(6.352mm * var(--scale));   /* Tamanho fixo da fonte para h2 (18pt) */
+    text-align: justify;
 }
 
 .sheet .content h3 {
-    font-size: calc(16pt * var(--scale)); /* Tamanho da fonte para h3 */
+    font-size: calc(5.645mm * var(--scale));   /* Tamanho fixo da fonte para h3 (16pt) */
+    text-align: justify;
 }
 
 .sheet .content h4 {
-    font-size: calc(14pt * var(--scale)); /* Tamanho da fonte para h3 */
+    font-size: calc(4.933mm * var(--scale));   /* Tamanho fixo da fonte para h4 (14pt) */
+    text-align: justify;
+}
+
+/* Evita cortes no final da página */
+.sheet .content p, .sheet .content div {
+    page-break-inside: avoid;
 }

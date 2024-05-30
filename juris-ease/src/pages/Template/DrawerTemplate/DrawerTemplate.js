@@ -50,7 +50,6 @@ function DrawerTemplate({ type, data, onClose }) {
         const errrosForm = validateFormTemplate(template, type)
         setErrors(errrosForm)
         if (Object.keys(errrosForm).length === 0) {
-            console.log('Salvando')
             await addTemplate(template, type)
             onClose()
         }

@@ -23,7 +23,6 @@ export async function verifyPassword(email, password) {
   }
 
 export async function recoverPassword(email) {
-	console.log("recovery pass:", email)
 	await sendPasswordResetEmail(auth, email).then(() => {
 		alert('Um e-mail foi enviado para redefinição da senha. Por favor, verifique sua caixa de entrada e siga as instruções fornecidas.');
 

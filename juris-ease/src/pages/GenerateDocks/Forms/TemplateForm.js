@@ -55,11 +55,11 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
     const verifyFuncs = (updatedForm) => {
         templates.forEach(template => {
             const keysFuncs = template?.keys?.filter(key => key.type === 'function') || [];
-    
+            
             keysFuncs.forEach(key => {
                 const { operation, params: paramList } = key.function;
                 const params = [];
-    
+
                 paramList.forEach(param => {
                     const paramValues = extractParamValues(param, updatedForm);
                     params.push(...paramValues);

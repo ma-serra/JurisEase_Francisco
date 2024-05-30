@@ -6,7 +6,7 @@ import SelectTemplates from './SelectTemplates/SelectTemplates';
 import { formatDate, formatNumbersWithTwoDecimals } from '../../../../utils/tools/mask';
 import { isDate } from '../../../../utils/tools/functions';
 
-function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates }) {
+function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates, contentRef }) {
 
     function generateContent() {
         // Inicializa variáveis para armazenar os conteúdos concatenados
@@ -65,7 +65,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
 
             <ManagmentForms form={form} setForm={setForm} templates={templates} templateBase={templateBase} />
 
-            <SheetPreview content={content} />
+            <SheetPreview content={content} contentRef={contentRef}/>
         </div>
     );
 }

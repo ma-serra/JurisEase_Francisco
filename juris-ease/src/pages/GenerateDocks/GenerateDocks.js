@@ -1,5 +1,5 @@
 import './GenerateDocks.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Header from "../../components/Header/Header";
 
@@ -13,11 +13,13 @@ import Stage03 from './Forms/Stage_03/Stage_03';
 import Stage04 from './Forms/Stage_04/Stage_04';
 import Stage05 from './Forms/Stage_05/Stage_05';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
-import { compareArrays, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools';
+import { compareArrays, expireAccess, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools';
 import AlertDialog from '../../components/Popups/AlertDialog/AlertDialog';
 
 function GenerateDocks() {
     const [content, setContent] = useState('')
+    const contentRef = useRef(null);
+
     const [user, setUser] = useState(null);
     const [templateBase, setTemplateBase] = useState({})
     const [templatesSelected, setTemplatesSelected] = useState([]);
@@ -87,6 +89,7 @@ function GenerateDocks() {
                     form={form} setForm={setForm}
                     templateBase={templateBase} content={content} setContent={setContent}
                     templates={templatesSelected} setTemplates={setTemplatesSelected}
+                    contentRef={contentRef}
                 />;
             default:
                 return null;
@@ -171,11 +174,11 @@ function GenerateDocks() {
                     'tipo_usuario': userData.type === 'client' ? 'cliente' : 'advogado' || '',
                     'oab_usuario': userData.oab || '',
                     'telefone_usuario': userData.phoneNumber || '',
-                    'cep_usuario': userData.address.cep || '',
-                    'estado_usuario': userData.address.state || '',
-                    'cidade_usuario': userData.address.city || '',
-                    'logradouro_usuario': userData.address.state || '',
-                    'numero_casa_usuario': userData.address.street || '',
+                    'cep_usuario': userData.address?.cep || '',
+                    'estado_usuario': userData.address?.state || '',
+                    'cidade_usuario': userData.address?.city || '',
+                    'logradouro_usuario': userData.address?.state || '',
+                    'numero_casa_usuario': userData.address?.street || '',
                     'endereco_usuario': userData.address ? `${userData.address.street}, ${userData.address.number}, ${userData.address.city}, ${userData.address.state}, ${userData.address.cep}` : '',
                 }));
                 setUser(userData);
@@ -190,17 +193,6 @@ function GenerateDocks() {
         navigate(`/${link}`);
     };
 
-    const breakAcess = () => {
-        while (!user) {
-            setTimeout(500)
-        }
-
-        if (!user.permissions.document_generation) {
-            alert('Usuario não tem permissão de acesso a essa página!')
-            navigateTo('')
-        }
-    }
-
     function handleProcessFile() {
         setOpenFormatFile(!openFormatFile)
     }
@@ -208,8 +200,8 @@ function GenerateDocks() {
     const generatePDF = async () => {
         setOpenFormatFile(false)
         try {
-            const data = refactoreHTMLtoPDF(content)
-            await gerarPDF(data);
+            const htmlContent = contentRef.current.innerHTML;
+            await gerarPDF(htmlContent);
 
         } catch (error) {
             console.error('Erro ao gerar PDF:', error);
@@ -219,21 +211,37 @@ function GenerateDocks() {
     const generateDocx = async () => {
         setOpenFormatFile(false)
         try {
-            const data = refactoreHTMLtoPDF(content)
-            await gerarDOC(data);
+            const htmlContent = contentRef.current.innerHTML;
+            await gerarDOC(htmlContent);
 
         } catch (error) {
             console.error('Erro ao gerar PDF:', error);
         }
     };
 
+    useEffect(() => {
+        if (!user) return;
+
+        const checkAccess = () => {
+            if (!user.permissions?.document_generation) {
+                alert('Usuario não tem permissão de acesso a essa página!');
+                navigateTo('');
+                return;
+            }
+
+            if (expireAccess(user.expirationDate)) {
+                alert('Seu acesso expirou, por favor renove seu acesso!');
+                navigateTo('');
+                return;
+            }
+        };
+
+        checkAccess();
+    }, [user]);
+
     return (
         <div className="GenerateDocks">
             <Header user={user} />
-
-            {user && (
-                breakAcess()
-            )}
 
             <button className='bt-cancel' onClick={currentStage === 5 ? handleResetGeration : handleCancelGeration}>
                 <p>{currentStage === 5 ? "Iniciar novo" : "Cancelar"}</p>

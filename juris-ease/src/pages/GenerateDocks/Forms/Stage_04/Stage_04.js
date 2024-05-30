@@ -7,7 +7,7 @@ function Stage04({ form, setForm, templateBase }) {
     useEffect(() => {
         setForm(prevForm => ({
             ...prevForm,
-            '{{cidade_uf_vara_trabalho}}': form['{{cidade_uf_vara_trabalho}}'] || '',
+            'cidade_uf_vara_trabalho': form['cidade_uf_vara_trabalho'] || '',
         }));
     }, []);
 
@@ -23,8 +23,8 @@ function Stage04({ form, setForm, templateBase }) {
         <div className='form-stage'>
             <h2 className='title-form'>Vara do Trabalho (competência)</h2>
             <div className='form-group'>
-                <label htmlFor='{{cidade_uf_vara_trabalho}}'>Cidade/UF</label>
-                <input type='text' id='{{cidade_uf_vara_trabalho}}' name='{{cidade_uf_vara_trabalho}}' value={form['{{cidade_uf_vara_trabalho}}'] || ''} onChange={handleChange} />
+                <label htmlFor='cidade_uf_vara_trabalho'>Cidade/UF</label>
+                <input type='text' id='cidade_uf_vara_trabalho' name='cidade_uf_vara_trabalho' value={form['cidade_uf_vara_trabalho'] || ''} onChange={handleChange} />
             </div>
 
             <h2 className='title-form'>Dados extras</h2>

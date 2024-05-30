@@ -42,8 +42,5 @@ export function validateFormTemplate(form, type) {
         erros.typesResponsibilities = 'Por favor, preencha os tipos de responsabilidades para cada uma das reclamadas.'
     }
 
-    console.log(form)
-    console.log(erros)
-
     return erros
 }

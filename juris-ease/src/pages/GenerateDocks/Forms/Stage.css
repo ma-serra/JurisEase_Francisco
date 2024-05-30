@@ -89,41 +89,51 @@
 }
 
 .GenerateDocks .content-stage5 {
-    width: 94%;
+    width: 100%;
     margin-top: 1em;
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
     gap: 3em;
+    justify-content: space-evenly;
     overflow-x: scroll;
 }
 
-/* Adicionando uma media query para aumentar a fonte em telas grandes */
-@media screen and (min-width: 768px) {
-    .GenerateDocks .content-stage5 {
-        overflow-x: unset;
-    }
-}
-
-.GenerateDocks .forms-templates .title{
+.GenerateDocks .forms-templates .title {
     font-size: 12pt;
     margin-left: 10px;
     margin-right: 10px;
 }
 
 .GenerateDocks .SelectTemplate {
-    flex: 1;
+    padding-left: 3em;
+    min-width: 420px;
 }
 
 .GenerateDocks .forms-templates {
-    flex: 1;
+    min-width: 420px;
 }
 
 .GenerateDocks .SheetPreview {
-    flex: 1;
+    padding-right: 3em;
 }
 
-.GenerateDocks .SheetPreview .sheet {
-    min-width: 300px;
-    max-width: 498px;
-    min-height: 420px;
+/* Adicionando uma media query para telas pequenas */
+@media screen and (max-width: 768px) {
+    .GenerateDocks .content-stage5 {
+        gap: 1em;
+    }
+
+    .GenerateDocks .SelectTemplate {
+        padding-left: 1em;
+        min-width: 320px;
+    }
+    
+    .GenerateDocks .forms-templates {
+        min-width: 320px;
+    }
+    
+    .GenerateDocks .SheetPreview {
+        padding-right: 3em;
+    }
 }

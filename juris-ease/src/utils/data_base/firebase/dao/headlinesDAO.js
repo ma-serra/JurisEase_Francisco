@@ -13,26 +13,19 @@ export const  addHeadline = async (headlineData) => {
 
     const headline = createHeadlineByData(headlineData)
     const headlineRef = await getRef(`headlines/${headlineID}`);
-  
-    console.log('addHeadline:', headline)
-  
+    
     set(headlineRef, headline)
-      .then(() => {
-        console.log('Serviço adicionado com sucesso.');
-      })
+      .then()
       .catch((error) => {
         console.error('Erro ao adicionar serviço: ', error);
       });
   }
   
   export const removeHeadline = async (headlineId) => {
-    console.log('removeHeadline:', headlineId)
   
     const headlineRef = await getRef(`headlines/${headlineId}`);
     remove(headlineRef)
-      .then(() => {
-        console.log('Serviço removido com sucesso.');
-      })
+      .then()
       .catch((error) => {
         console.error('Erro ao remover serviço: ', error);
       });
@@ -50,16 +43,12 @@ export const  addHeadline = async (headlineData) => {
   }
   
   export const updateHeadline = async (headlineData) => {
-    console.log('updateHeadline')
     headlineData.updatedAt = getCurrentFormattedDate();
-    console.log("id: " + headlineData.id)
-    console.log('data:', headlineData)
   
     const headlineRef = await getRef(`headlines/${headlineData.id}`);
   
     try {
       update(headlineRef, headlineData);
-      console.log("Serviço atualizado com sucesso.");
     } catch (error) {
       console.error("Erro ao atualizar o serviço:", error);
     }

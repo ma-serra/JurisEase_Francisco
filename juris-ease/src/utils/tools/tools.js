@@ -5,11 +5,16 @@ const { Blob } = require('blob-polyfill');
 const { format, isAfter } = require('date-fns');
 const { ptBR } = require('date-fns/locale');
 
+// wid  lef - rig - top      
+// PDF  612 - 72 - 73 - 76
+// Word 610 - 72 - 74 - 76
+// App  612 - 73 - 74 - 77
+
 export async function gerarDOC(htmlString) {
 	return new Promise((resolve, reject) => {
 		try {
-			const docx = htmlDocx.asBlob(htmlString);
-			const blob = new Blob([docx], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+			const html = htmlDocx.asBlob(generateCSSToDocument(htmlString));
+			const blob = new Blob([html], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
 
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
@@ -27,41 +32,21 @@ export async function gerarDOC(htmlString) {
 
 export async function gerarPDF(htmlString) {
 	// Adiciona CSS para evitar quebra de parágrafos
-	const novoHTML = `
-    <style>
-        .page-break {
-            page-break-before: always;
-        }
-        .avoid-break {
-            page-break-inside: avoid;
-        }
-        p {
-            page-break-inside: avoid;
-            margin-bottom: 15px; /* Ajuste o espaçamento conforme necessário */
-        }
-    </style>
-    <div>
-      ${htmlString}
-    </div>
-  `;
+	const html = generateCSSToDocument(htmlString)
 
 	const opt = {
-		margin: [0.5, 0.5, 0.5, 0.5], // Ajuste as margens conforme necessário
+		margin: [0.8, 0.6, 0.5, 0.6], // top, left, down, rigth
 		filename: 'saida.pdf',
 		image: { type: 'jpeg', quality: 0.98 },
 		html2canvas: { scale: 2, useCORS: true },
 		jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
 	};
 
-	html2pdf().from(novoHTML).set(opt).toPdf().save('saida.pdf');
+	html2pdf().from(html).set(opt).toPdf().save('saida.pdf');
 }
 
-export function refactoreHTMLtoPDF(htmlString) {
-	htmlString = htmlString.replace("<p>", '<p class="avoid-break">')
-	htmlString = htmlString.replace("<h1>", '<h1 class="avoid-break">')
-	htmlString = htmlString.replace("<h2>", '<h2 class="avoid-break">')
-	htmlString = htmlString.replace("<h3>", '<h3 class="avoid-break">')
-	
+export function generateCSSToDocument(htmlString) {
+
 	// Adiciona as classes de estilo ao texto HTML
 	const novoHTML = `
 	<meta charset="UTF-8">
@@ -69,25 +54,42 @@ export function refactoreHTMLtoPDF(htmlString) {
       .content * {
         text-align: left;
         color: black;
-        font-size: 12pt; /* Tamanho da fonte */
-        line-height: 0.5cm; /* Espaçamento entre linhas */
+        margin: 0;
+        margin-top: 0.5cm;
+        margin-bottom: 0.5cm;
+        font-size: 12pt;
+        text-align: justify;
       }
 
 	  .content p {
         text-align: justify;
+        margin: 0;
+        font-size: 12pt;
       }
 
       .content h1 {
-        font-size: 24pt; /* Tamanho da fonte para h1 */
+		text-align: justify;
+		font-size: 18pt;
       }
 
       .content h2 {
-        font-size: 18pt; /* Tamanho da fonte para h2 */
+		text-align: justify;
+		font-size: 18pt;
       }
 
       .content h3 {
-        font-size: 16pt; /* Tamanho da fonte para h3 */
+		text-align: justify;
+		font-size: 16pt;
       }
+
+	  .content h4 {
+		text-align: justify;
+        font-size: 14pt;
+      }
+
+	  .content p, .content div {
+		page-break-inside: avoid;
+	  }
     </style>
       
     <div class="content">
@@ -278,3 +280,15 @@ export function compareArrays(array1, array2) {
 	// Se chegou até aqui, os arrays são iguais
 	return true;
 }
+
+export const expireAccess = (inputDate) => {
+    // Converte a data atual para um objeto Date e zera as horas, minutos, segundos e milissegundos
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Converte a data de entrada para um objeto Date
+    const dateToCheck = new Date(inputDate);
+
+    // Compara as datas
+    return dateToCheck < today;
+};

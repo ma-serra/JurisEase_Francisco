@@ -7,7 +7,7 @@ import { getUser, getUsers, updateUser } from '../../utils/data_base/firebase/da
 import Header from '../../components/Header/Header';
 import { FaPencilAlt } from 'react-icons/fa';
 import { AiFillCaretLeft, AiFillCaretRight, AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
-import { checkBlocked, convertDateToPtBr } from '../../utils/tools/tools';
+import { checkBlocked, convertDateToPtBr, expireAccess } from '../../utils/tools/tools';
 
 
 function ManegeUsers() {
@@ -25,7 +25,6 @@ function ManegeUsers() {
     async function buscarUsuarios() {
         try {
             const usersData = await getUsers();
-            console.log("Users:", usersData);
             setUsers(usersData);
             return usersData;
         } catch (error) {
@@ -116,17 +115,6 @@ function ManegeUsers() {
         navigate(`/${link}`);
     };
 
-    const breakAcess = () => {
-        while (!user) {
-            setTimeout(500)
-        }
-
-        if (!user.permissions.manege_users) {
-            alert('Usuario não tem permissão de acesso a essa página!')
-            navigateTo('')
-        }
-    }
-
     // Lógica para calcular os índices do usuário atual exibido
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -136,12 +124,34 @@ function ManegeUsers() {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    useEffect(() => {
+        if (!user) return;
+
+        const checkAccess = () => {
+            if (!user.permissions?.manege_users) {
+                alert('Usuario não tem permissão de acesso a essa página!');
+                navigateTo('');
+                return;
+            }
+
+            if (!user.permissions?.acessAdmin) {
+                alert('Usuario não tem permissão de acesso a essa página!');
+                navigateTo('');
+                return;
+            }
+
+            if (expireAccess(user.expirationDate)) {
+                alert('Seu acesso expirou, por favor renove seu acesso!');
+                navigateTo('');
+                return;
+            }
+        };
+
+        checkAccess();
+    }, [user]);
+
     return (
         <div className={`ManegeUsers`}>
-            {user && (
-                breakAcess()
-            )}
-
             <Header user={user} />
 
             <div className='content'>
