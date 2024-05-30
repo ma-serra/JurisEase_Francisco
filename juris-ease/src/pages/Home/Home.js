@@ -9,6 +9,7 @@ import ActivitiesBoard from '../../components/ActivitiesBoard/ActivitiesBoard';
 import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
 import { getUser, updateUser } from '../../utils/data_base/firebase/dao/userDAO'
 import { getCurrentFormattedDate } from '../../utils/tools/tools';
+import ChatDrawer from '../../components/ChatDrawer/ChatDrawer';
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -36,6 +37,7 @@ function Home() {
 
   return (
     <div className={`Home`}>
+      <ChatDrawer />
       <Header user={user} />
       <LawyerSection />
       <ActivitiesBoard />

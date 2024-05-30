@@ -1,34 +1,24 @@
 import './ChatDrawer.css'
 import React, { useState } from 'react';
+import { RiChat1Fill } from "react-icons/ri";
 
-import Search from '../Search/Search';
+function ChatDrawer() {
 
-function ChatDrawer({ device }) {
-  const [isOpen, setIsOpen] = useState(false);
+    const [open, setOpen] = useState(false)
 
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
+    return (
+        <div className='ChatDrawer'>
+            <div className='content-header' onClick={() => { setOpen(!open) }}>
+                <p className='title'>Mensagens </p>
+                <RiChat1Fill className='icon-chat' />
+            </div>
 
-  return (
-    <div className={`content-chat-drawer ${device}`}>
-      <div className={`content-drawer ${isOpen ? 'open' : 'close'}`}>
-        <button className="close-button" onClick={toggleDrawer}>
-          X
-        </button>
-        <h1>Chat Menssager</h1>
-        <Search />
-        
-        <div className="chat-content">
-          <p>Em desenvolvimento</p>
-        </div>
-      </div>
-
-      <button className="chat-button" onClick={toggleDrawer}>
-
-      </button>
-    </div>
-  );
+            {open && (
+                <div className='content-chat'></div>
+            )}
+            
+        </div >
+    );
 }
 
 export default ChatDrawer;
