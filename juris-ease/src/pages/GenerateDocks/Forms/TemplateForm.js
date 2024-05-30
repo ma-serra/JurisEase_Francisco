@@ -105,7 +105,7 @@ function TemplateForm({ templates, templateForm, form, setForm }) {
 
     return (
         templateForm?.keys?.map(key => {
-            if (['text', 'monetary', 'date', 'number', "hour", 'function'].includes(key.type)) {
+            if (['text', 'monetary', 'date', 'number', "hour"].includes(key.type)) {
                 return (
                     <div className='form-group' key={key.id}>
                         <label htmlFor={key.id}>{key.id}:</label>

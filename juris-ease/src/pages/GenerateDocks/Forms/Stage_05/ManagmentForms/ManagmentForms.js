@@ -21,7 +21,6 @@ function ManagmentForms({ form, setForm, templates, templateBase, currentIndex, 
     };
 
     useEffect(() => {
-        console.log(currentIndex)
         setCurrentTemplate(templates[currentIndex] || {});
     }, [currentIndex]);
 

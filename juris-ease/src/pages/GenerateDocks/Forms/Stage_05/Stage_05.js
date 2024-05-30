@@ -1,5 +1,5 @@
 import '../Stage.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SheetPreview from './SheetPreview/SheetPreview';
 import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
@@ -8,6 +8,7 @@ import { isDate } from '../../../../utils/tools/functions';
 
 function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates, contentRef }) {
 
+    const contentScrollRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     function generateContent() {
@@ -78,8 +79,27 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
         replaceKeys()
     }, [form]);
 
+    useEffect(() => {
+        const handleMouseMove = (event) => {
+            const rect = contentScrollRef.current.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+
+            if (mouseX < 50) {
+                contentScrollRef.current.scrollLeft -= 15;
+            } else if (mouseX > rect.width - 50) {
+                contentScrollRef.current.scrollLeft += 15;
+            }
+        };
+
+        contentScrollRef.current.addEventListener('mousemove', handleMouseMove);
+
+        return () => {
+            contentScrollRef.current.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, [contentScrollRef]);
+
     return (
-        <div className='content-stage5'>
+        <div className='content-stage5' ref={contentScrollRef}>
             <SelectTemplates templatesSelected={templates} setTemplatesSelected={setTemplates} onChange={replaceKeys} setCurrentIndex={setCurrentIndex} clearFormTemplate={clearFormTemplate} />
 
             <ManagmentForms form={form} setForm={setForm} templates={templates} templateBase={templateBase} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
