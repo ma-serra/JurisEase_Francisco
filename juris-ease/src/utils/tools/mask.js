@@ -47,7 +47,7 @@ export const formatMonetary = (value) => {
             return formattedNumber;
         }
     }
-    return value || '';
+    return '';
 };
 
 // Função para formatar o valor hour, se necessário

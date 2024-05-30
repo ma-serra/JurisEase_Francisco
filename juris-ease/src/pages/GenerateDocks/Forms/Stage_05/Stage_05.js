@@ -1,5 +1,5 @@
 import '../Stage.css'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SheetPreview from './SheetPreview/SheetPreview';
 import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
@@ -7,6 +7,8 @@ import { formatDate, formatNumbersWithTwoDecimals } from '../../../../utils/tool
 import { isDate } from '../../../../utils/tools/functions';
 
 function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates, contentRef }) {
+
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     function generateContent() {
         // Inicializa variáveis para armazenar os conteúdos concatenados
@@ -55,17 +57,34 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
         setContent(content)
     }
 
+    function clearFormTemplate(template) {
+        setForm(prevState => {
+            if (!template || !Array.isArray(template.keys)) {
+                return prevState;
+            }
+    
+            const updatedForm = { ...prevState };
+            template.keys.forEach(key => {
+                if (key.id) {
+                    updatedForm[key.id] = "";
+                }
+            });
+    
+            return updatedForm;
+        });
+    }
+
     useEffect(() => {
         replaceKeys()
     }, [form]);
 
     return (
         <div className='content-stage5'>
-            <SelectTemplates templatesSelected={templates} setTemplatesSelected={setTemplates} onChange={replaceKeys}/>
+            <SelectTemplates templatesSelected={templates} setTemplatesSelected={setTemplates} onChange={replaceKeys} setCurrentIndex={setCurrentIndex} clearFormTemplate={clearFormTemplate} />
 
-            <ManagmentForms form={form} setForm={setForm} templates={templates} templateBase={templateBase} />
+            <ManagmentForms form={form} setForm={setForm} templates={templates} templateBase={templateBase} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
 
-            <SheetPreview content={content} contentRef={contentRef}/>
+            <SheetPreview content={content} contentRef={contentRef} />
         </div>
     );
 }

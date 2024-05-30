@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import TemplateForm from '../../TemplateForm';
 
-function ManagmentForms({ form, setForm, templates, templateBase }) {
+function ManagmentForms({ form, setForm, templates, templateBase, currentIndex, setCurrentIndex }) {
 
     const [currentTemplate, setCurrentTemplate] = useState({});
-    const [currentIndex, setCurrentIndex] = useState(0);
+    
 
     const handleNext = () => {
         if (currentIndex < templates.length - 1) {
@@ -21,8 +21,9 @@ function ManagmentForms({ form, setForm, templates, templateBase }) {
     };
 
     useEffect(() => {
+        console.log(currentIndex)
         setCurrentTemplate(templates[currentIndex] || {});
-    }, [templates, currentIndex]);
+    }, [currentIndex]);
 
     return (
         <div className='forms-templates'>

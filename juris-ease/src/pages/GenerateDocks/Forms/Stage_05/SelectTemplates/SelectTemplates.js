@@ -2,7 +2,7 @@ import './SelectTemplates.css'
 import React, { useEffect, useState } from 'react';
 import { getTemplates } from '../../../../../utils/data_base/firebase/dao/templateDAO';
 
-function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange}) {
+function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange, setCurrentIndex, clearFormTemplate}) {
     const [templates, setTemplates] = useState([]);
     const [filteredTemplates, setFilteredTemplates] = useState([]);
     const [rout, setRout] = useState([]);
@@ -34,8 +34,11 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange}) {
 
         if (isTemplateSelected) {
             setTemplatesSelected(prevTemplatesSelected => prevTemplatesSelected.filter(item => item.id !== template.id));
+            setCurrentIndex(templatesSelected.length-2)
+            clearFormTemplate(template)
         } else {
             setTemplatesSelected(prevTemplatesSelected => [...prevTemplatesSelected, template]);
+            setCurrentIndex(templatesSelected.length)
         }
 
         onChange()
