@@ -21,8 +21,8 @@ function ManagmentForms({ form, setForm, templates, templateBase, currentIndex, 
     };
 
     useEffect(() => {
-        setCurrentTemplate(templates[currentIndex] || {});
-    }, [currentIndex]);
+        setCurrentTemplate(templates ? templates[currentIndex] : {});
+    }, [currentIndex, templates]);
 
     return (
         <div className='forms-templates'>
@@ -30,7 +30,7 @@ function ManagmentForms({ form, setForm, templates, templateBase, currentIndex, 
                 <button className='next-form' onClick={handleBack}>
                     <SlArrowLeft />
                 </button>
-                <h2 className='title'>{currentTemplate.title || "Selecione um template"}</h2>
+                <h2 className='title'>{currentTemplate?.title || "Selecione um template"}</h2>
                 <button className='prev-form' onClick={handleNext}>
                     <SlArrowRight />
                 </button>

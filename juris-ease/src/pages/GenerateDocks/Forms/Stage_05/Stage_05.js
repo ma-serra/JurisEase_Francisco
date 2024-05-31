@@ -94,7 +94,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
         contentScrollRef.current.addEventListener('mousemove', handleMouseMove);
 
         return () => {
-            contentScrollRef.current.removeEventListener('mousemove', handleMouseMove);
+            contentScrollRef.current?.removeEventListener('mousemove', handleMouseMove);
         };
     }, [contentScrollRef]);
 

@@ -2,7 +2,7 @@ import './SelectTemplates.css'
 import React, { useEffect, useState } from 'react';
 import { getTemplates } from '../../../../../utils/data_base/firebase/dao/templateDAO';
 
-function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange, setCurrentIndex, clearFormTemplate}) {
+function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange, setCurrentIndex, clearFormTemplate }) {
     const [templates, setTemplates] = useState([]);
     const [filteredTemplates, setFilteredTemplates] = useState([]);
     const [rout, setRout] = useState([]);
@@ -29,16 +29,25 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange, se
         return filteredTemplates;
     };
 
-    const handleCardClick = (template) => {
+    const handleCardClick = async (template) => {
         const isTemplateSelected = verifyIncludes(templatesSelected, template)
 
         if (isTemplateSelected) {
-            setTemplatesSelected(prevTemplatesSelected => prevTemplatesSelected.filter(item => item.id !== template.id));
-            setCurrentIndex(templatesSelected.length-2)
+            await setTemplatesSelected(prev => {
+                const updateTemplates = prev.filter(item => item.id !== template.id)  // Pegando todos menos o que foi clicado
+                return updateTemplates
+            })
+
+            setCurrentIndex(templatesSelected.length-2) // Pega o index do penultimo template selecionado
             clearFormTemplate(template)
         } else {
-            setTemplatesSelected(prevTemplatesSelected => [...prevTemplatesSelected, template]);
-            setCurrentIndex(templatesSelected.length)
+            await setTemplatesSelected(prev => {
+                const updateTemplates = prev ? [...prev] : [] 
+                updateTemplates.push(template)
+                return updateTemplates
+            })
+
+            setCurrentIndex(templatesSelected.length) // Pega o index do penultimo template selecionado
         }
 
         onChange()
@@ -52,13 +61,13 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange, se
 
         const filtered = rout.length ? filterTemplatesByRout(rout, templates) : templates
         setFilteredTemplates(filtered);
-    
+
         const routOptions = new Set();
         filtered.forEach(template => {
             const option = template.rout[rout.length];
             routOptions.add(option);
         });
-    
+
         setOptions(Array.from(routOptions));
     };
 
@@ -102,7 +111,7 @@ function SelectTemplates({ templatesSelected, setTemplatesSelected, onChange, se
 
             <div className='content-cards'>
                 {filteredTemplates.map((template, index) => (
-                    <div key={index} className={`card-template ${verifyIncludes(templatesSelected, template) ? "selected" : ""}`} onClick={() => {handleCardClick(template)}}>
+                    <div key={index} className={`card-template ${verifyIncludes(templatesSelected, template) ? "selected" : ""}`} onClick={() => { handleCardClick(template) }}>
                         <h1 className='title'>{template.title}</h1>
                         <p className='rout'>{template.rout}</p>
                     </div>
