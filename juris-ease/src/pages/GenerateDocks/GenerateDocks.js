@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Header from "../../components/Header/Header";
 
-import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
-import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
 import { useNavigate } from 'react-router-dom';
 
 import Stage01 from './Forms/Stage_01/Stage_01';
@@ -13,15 +11,14 @@ import Stage03 from './Forms/Stage_03/Stage_03';
 import Stage04 from './Forms/Stage_04/Stage_04';
 import Stage05 from './Forms/Stage_05/Stage_05';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
-import { compareArrays, expireAccess, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools';
+import { compareArrays, expireAccess, gerarDOC, gerarPDF } from '../../utils/tools/tools';
 import AlertDialog from '../../components/Popups/AlertDialog/AlertDialog';
-import { useReloadListener } from '../../hook/hooks';
 
-function GenerateDocks() {
+
+function GenerateDocks({ user }) {
     const [content, setContent] = useState('')
     const contentRef = useRef(null);
 
-    const [user, setUser] = useState(null);
     const [templateBase, setTemplateBase] = useState({})
     const [templatesSelected, setTemplatesSelected] = useState([]);
     const [currentStage, setCurrentStage] = useState(1);
@@ -161,33 +158,22 @@ function GenerateDocks() {
         return typeTerminationMatch && numberOfComplaintsMatch && typesResponsibilitiesMatch;
     }
 
-
     useEffect(() => {
-        const fetchData = async () => {
-            const isAuthenticated = isUserAuthenticated();
-
-            if (isAuthenticated) {
-                const userData = await getUser(isAuthenticated);
-                setForm(prevForm => ({
-                    ...prevForm,
-                    'nome_usuario': userData.name || '',
-                    'email_usuario': userData.email || '',
-                    'tipo_usuario': userData.type === 'client' ? 'cliente' : 'advogado' || '',
-                    'oab_usuario': userData.oab || '',
-                    'telefone_usuario': userData.phoneNumber || '',
-                    'cep_usuario': userData.address?.cep || '',
-                    'estado_usuario': userData.address?.state || '',
-                    'cidade_usuario': userData.address?.city || '',
-                    'logradouro_usuario': userData.address?.state || '',
-                    'numero_casa_usuario': userData.address?.street || '',
-                    'endereco_usuario': userData.address ? `${userData.address.street}, ${userData.address.number}, ${userData.address.city}, ${userData.address.state}, ${userData.address.cep}` : '',
-                }));
-                setUser(userData);
-            }
-        };
-
-        fetchData();
-    }, []);
+        setForm(prevForm => ({
+            ...prevForm,
+            'nome_usuario': user.name || '',
+            'email_usuario': user.email || '',
+            'tipo_usuario': user.type === 'client' ? 'cliente' : 'advogado' || '',
+            'oab_usuario': user.oab || '',
+            'telefone_usuario': user.phoneNumber || '',
+            'cep_usuario': user.address?.cep || '',
+            'estado_usuario': user.address?.state || '',
+            'cidade_usuario': user.address?.city || '',
+            'logradouro_usuario': user.address?.state || '',
+            'numero_casa_usuario': user.address?.street || '',
+            'endereco_usuario': user.address ? `${user.address.street}, ${user.address.number}, ${user.address.city}, ${user.address.state}, ${user.address.cep}` : '',
+        }));
+    }, [user.address, user.email, user.name, user.oab, user.phoneNumber, user.type])
 
     function handleProcessFile() {
         setOpenFormatFile(!openFormatFile)

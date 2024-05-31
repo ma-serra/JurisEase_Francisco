@@ -5,7 +5,7 @@ import { signIn, register, recoverPassword } from '../../../utils/data_base/fire
 import { addUser } from '../../../utils/data_base/firebase/dao/userDAO'
 import { validarOAB } from '../../../utils/tools/tools'
 
-function AuthPage({ onClose, auth }) {
+function AuthPage({ onClose, auth, fetchUser }) {
   const initialFormData = {
     name: '',
     email: '',
@@ -28,7 +28,7 @@ function AuthPage({ onClose, auth }) {
       } else {
         setError(null)
         onClose()
-        window.location.reload();
+        fetchUser()
       }
 
     } else {
@@ -41,10 +41,10 @@ function AuthPage({ onClose, auth }) {
       if (formData.password === formData.confirmPassword) {
 
         if (auth !== 'client') {
-          const oabValidationResult = validarOAB(formData.oab);
-          if (!oabValidationResult) {
-            setError('O número da OAB não é inválido: ex: CE 99999');
-            return;
+          const validateOAB = validarOAB(formData.oab)
+          if (validateOAB !== true) {
+            setError(validateOAB)
+            return
           }
         }
 
@@ -74,7 +74,7 @@ function AuthPage({ onClose, auth }) {
           addUser(data.user)
           setError(null)
           onClose()
-          window.location.reload();
+          fetchUser()
         }
 
       } else {
@@ -191,7 +191,7 @@ function AuthPage({ onClose, auth }) {
           )}
         </form>
         {isLogin && (
-          <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? Clique aqui!</p>
+          <p className='forgot-password' onClick={forgotPassword}>Esqueceu sua senha? <u>Clique aqui!</u></p>
         )}
         <p>
           {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}

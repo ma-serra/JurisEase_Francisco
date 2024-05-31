@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthPage from '../Popups/AuthPage/AuthPage'
 import UserManagement from '../Popups/UserManagement/UserManagement'
 
-function Header({ user }) {
+function Header({ user, fetchUser }) {
     const [openLoginOptions, setOpenLoginOptions] = useState(false);  // Menu com as opções de login
     const [openLoginAuth, setOpenLoginAuth] = useState(false)  // Abrir popupLogin
     const [loginType, setLoginType] = useState()  // tipo de login
@@ -57,7 +57,7 @@ function Header({ user }) {
             )}
 
             {openLoginAuth && (
-                <AuthPage onClose={() => setOpenLoginAuth(false)} auth={loginType} />
+                <AuthPage onClose={() => setOpenLoginAuth(false)} auth={loginType} fetchUser={fetchUser}/>
             )}
 
             {user && (
@@ -75,14 +75,14 @@ function Header({ user }) {
                             {user.permissions.manege_users && (
                                 <p onClick={() => { navigateTo('manege-users') }}>Gerenciar Usuários</p>
                             )}
-                            <p onClick={() => { logout(); window.location.reload(); }}>Sair</p>
+                            <p onClick={() => { logout(); window.location.reload() }}>Sair</p>
                         </div>
                     )}
                 </div>
             )}
 
             {openUserManagement && (
-                <UserManagement onClose={() => setOpenUserManagement(false)} user={user} />
+                <UserManagement onClose={() => setOpenUserManagement(false)} user={user} fetchUser={fetchUser}/>
             )}
         </header>
     );

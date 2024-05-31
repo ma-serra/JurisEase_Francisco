@@ -1,41 +1,13 @@
 import './ActivitiesBoard.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Search from '../Search/Search';
 import ServicesSection from './Services/ServicesSection';
 import HeadlinesSection from './Headlines/HeadlinesSection';
 
-import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
-import { getUser } from '../../utils/data_base/firebase/dao/userDAO';
 
-function ActivitiesBoard() {
+function ActivitiesBoard({ user }) {
     const [search, setSearch] = useState('');
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const auth = await isUserAuthenticated();
-
-                if (auth) {
-                    const userData = await getUser(auth);
-
-                    if (userData) {
-                        setUser(userData);
-
-                    } else {
-                        console.error("Erro ao obter dados do usuário. Usuário é null.");
-                    }
-                } else {
-                    console.log("Erro de autenticação: Auth auth não encontrado.");
-                }
-            } catch (error) {
-                console.log("Erro ao buscar dados:", error);
-            }
-        }
-
-        fetchData();
-    }, []);
 
     return (
         <section className={`ActivitiesBoard`}>

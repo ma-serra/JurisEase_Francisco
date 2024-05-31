@@ -2,17 +2,15 @@ import './ManegeUsers.css'
 import React, { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
-import { getUser, getUsers, updateUser } from '../../utils/data_base/firebase/dao/userDAO';
+import { getUsers, updateUser } from '../../utils/data_base/firebase/dao/userDAO';
 import Header from '../../components/Header/Header';
 import { FaPencilAlt } from 'react-icons/fa';
 import { AiFillCaretLeft, AiFillCaretRight, AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { checkBlocked, convertDateToPtBr, expireAccess } from '../../utils/tools/tools';
 
 
-function ManegeUsers() {
+function ManegeUsers({ user }) {
 
-    const [user, setUser] = useState(null);
     const [formUser, setFormUser] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(10);
@@ -86,24 +84,6 @@ function ManegeUsers() {
             return updatedUser;
         });
     };
-
-    useEffect(() => {
-        async function fetchUser() {
-            try {
-                const isAuthenticated = isUserAuthenticated();
-    
-                if (isAuthenticated) {
-                    const userData = await getUser(isAuthenticated);
-                    setUser(userData);
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        }
-    
-        fetchUser();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     
     useEffect(() => {
         obterEstatisticasUsuarios();

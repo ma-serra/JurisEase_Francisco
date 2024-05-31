@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { translateName, validarOAB } from '../../../utils/tools/tools'
 import { updateUser } from '../../../utils/data_base/firebase/dao/userDAO'
 import { recoverPassword, logout, verifyPassword } from '../../../utils/data_base/firebase/authentication'
+import AlertDialog from '../AlertDialog/AlertDialog';
 
-function UserManagement({ onClose, user }) {
+function UserManagement({ onClose, user, fetchUser }) {
 
     const initialFormData = {
         name: user.name,
@@ -69,15 +70,18 @@ function UserManagement({ onClose, user }) {
 
             if (user.type === 'lawyer') {
                 const validateOAB = validarOAB(formData.oab)
-                if (!validateOAB) {
-                    throw new Error('Número da OAB inválido!')
+                console.log(validateOAB)
+                if (validateOAB !== true) {
+                    throw new Error(validateOAB)
                 }
             }
 
             const newUser = updateUserWithFormData(user, formData)
             updateUser(newUser)
             setError(null)
-            window.location.reload();
+            fetchUser()
+            AlertDialog.show("Dados alterados com sucesso!")
+            onClose()
 
         } catch (e) {
             setError(e.message)

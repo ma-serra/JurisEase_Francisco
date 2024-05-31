@@ -34,6 +34,15 @@
   width: 70%;
 }
 
+.auth-page p {
+  text-align: center;
+}
+
+.auth-page p u{
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .auth-page h1 {
   font-size: 24px;
   margin-bottom: 20px;
@@ -49,7 +58,7 @@
 }
 
 .auth-page .form-group input {
-  width: 90%;
+  width: 95%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid var(--gray-30);

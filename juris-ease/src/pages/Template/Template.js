@@ -12,9 +12,8 @@ import { expireAccess, normalizeText } from '../../utils/tools/tools'
 import { useNavigate } from 'react-router-dom';
 import DrawerTemplate from './DrawerTemplate/DrawerTemplate';
 
-function Template() {
-    const [user, setUser] = useState(null);
 
+function Template({ user }) {
     const [templatesBase, setTemplatesBase] = useState([]);
     const [templatesEspecific, setTemplatesEspecific] = useState([]);
 
@@ -90,23 +89,6 @@ function Template() {
 
         checkAccess();
     }, [user]);
-
-    useEffect(() => {
-        async function fetchUser() {
-            try {
-                const isAuthenticated = isUserAuthenticated();
-
-                if (isAuthenticated) {
-                    const userData = await getUser(isAuthenticated);
-                    setUser(userData);
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        }
-
-        fetchUser();
-    }, []);
 
     useEffect(() => {
         const fetchTemplatesAndListen = (type, setTemplatesType) => {

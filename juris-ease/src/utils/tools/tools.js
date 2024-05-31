@@ -155,11 +155,9 @@ const extractParamValues = (id, param, updatedForm) => {
 	} else if (param.type === 'contains') {
 		const keys = Object.keys(updatedForm).filter(k => k.includes(param.value));
 		keys.forEach(k => {
-			console.log("id:", id)
 			if(id !== k) {
 				const value = updatedForm[k]
 				if (value) {
-					console.log(k, value)
 					values.push(value);
 				}
 			}
@@ -286,14 +284,30 @@ export function convertDateToPtBr(dateOrTimestamp) {
 
 }
 
-export const validarOAB = (numeroOAB) => {
-	const oabPattern = /^[A-Z]{2}\d{4,5}$/;
+export function validarOAB(oab) {
+    // Lista de estados válidos
+    const estadosValidos = ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
 
-	if (oabPattern.test(numeroOAB)) {
-		return true;
-	} else {
-		return false;
-	}
+    // Expressão regular para validar o formato
+    const regex = /^([A-Z]{2})\s?(\d{1,6})$/i;
+
+    // Verifica o formato
+    const match = oab.match(regex);
+    if (!match) {
+        return "Formato inválido - ex: CE 1045";
+    }
+
+    // Extrai o estado e o número
+    const estado = match[1].toUpperCase();
+    const numero = match[2];
+
+    // Verifica se o estado é válido
+    if (!estadosValidos.includes(estado)) {
+        return "Estado inválido - ex: CE 1045";
+    }
+
+    // Se passar todas as verificações
+    return true;
 }
 
 const CryptoJS = require('crypto-js');
