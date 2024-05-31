@@ -1,4 +1,5 @@
 import html2pdf from 'html2pdf.js';
+import { functions } from './functions';
 
 const htmlDocx = require('html-docx-js/dist/html-docx');
 const { Blob } = require('blob-polyfill');
@@ -138,6 +139,82 @@ export function extractKeys(texto) {
 	// Retornar um array com as chaves extraídas
 	return chaves;
 }
+
+const extractParamValues = (id, param, updatedForm) => {
+	const values = [];
+
+	if (param.type === 'value') {
+		values.push(param.value);
+
+	} else if (param.type === 'key') {
+		const value = updatedForm[param.value];
+		if (value) {
+			values.push(value);
+		}
+
+	} else if (param.type === 'contains') {
+		const keys = Object.keys(updatedForm).filter(k => k.includes(param.value));
+		keys.forEach(k => {
+			console.log("id:", id)
+			if(id !== k) {
+				const value = updatedForm[k]
+				if (value) {
+					console.log(k, value)
+					values.push(value);
+				}
+			}
+		});
+
+	} else if (param.type === 'start with') {
+		const keys = Object.keys(updatedForm).filter(k => k.startsWith(param.value));
+		keys.forEach(k => {
+			if(id !== k) {
+				const value = updatedForm[k]
+				if (value) {
+					values.push(value);
+				}
+			}
+		});
+
+	} else if (param.type === 'end with') {
+		const keys = Object.keys(updatedForm).filter(k => k.endsWith(param.value));
+		keys.forEach(k => {
+			if(id !== k) {
+				const value = updatedForm[k]
+				if (value) {
+					values.push(value);
+				}
+			}
+		});
+	}
+
+	return values;
+};
+
+export const verifyFuncs = (templates, updatedForm) => {
+	templates.forEach(template => {
+		const keysFuncs = template?.keys?.filter(key => key.type === 'function') || [];
+
+		keysFuncs.forEach(key => {
+			const { operation, params: paramList } = key.function;
+			const params = [];
+
+			paramList.forEach(param => {
+				const paramValues = extractParamValues(key.id, param, updatedForm);
+				params.push(...paramValues);
+			});
+
+			let result;
+			try {
+				result = functions[operation].execute(params);
+			} catch (e) {
+				result = '';
+			}
+
+			updatedForm[key.id] = result;
+		});
+	});
+};
 
 export function generateCustomID(prefix) {
 	const timestamp = new Date().getTime();
@@ -282,13 +359,50 @@ export function compareArrays(array1, array2) {
 }
 
 export const expireAccess = (inputDate) => {
-    // Converte a data atual para um objeto Date e zera as horas, minutos, segundos e milissegundos
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+	// Converte a data atual para um objeto Date e zera as horas, minutos, segundos e milissegundos
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
 
-    // Converte a data de entrada para um objeto Date
-    const dateToCheck = new Date(inputDate);
+	// Converte a data de entrada para um objeto Date
+	const dateToCheck = new Date(inputDate);
 
-    // Compara as datas
-    return dateToCheck < today;
+	// Compara as datas
+	return dateToCheck < today;
 };
+
+// Função para obter um identificador único do dispositivo
+function getDeviceId() {
+    // Gere um identificador único do dispositivo, por exemplo, usando um UUID
+    // Aqui, estou usando um UUID simples para demonstração
+    let deviceId = localStorage.getItem('deviceId');
+    if (!deviceId) {
+        deviceId = generateUUID();
+        localStorage.setItem('deviceId', deviceId);
+    }
+    return deviceId;
+}
+
+// Função para gerar um UUID (identificador único universal)
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+// Verifica se o dispositivo atual é o mesmo que o último acessado
+function checkDevice() {
+    const storedDeviceId = localStorage.getItem('lastDeviceId');
+    const currentDeviceId = getDeviceId();
+
+    if (storedDeviceId && storedDeviceId !== currentDeviceId) {
+        // Se o dispositivo atual for diferente do armazenado, faça logout
+        // Aqui você pode implementar sua lógica de logout
+        alert('Você está acessando de um dispositivo diferente. Você será desconectado.');
+        // Implemente sua lógica de logout aqui, como redirecionar para a página de login ou limpar os cookies de autenticação.
+    }
+
+    // Armazena o ID do dispositivo atual para a próxima verificação
+    localStorage.setItem('lastDeviceId', currentDeviceId);
+}

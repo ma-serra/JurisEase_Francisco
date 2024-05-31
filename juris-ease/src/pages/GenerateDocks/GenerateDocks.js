@@ -15,6 +15,7 @@ import Stage05 from './Forms/Stage_05/Stage_05';
 import { getTemplates } from '../../utils/data_base/firebase/dao/templateDAO';
 import { compareArrays, expireAccess, gerarDOC, gerarPDF, refactoreHTMLtoPDF } from '../../utils/tools/tools';
 import AlertDialog from '../../components/Popups/AlertDialog/AlertDialog';
+import { useReloadListener } from '../../hook/hooks';
 
 function GenerateDocks() {
     const [content, setContent] = useState('')
@@ -188,11 +189,6 @@ function GenerateDocks() {
         fetchData();
     }, []);
 
-    const navigate = useNavigate();
-    const navigateTo = (link) => {
-        navigate(`/${link}`);
-    };
-
     function handleProcessFile() {
         setOpenFormatFile(!openFormatFile)
     }
@@ -238,6 +234,13 @@ function GenerateDocks() {
 
         checkAccess();
     }, [user]);
+
+    //useReloadListener();
+
+    const navigate = useNavigate();
+    const navigateTo = (link) => {
+        navigate(`/${link}`);
+    };
 
     return (
         <div className="GenerateDocks">

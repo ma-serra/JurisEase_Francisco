@@ -67,7 +67,7 @@ function Header({ user }) {
                         <div className="drop-down">
                             <p onClick={() => { toggleOpenMenu(); setOpenUserManagement(true) }}>Gerenciar Conta</p>
                             {user.permissions.document_generation && (
-                                <p onClick={() => { navigateTo('generate-docks') }}>Gerador de Documentos</p>
+                                <p onClick={() => { navigateTo('generate-docks') }}>Fazer uma nova petição inicial</p>
                             )}
                             {user.permissions.templates && (
                                 <p onClick={() => { navigateTo('templates') }}>Templates</p>

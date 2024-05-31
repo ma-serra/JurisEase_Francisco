@@ -43,7 +43,7 @@ function AuthPage({ onClose, auth }) {
         if (auth !== 'client') {
           const oabValidationResult = validarOAB(formData.oab);
           if (!oabValidationResult) {
-            setError('O número da OAB não é inválido.');
+            setError('O número da OAB não é inválido: ex: CE 99999');
             return;
           }
         }
@@ -120,7 +120,7 @@ function AuthPage({ onClose, auth }) {
           <div className="form-group">
             {!isLogin && (
               <>
-                <label htmlFor="name">Nome</label>
+                <label htmlFor="name">Nome Completo</label>
                 <input
                   type="text"
                   id="name"

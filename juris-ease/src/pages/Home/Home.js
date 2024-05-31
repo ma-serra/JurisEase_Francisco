@@ -6,8 +6,8 @@ import LawyerSection from '../../components/Sections/LawyerSection';
 import Footer from '../../components/Footer/Footer';
 import ActivitiesBoard from '../../components/ActivitiesBoard/ActivitiesBoard';
 
-import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication'
-import { getUser, updateUser } from '../../utils/data_base/firebase/dao/userDAO'
+import { isUserAuthenticated } from '../../utils/data_base/firebase/authentication';
+import { getUser, updateUser } from '../../utils/data_base/firebase/dao/userDAO';
 import { getCurrentFormattedDate } from '../../utils/tools/tools';
 import ChatDrawer from '../../components/ChatDrawer/ChatDrawer';
 
@@ -21,23 +21,20 @@ function Home() {
       if (isAuthenticated) {
         try {
           const userData = await getUser(isAuthenticated);
-          userData.lastLoginAt = getCurrentFormattedDate()
-          await updateUser(userData)
+          userData.lastLoginAt = getCurrentFormattedDate();
+          await updateUser(userData);
           setUser(userData);
-
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
       }
     }
 
-    fetchUser(); // Chame a função de busca de usuário aqui
-  }, [])
-
+    fetchUser();
+  }, []);
 
   return (
     <div className={`Home`}>
-      <ChatDrawer />
       <Header user={user} />
       <LawyerSection />
       <ActivitiesBoard />

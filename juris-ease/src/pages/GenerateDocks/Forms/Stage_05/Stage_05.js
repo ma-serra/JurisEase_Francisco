@@ -5,6 +5,7 @@ import ManagmentForms from './ManagmentForms/ManagmentForms';
 import SelectTemplates from './SelectTemplates/SelectTemplates';
 import { formatDate, formatNumbersWithTwoDecimals } from '../../../../utils/tools/mask';
 import { isDate } from '../../../../utils/tools/functions';
+import { verifyFuncs } from '../../../../utils/tools/tools';
 
 function Stage05({ form, setForm, templateBase, content, setContent, templates, setTemplates, contentRef }) {
 
@@ -43,6 +44,8 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
     }, [templates, templateBase.contents.base]);
 
     function replaceKeys() {
+        verifyFuncs([...templates, templateBase], form)
+
         let content = generateContent()
 
         Object.keys(form).forEach((key) => {
@@ -67,7 +70,7 @@ function Stage05({ form, setForm, templateBase, content, setContent, templates, 
             const updatedForm = { ...prevState };
             template.keys.forEach(key => {
                 if (key.id) {
-                    updatedForm[key.id] = "";
+                    updatedForm[key.id] = null;
                 }
             });
     
